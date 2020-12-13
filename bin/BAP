@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# BAP - run the BAP in the kcri-cge-bap container.
+#
+#   This is just a shorthand for ./bap-container-run BAP ...
+#
+# NOTE: You must set the BAP_IMAGE and BAP_DB_DIR environment variables
+#       in the bap-container-run script, or else on every invocation.
+#
+# ALSO: You can then override these variables (as well as BAP_WORK_DIR
+#       which defaults to $PWD) by setting them in the environment.
+#
+
+exec "$(dirname "$0")/bap-container-run" BAP "$@"

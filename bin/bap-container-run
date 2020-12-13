@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# bap-docker-run - run the BAP docker image
+#
+#   Convenience wrapper for running the kcri-cge-bap docker container.
+#
+#   NOTE: you will need to set the BAP_DB_DIR and BAP_IMAGE variables
+#   below to match your installation, or override them on invocation.
+#
+# USAGE
+#
+#   All arguments are passed verbatim to the docker run command, so this
+#   script can be used to run any program on PATH in the container:
+#
+#       bap-container-run kma_index ...
+#       bap-container-run virulencefinder ...
+#	bap-container-run blastn ...
+#
+#   Which of course includes the BAP:
+#
+#       bap-container-run BAP ...
+#
+#   When invoked without arguments, this script runs an interactive
+#   bash in the container:
+#
+#       bap-container-run
+#       bapuser@9febb34:~$ _
+#
+# SETTINGS
+#
+#   You must set these variables to match your installation.  Note the
+#   ${VAR:-default} syntax means that these variables can be overridden
+#   from the invoking shell.
+#
+BAP_DB_DIR="${BAP_DB_DIR:-"/data/genomics/cge/db"}"
+BAP_IMAGE="${BAP_IMAGE:-"kcri-cge-bap:latest"}"
+# The BAP_WORK_DIR setting is probably OK as is: use $PWD
+BAP_WORK_DIR="${BAP_WORK_DIR:-$PWD}"
+
+### No changes needed beyond this point, but feel free to look ###
+
+err_exit() { echo "$(basename "$0"): $*" >&2; exit 1; }
+
+[ -d "$BAP_DB_DIR" ] ||
+    err_exit "please set BAP_DB_DIR to a valid directory: no such directory: $BAP_DB_DIR"
+
+[ -n "$BAP_IMAGE" ] && [ -n "$(docker image ls -q "$BAP_IMAGE" 2>/dev/null)" ] ||
+    err_exit "check that docker is running and BAP_IMAGE ($BAP_IMAGE) is correct"
+
+# If no arguments, pass the arguments for entering interactive bash
+[ $# -eq 0 ] && { OPT_TI="-ti"; DO_CMD="bash -l"; } || unset OPT_TI DO_CMD
+
+# Run docker image $BAP_IMAGE as the invoking user, with $PWD mounted
+# as workdir, and BAP_DB_DIR mounted at /databases.
+
+exec docker run -u "$(id -u):$(id -g)" $OPT_TI --rm --read-only \
+   --tmpfs /run --tmpfs /tmp \
+   -v "$BAP_DB_DIR:/databases:ro" \
+   -v "$BAP_WORK_DIR:/workdir" \
+   -w /workdir \
+   $INTERACTIVE \
+   "$BAP_IMAGE" $DO_CMD "$@"
+
+# vim: sts=4:sw=4:si:ai:et

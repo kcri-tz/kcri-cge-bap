@@ -1,0 +1,18 @@
+TODO
+
+3.0.0
+- New workflow, all services
+3.0.1
+- ?
+LATER
+- Standalone targets run correctly
+- ResFinder link pheno to genes and seqvars
+- Quast with reference
+- Read Metrics
+- Add CholeraeFinder
+- Add Trimmomatic (needed for SpaDES)
+- Add SpaDES/Unicycler
+- Conda variant
+- Add PROKKA?
+- HTCondor backend
+

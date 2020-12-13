@@ -1,0 +1,39 @@
+# Dockerfile to update an existing kcri-cge-bap image.
+#
+#   Dockerfile for updating an existing kcri-cge-bap:latest image
+#   without rebuilding the whole image from scratch.
+#
+#   Use: docker build -t kcri-cge-bap -f Dockerfile.patch "."
+
+# Start from the existing image
+FROM kcri-cge-bap:latest
+
+# Go back to the install root as root
+USER root:root
+WORKDIR /usr/src/cge
+
+# Note: don't 'COPY ext ext': directory ext exists, and
+#       docker's intractable copy logic then nests them
+#       unless you are copying multiple directories ...
+
+# Externals
+#COPY ext ./
+#COPY ext/kma ext/
+#RUN cd ext/kma && make clean && make && mv kma kma_index kma_shm /usr/local/bin/ && cd .. && rm -rf kma
+
+# CGE Services
+#COPY ext/resfinder ext/
+#COPY ext/resfinder/cge/out/util/generator.py ext/resfinder/cge/out/util/
+
+# CGE Flow package
+#COPY src/cgeflow/workflow/executor.py src/cgeflow/workflow/
+#RUN cd src/cgeflow && python3 setup.py install
+
+# KCRI BAP package
+#COPY src/kcribap/bap/BAP.py kcribap/bap/
+#RUN cd src/kcribap && python3 setup.py install
+
+# Drop down to the original user and workdir
+USER bapuser:bapuser
+WORKDIR /workdir
+

@@ -1,0 +1,10 @@
+/ext/*
+!/ext/README.md
+!/ext/backend-versions.config
+!/ext/*.sh
+/test/output
+/tmp
+*.pyc
+*.pyo
+*~
+*.log
