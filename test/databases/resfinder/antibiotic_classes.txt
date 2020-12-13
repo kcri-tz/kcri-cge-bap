@@ -1,0 +1,29 @@
+# Class	Antibiotics
+Aminocyclitol	Spectinomycin
+Aminoglycoside	Gentamicin	Gentamicin c	Tobramycin	Streptomycin	Amikacin	Kanamycin	Kanamycin a	Neomycin	Paromomycin	Kasugamycin	G418	Capreomycin
+Analog of d-alanine	D-Cycloserine
+Beta-lactam	Amoxicillin	Amoxicillin+Clavulanic acid	Ampicillin	Ampicillin+Clavulanic acid	Aztreonam	Cefazolin	Cefepime	Cefixime	Cefotaxime	Cefotaxime+Clavulanic acid	Cefoxitin	Ceftaroline	Ceftazidime	Ceftazidime+Avibactam	Ceftriaxone	Cefuroxime	Cephalothin	Ertapenem	Imipenem	Meropenem	Penicillin	Piperacillin	Piperacillin+Tazobactam	Temocillin	Ticarcillin	Ticarcillin+Clavulanic acid
+Diarylquinoline	Bedaquiline
+Fluoroquinolone	Ciprofloxacin	Nalidixic acid
+Folate pathway antagonist	Sulfamethoxazole	Trimethoprim
+Fosfomycin	Fosfomycin
+Glycopeptide	Vancomycin	Teicoplanin
+Iminophenazine	Clofazimine
+Isonicotinic acid hydrazide	Isoniazid
+Lincosamide	Lincomycin	Clindamycin
+Macrolide	Carbomycin	Azithromycin	Oleandomycin	Spiramycin	Tylosin	Telithromycin	Erythromycin
+Oxazolidinone	Linezolid
+Phenicol	Chloramphenicol	Florfenicol
+Pleuromutilin	Tiamulin
+Polymyxin	Colistin
+Pseudomonic acid	Mupirocin
+Rifamycin	Rifampicin
+Salicylic acid - anti-folate	Para-aminosalicyclic acid
+Steroid antibacterial	Fusidic acid
+Streptogramin A	Dalfopristin	Pristinamycin IIA	Virginiamycin M	Quinupristin+Dalfopristin
+Streptogramin B	Quinupristin	Pristinamycin IA	Virginiamycin S
+Synthetic derivative of nicotinamide	Pyrazinamide
+Tetracycline	Tetracycline	Doxycycline	Minocycline	Tigecycline
+Thioamide	Ethionamide
+Unspecified	Ethambutol
+UNDER_DEVELOPMENT	Cephalosporins	Carbapenem	Norfloxacin	Fluoroquinolone

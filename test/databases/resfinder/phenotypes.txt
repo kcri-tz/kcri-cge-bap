@@ -1,0 +1,265 @@
+Gene_accession no.	Class	Phenotype	PMID	Mechanism of resistance	Notes	Required_gene
+ant(2'')-Ia_1_X04555	Aminoglycoside	Gentamicin, Tobramycin	3024112	Enzymatic modification	Alternative name aadB
+ant(2'')-Ia_10_HM367617	Aminoglycoside	Gentamicin, Tobramycin	21873033	Enzymatic modification
+ant(2'')-Ia_11_HM367620	Aminoglycoside	Gentamicin, Tobramycin	21873033	Enzymatic modification
+ant(2'')-Ia_12_HQ880250	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_13_DQ176450	Aminoglycoside	Gentamicin, Tobramycin	16304199	Enzymatic modification
+ant(2'')-Ia_14_DQ266447	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_15_EF205594	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_16_HQ386848	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_17_JTTZ01000034	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_19_GQ466184	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_2_JF826500	Aminoglycoside	Gentamicin, Tobramycin	22271862	Enzymatic modification
+ant(2'')-Ia_20_AY139599	Aminoglycoside	Gentamicin, Tobramycin	19719593	Enzymatic modification
+ant(2'')-Ia_3_X74412	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_4_AF458082	Aminoglycoside	Gentamicin, Tobramycin	12384364	Enzymatic modification
+ant(2'')-Ia_5_AY139594	Aminoglycoside	Gentamicin, Tobramycin	19719593	Enzymatic modification
+ant(2'')-Ia_6_AJ871915	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+ant(2'')-Ia_7_DQ018384	Aminoglycoside	Gentamicin, Tobramycin	15837385	Enzymatic modification
+ant(2'')-Ia_8_AY920928	Aminoglycoside	Gentamicin, Tobramycin	16048994	Enzymatic modification
+ant(2'')-Ia_9_HM367610	Aminoglycoside	Gentamicin, Tobramycin	21873033	Enzymatic modification
+ant(3'')-Ia_1_X02340	Aminoglycoside	Streptomycin	8385262	Enzymatic modification	Alternative name aadA, aad(3')(9), aadA1, aadA1a
+ant(3'')-Ii-aac(6')-IId_1_AF453998	Aminoglycoside	Gentamicin, Streptomycin, Tobramycin, Spectinomycin	11959575	Enzymatic modification	Alternative name ant(3'')-Ih-aac(6')-Iid
+ant(4')-Ib_1_AJ506108	Aminoglycoside	Amikacin, Tobramycin, Isepamicin, Dibekacin	12654668	Enzymatic modification	Alternative name aadA2
+ant(4')-IIa_1_M98270	Aminoglycoside	Amikacin, Tobramycin, Isepamicin	8385262	Enzymatic modification
+ant(4')-IIb_1_AY114142	Aminoglycoside	Amikacin, Tobramycin, Isepamicin	12709326	Enzymatic modification
+ant(6)-Ia_1_AF330699	Aminoglycoside	Streptomycin	11600397	Enzymatic modification	 Alternative name ant6, aadE
+ant(6)-Ia_2_KF421157	Aminoglycoside	Streptomycin	24379302	Enzymatic modification	 Alternative name ant6, aadE
+ant(6)-Ia_3_KF864551	Aminoglycoside	Streptomycin	17395262	Enzymatic modification	 Alternative name ant6, aadE
+ant(6)-Ia_5_AB247327	Aminoglycoside	Streptomycin	17021204	Enzymatic modification
+ant(6)-Ib_1_FN594949	Aminoglycoside	Streptomycin	20479200	Enzymatic modification
+ant(9)-Ia_1_X02588	Aminoglycoside	Spectinomycin	2993813	Enzymatic modification	Alternative name aad(9), spc
+ant(9)-Ia_2_M69221	Aminoglycoside	Spectinomycin	1659306	Enzymatic modification	Alternative name aad(9), spc
+aph(2'')-Ia_2_AP009486	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	19074389	Enzymatic modification	Bifunctional aac(6')-Ie-aph(2'')-Ia
+aph(2'')-Ia_3_AJ536195	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	12716781	Enzymatic modification	Bifunctional aac(6')-Ie-aph(2'')-Ia
+aph(2'')-Ib_1_AF337947	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	11557456	Enzymatic modification
+aph(2'')-Ib_2_AF207840	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	10991878	Enzymatic modification
+aph(2'')-Ib_3_KF652098	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	unpublished	Enzymatic modification
+aph(2'')-Ic_1_U51479	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	9055984	Enzymatic modification
+aph(2'')-Id_1_AF016483	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Spectinomycin	9593155	Enzymatic modification
+aph(2'')-Ie_1_AY743255	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Spectinomycin	16201926	Enzymatic modification
+aph(2'')-If_1_KF652097	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	unpublished	Enzymatic modification
+aph(2'')-If_2_AY701528	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	15917546	Enzymatic modification
+aph(2'')-Ig_1_CP004067	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	23959310	Enzymatic modification
+aph(2'')-Ih_1_KF652096	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	unpublished	Enzymatic modification
+aph(3')-Ia_1_V00359	Aminoglycoside	Neomycin,Kanamycin,Lividomycin,Paromomycin,Ribostamycin	6270337	Enzymatic modification
+aph(3'')-Ia_1_X53527	Aminoglycoside	Streptomycin	2167474	Enzymatic modification	Chromosomal, Alternative name aphE, aphD2
+aph(3')-Ia_10_EU855787	Aminoglycoside	None	19075060	Enzymatic modification
+aph(3'')-Ia_2_AP009493	Aminoglycoside	Streptomycin	18310036	Enzymatic modification	Chromosomal, Alternative name aphE, aphD2
+aph(3')-Ia_2_EU287476	Aminoglycoside	Kanamycin	21393370	Enzymatic modification
+aph(3')-Ia_3_EF015636	Aminoglycoside	Kanamycin, Neomycin	17485180	Enzymatic modification
+aph(3'')-Ia_3_M37378	Aminoglycoside	Streptomycin	2844130	Enzymatic modification	Chromosomal, Alternative name aphE, aphD2
+aph(3')-Ia_4_AF498082	Aminoglycoside	Kanamycin, Neomycin	unpublished	Enzymatic modification
+aph(3')-Ia_5_AP004237	Aminoglycoside	Kanamycin	12029035	Enzymatic modification
+aph(3')-Ia_6_L05392	Aminoglycoside	Kanamycin	1325061	Enzymatic modification
+aph(3')-Ia_7_X62115	Aminoglycoside	Neomycin,Kanamycin,Lividomycin,Paromomycin,Ribostamycin	1662755	Enzymatic modification
+aph(3')-Ia_8_Y00452	Aminoglycoside	Unknown	2823223	Enzymatic modification
+aph(3')-Ia_9_EU722351	Aminoglycoside	Kanamycin	21235404	Enzymatic modification
+aph(3')-Ib_1_M20305	Aminoglycoside	Neomycin,Kanamycin,Lividomycin,Paromomycin,Ribostamycin	2832861	Enzymatic modification
+aph(3'')-Ib_1_M28829	Aminoglycoside	Streptomycin	2653965	Enzymatic modification	Alternative name strA, orfH
+aph(3'')-Ib_2_AF024602	Aminoglycoside	Streptomycin	9687410	Enzymatic modification	Alternative name strA, orfH
+aph(3')-Ib_2_AJ744860	Aminoglycoside	Kanamycin	15848226	Enzymatic modification
+aph(3'')-Ib_3_AF321550	Aminoglycoside	Streptomycin	12029529	Enzymatic modification	Alternative name strA, orfH
+aph(3'')-Ib_4_AF313472	Aminoglycoside	Streptomycin	unpublished	Enzymatic modification	Alternative name strA, orfH
+aph(3'')-Ib_5_AF321551	Aminoglycoside	Streptomycin	12029529	Enzymatic modification	Alternative name strA
+aph(3'')-Ic_1_DQ336355	Aminoglycoside	Streptomycin	16954315	Enzymatic modification
+aph(3')-Id_1_Z48231	Aminoglycoside	Neomycin,Kanamycin,Lividomycin,Paromomycin,Ribostamycin	2653965	Enzymatic modification
+aph(3')-IIa_1_X57709	Aminoglycoside	Kanamycin,Neomycin,Paromomycin,Ribostamycin,Butiromycin,Gentamicin	1664906	Enzymatic modification
+aph(3')-IIa_2_V00618	Aminoglycoside	Kanamycin, Neomycin	6295884	Enzymatic modification
+aph(3')-IIb_1_X90856	Aminoglycoside	Kanamycin,Neomycin,Paromomycin,Ribostamycin,Butiromycin,Gentamicin	8723476	Enzymatic modification
+aph(3')-IIb_2_CP006832	Aminoglycoside	Unknown	24336371	Enzymatic modification
+aph(3')-IIc_1_AM743169	Aminoglycoside	Butirosin, Kanamycin, Neomycin, Paromomycin	18419807	Enzymatic modification
+aph(3')-III_1_M26832	Aminoglycoside	Kanamycin, Amikacin, Neomycin, Butirosin, Isepamicin, Lividomycin, Paromomycin, Ribostamycin	3937729	Enzymatic modification
+aph(3')-IIIa_1_AF330699	Aminoglycoside	Amikacin, Kanamycin	11600397	Enzymatic modification
+aph(3')-IIIa_2_AJ490186	Aminoglycoside	Amikacin	unpublished	Enzymatic modification
+aph(3')-IIIa_3_AB247327	Aminoglycoside	Amikacin	17021204	Enzymatic modification
+aph(3')-IV_1_X03364	Aminoglycoside	Butirosin,Kanamycin,Neomycin,Paromomycin,Ribostamycin	3006668	Enzymatic modification
+aph(3')-IX_1_APPN01000061	Aminoglycoside	Amikacin	27965516	Enzymatic modification	Chromosomal, Intrinsic in Acinetobacter gerneri
+aph(3')-Va_1_K00432	Aminoglycoside	Neomycin,Ribostamycin,Paromomycin	6310563	Enzymatic modification
+aph(3')-Va_2_AB211959	Aminoglycoside	None	16506694	Enzymatic modification	Chromosomal in Streptomyces fradiae
+aph(3')-Vb_1_M22126	Aminoglycoside	Neomycin,Ribostamycin,Paromomycin	2851496	Enzymatic modification
+aph(3')-Vb_2_AJ744850	Aminoglycoside	None	unpublished	Enzymatic modification	Chromosomal in Streptomyces ribosidificus
+aph(3')-Vc_1_S81599	Aminoglycoside	Neomycin,Ribostamycin,Paromomycin	1663923	Enzymatic modification
+aph(3')-VI_1_KC170992	Aminoglycoside	Amikacin	23612200	Enzymatic modification
+aph(3')-VI_2_APPJ01000012	Aminoglycoside	Amikacin	21239566	Enzymatic modification	Chromosomal, Intrinsic in Acinetobacter guillouiae
+aph(3')-VIa_1_X07753	Aminoglycoside	Kanamycin,Neomycin,Paromomycin,Ribostamycin,Butirosin,Gentamicin,Amikacin	2846986	Enzymatic modification
+aph(3')-VIb_1_AJ627643	Aminoglycoside	Kanamycin,Neomycin,Paromomycin,Ribostamycin,Butirosin,Gentamicin,Amikacin	16048938	Enzymatic modification
+aph(3')-VIIa_1_M29953	Aminoglycoside	Kanamycin,Neomycin,Amikacin	2550983	Enzymatic modification
+aph(3')-VIII_1_ATGI01000028	Aminoglycoside	Amikacin	27965516	Enzymatic modification	Chromosomal, Intrinsic in Acinetobacter rudis
+aph(3')-XV_1_Y18050	Aminoglycoside	Unknown	10390207	Enzymatic modification
+aph(3')-XV_2_GQ626879	Aminoglycoside	Unknown	20368407	Enzymatic modification	SOMETHING IS WRONG
+aph(3')-XV_3_EU165039	Aminoglycoside	Unknown	19049645	Enzymatic modification
+aph(4)-Ia_1_V01499	Aminoglycoside	Hygromycin	6314265	Enzymatic modification	Alternative name hph
+aph(6)-Ia_1_AY971801	Aminoglycoside	Streptomycin,Kanamycin	unpublished	Enzymatic modification	Alternative name aphD, strA
+aph(6)-Ia_2_Y00459	Aminoglycoside	Streptomycin	unpublished	Enzymatic modification	Chromosomal in Streptomyces griseus, Alternative name aphD, strA
+aph(6)-Ib_1_X05648	Aminoglycoside	Streptomycin, Kanamycin	3039305	Enzymatic modification	Alternative name sph
+aph(6)-Ic_1_X01702	Aminoglycoside	Streptomycin	3889831	Enzymatic modification	Alternative name str
+aph(6)-Id_1_M28829	Aminoglycoside	Streptomycin	2653965	Enzymatic modification	Alternative name strB
+aph(6)-Id_2_AF024602	Aminoglycoside	Streptomycin	8385262	Enzymatic modification	Alternative name strB
+aph(6)-Id_3_AB109805	Aminoglycoside	Streptomycin	14711528	Enzymatic modification	Alternative name strB
+aph(6)-Id_4_CP000971	Aminoglycoside	Streptomycin	18708504	Enzymatic modification	Alternative name strB
+aph(6)-Id_5_18676889	Aminoglycoside	Streptomycin	18676889	Enzymatic modification	Alternative name strB
+aph(7'')-Ia_1_X03615	Aminoglycoside	Hygromycin	3005976	Enzymatic modification	Chromosomal in Streptomyces hygroscopicus, Alternative name hygB
+aph(9)-Ia_1_U94857	Aminoglycoside	Spectinomycin	9174205	Enzymatic modification
+aph(9)-Ia_2_CR628337	Aminoglycoside	Spectinomycin	15467720	Enzymatic modification
+aph(9)-Ib_1_U70376	Aminoglycoside	Spectinomycin	unpublished	Enzymatic modification
+armA_1_AY220558	Aminoglycoside	Amikacin, Gentamicin, Tobramycin,Isepamicin,Netilmicin	12878520	Target protection
+fmrO_1_Q08325	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	8486289	Target protection	Chromosomal in Micromonospora olivasterospora
+grmA_1_M55520	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	2013410	Target protection	Chromosomal in Micromonospora purpurea
+grmB_1_M55521	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	2013410	Target protection	Chromosomal in Micromonospora rosea
+grmO_1_AY524043	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	unpublished	Target protection	Chromosomal in Micromonospora echinospora
+kamB_1_AJ629123	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Apramycin	20667473	Target protection	Chromosomal in Streptoalloteichus tenebrarius
+kgmB_1_S60108	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin	1921972	Target protection	Chromosomal in Streptomyces tenebrarius
+kmr_1_ENA_ACB88605	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	25733511	Target protection	Chromosomal in Sorangium cellulosum
+npmA_1_AB261016	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Dibekacin, Kanamycin, Isepamicin, Netilmicin, Sisomicin, Neomycin, Apramycin	17875999	Target protection
+rmtA_1_AB120321	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Isepamicin, Arbekacin, Kanamycin	14667745	Target protection
+rmtB_1_AB103506	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin, Arbekacin, Sisomicin, Isepamicin	14742200	Target protection
+rmtB2_1_JN968578	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	unpublished	Target protection	Suggested phenotype
+rmtC_1_AB194779	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin, Arbekacin, Sisomicin, Isepamicin	16377684	Target protection
+rmtD_1_DQ914960	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Arbekacin	17158944	Target protection
+rmtD2_1_HQ401565	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin, Netilmicin	21078935	Target protection
+rmtE_1_GU201947	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Kanamycin, Streptomycin	20368404	Target protection
+rmtF_1_JQ808129	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	22547620	Target protection
+rmtG_1_JX486113	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Arbekacin	23459483	Target protection
+rmtH_1_KC544262	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	23478957	Target protection
+sgm_1_M87057	Aminoglycoside	Amikacin, Gentamicin, Tobramycin	1447159	Target protection	Chromosomal from Micromonospora zionensis
+str_1_X92946	Aminoglycoside	Streptomycin	11735367	Enzymatic modification
+str_2_FN435330	Aminoglycoside	Streptomycin	20399039	Enzymatic modification
+str_3_AM932524	Aminoglycoside	Streptomycin	20558469	Enzymatic modification
+aac(2')-Ia_1_L06156	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Netilmicin	8407825	Enzymatic modification
+aac(2')-Ib_1_U41471	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Netilmicin	8891143	Enzymatic modification
+aac(2')-Ic_1_U72714	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Netilmicin	unpublished	Enzymatic modification
+aac(2')-Id_1_U72743	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Netilmicin	unpublished	Enzymatic modification
+aac(2')-Ie_1_NC011896	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Netilmicin	19881526	Enzymatic modification
+aac(2')-IIa_1_AB669090	Aminoglycoside	Kasugamycin	22660700	Enzymatic modification
+aac(3)-I_1_AJ877225	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	15995187	Enzymatic modification
+aac(3)-Ia_1_X15852	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	2549372	Enzymatic modification
+aac(3)-Ib_1_L06157	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	7486920	Enzymatic modification
+aac(3)-Ib-aac(6')-Ib_1_AF355189	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Streptomycin	11850242	Enzymatic modification
+aac(3)-Ic_1_AJ511268	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	12709352	Enzymatic modification
+aac(3)-Id_1_AB114632	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	15117923	Enzymatic modification
+aac(3)-If_1_AY884051	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	unpublished	Enzymatic modification
+aac(3)-Ig_1_CP000282	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	18516288	Enzymatic modification
+aac(3)-Ih_1_CP000490	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	unpublished	Enzymatic modification
+aac(3)-Ii_1_CP000356	Aminoglycoside	Gentamicin,Astromicin,Fortimicin	19805210	Enzymatic modification
+aac(3)-IIa_1_X51534	Aminoglycoside	Apramycin,Gentamicin,Tobramycin,Dibekacin,Netilmicin,Sisomicin	2552900	Enzymatic modification
+aac(3)-IIa_2_AY138987	Aminoglycoside	Gentamicin, Tobramycin	12726770	Enzymatic modification
+aac(3)-IIa_3_X13543	Aminoglycoside	Gentamicin, Tobramycin	3892230	Enzymatic modification
+aac(3)-IIa_4_L22613	Aminoglycoside	Gentamicin, Tobramycin	8117265	Enzymatic modification
+aac(3)-IIa_5_FJ012882	Aminoglycoside	Gentamicin, Tobramycin	19055690	Enzymatic modification
+aac(3)-IIb_1_M97172	Aminoglycoside	Apramycin,Gentamicin,Tobramycin,Dibekacin,Netilmicin,Sisomicin	1444303	Enzymatic modification
+aac(3)-IIc_1_X54723	Aminoglycoside	Apramycin,Gentamicin,Tobramycin,Dibekacin,Netilmicin,Sisomicin	unpublished	Enzymatic modification
+aac(3)-IId_1_EU022314	Aminoglycoside	Apramycin,Gentamicin,Tobramycin,Dibekacin,Netilmicin,Sisomicin	20185552	Enzymatic modification
+aac(3)-IIe_1_EU022315	Aminoglycoside	Apramycin,Gentamicin,Tobramycin,Dibekacin,Netilmicin,Sisomicin	20185552	Enzymatic modification
+aac(3)-IIIa_1_X55652	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Sisomicin	1649572	Enzymatic modification
+aac(3)-IIIb_1_L06160	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Sisomicin	unpublished	Enzymatic modification
+aac(3)-IIIb_2_LLLC01000048	Aminoglycoside	Gentamicin, Tobramycin	unpublished	Enzymatic modification
+aac(3)-IIIc_1_L06161	Aminoglycoside	Gentamicin,Tobramycin,Dibekacin,Sisomicin	unpublished	Enzymatic modification
+aac(3)-IV_1_DQ241380	Aminoglycoside	Gentamicin, Tobramycin	16331988	Enzymatic modification
+aac(3)-IVa_1_X01385	Aminoglycoside	Apramycin,Gentamicin,Dibekacin,Netilmicin,Sisomicin,Tobramycin	6318050	Enzymatic modification
+aac(3)-IXa_1_M55427	Aminoglycoside	Gentamicin,Dibekacin,Kanamycin,Neomycin,Paromomycin,Amikacin,Arbekacin	2060791	Enzymatic modification
+aac(3)-VIa_1_M88012	Aminoglycoside	Gentamicin,Sisomicin,Netilmicin,Tobramycin	8257126	Enzymatic modification
+aac(3)-VIa_2_NC_009838	Aminoglycoside	Gentamicin	16940062	Enzymatic modification
+aac(3)-VIIa_1_M22999	Aminoglycoside	Gentamicin,Dibekacin,Kanamycin,Neomycin,Paromomycin,Amikacin,Arbekacin	2914849	Enzymatic modification
+aac(3)-VIII_1_AB211959	Aminoglycoside	None	16506694	Enzymatic modification	Chromosomal in Streptomyces fradiae
+aac(3)-VIII_2_AJ843080	Aminoglycoside	None	15827636	Enzymatic modification	Chromosomal in Streptomyces fradiae 
+aac(3)-VIII_3_AJ748131	Aminoglycoside	None	16258246	Enzymatic modification	Chromosomal in Streptomyces ribosidificus
+aac(3)-VIIIa_1_M55426	Aminoglycoside	Gentamicin,Dibekacin,Kanamycin,Neomycin,Paromomycin,Amikacin,Arbekacin	2060791	Enzymatic modification
+aac(3)-Xa_1_AB028210	Aminoglycoside	Gentamicin,Dibekacin,Kanamycin,Neomycin,Paromomycin,Amikacin,Arbekacin	unpublished	Enzymatic modification
+aac(3)-XI_1_CTEG01000046	Aminoglycoside	Unknown	unpublished	Enzymatic modification	Chromosomal in Corynebacterium striatum
+aac(6')-29a_1_AF263519	Aminoglycoside	Amikacin, Tobramycin, Neomycin, Kanamycin, Netilmicin, isepamicin, Sisomicin	11158753	Enzymatic modification	Alternative name aacA29b
+aac(6')-29b_1_AF263519	Aminoglycoside	Amikacin, Tobramycin, Neomycin, Kanamycin, Netilmicin, isepamicin, Sisomicin	11158753	Enzymatic modification
+aac(6')-30-aac(6')-Ib'_1_AJ584652	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Neomycin, Kanamycin, Netilmicin, isepamicin, Sisomicin	15561846	Enzymatic modification
+aac(6')-31_1_AM283489	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Neomycin, Kanamycin, Netilmicin, isepamicin, Sisomicin	17470660	Enzymatic modification	Alternative name aacA31
+aac(6')-32_1_EF614235	Aminoglycoside	Tobramycin	17938181	Enzymatic modification	reduced susceptiblity to amikacin, gentamicin; Alternative name aacA32
+aac(6')-33_1_GQ337064	Aminoglycoside	Amikacin, Tobramycin	19738007	Enzymatic modification	Alternative name aacA42
+aac(6')-aph(2'')_1_M13771	Aminoglycoside	Gentamicin,Tobramycin,Netilmicin,Kanamycin,Amikacin,Dibekacin,Isepamicin,Fortimicin,Streptomycin	3015884	Enzymatic modification	Alternative name aac(6')-bifunctional, aac(6')-Ie, aacA-aphD, aac(6')-Ie-aph(2'')-Ia
+aac(6')-I30_1_AY289608	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	15231768	Enzymatic modification	Alternative name aacA30
+aac(6')-Ia_1_M18967	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	2826403	Enzymatic modification	Alternative name aacA1
+aac(6')-Ia_2_M86913	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	8393071	Enzymatic modification	Alternative name aacA1
+aac(6')-Iad_1_AB119105	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	15155202	Enzymatic modification
+aac(6')-Iae_1_AB104852	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	16127047	Enzymatic modification	Alternative name aacA28
+aac(6')-Iaf_1_AB462903	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	19349516	Enzymatic modification	Alternative name aacA41
+aac(6')-Iag_1_AB472901	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	23950962	Enzymatic modification	Alternative name aacA48
+aac(6')-Iai_1_EU886977	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	unpublished	Enzymatic modification	Alternative name aacA39
+aac(6')-Iaj_1_AB709942	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	23070167	Enzymatic modification
+aac(6')-Iak_1_AB894482	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	25092711	Enzymatic modification
+aac(6')-Ian_1_AP014611	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	25576529	Enzymatic modification
+aac(6')-Ib_1_M21682	Aminoglycoside	Amikacin, Tobramycin	2841303	Enzymatic modification	Alternative name aacA4, aac(6')-4
+aac(6')-Ib_2_M23634	Aminoglycoside	Amikacin, Tobramycin, Kanamycin	2824444	Enzymatic modification	Alternative name aacA4, aac(6')-4
+aac(6')-Ib11_1_AY136758	Aminoglycoside	Amikacin, Gentamicin, Tobramycin, Netilmicin	12543680	Enzymatic modification
+aac(6')-Ib3_1_X60321	Aminoglycoside	Amikacin, Tobramycin	1331747	Enzymatic modification	Alternative name aac(6')-Ib5
+aac(6')-Ib-cr_1_DQ303918	Aminoglycoside,Fluoroquinolone	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin,Fluoroquinolone,Ciprofloxacin	unpublished	Enzymatic modification	MIC of ciprofloxacin does not always increase above ECOFF PMID 16369542
+aac(6')-Ib-cr_2_EF636461	Aminoglycoside,Fluoroquinolone	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin,Fluoroquinolone,Ciprofloxacin	17938184	Enzymatic modification
+aac(6')-Ib-Hangzhou_1_FJ503047	Aminoglycoside	Amikacin, Tobramycin	19703723	Enzymatic modification
+aac(6')-Ib-Suzhou_1_EU085533	Aminoglycoside	Amikacin, Tobramycin	18843996	Enzymatic modification
+aac(6')-Ic_1_M94066	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	1354954	Enzymatic modification
+aac(6')-If_1_X55353	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	2069376	Enzymatic modification
+aac(6')-Ig_1_L09246	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	8257129	Enzymatic modification
+aac(6')-Ih_1_L29044	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	7810994	Enzymatic modification
+aac(6')-Ih_2_KT778788	Aminoglycoside	Amikacin, Tobramycin, Netilmicin	26645270	Enzymatic modification
+aac(6')-Ii_1_L12710	Aminoglycoside	Tobramycin,Dibekacin,Gentamicin,Sisomicin,Netilmicin	8239603	Enzymatic modification
+aac(6')-IIa_1_M29695	Aminoglycoside	Tobramycin,Dibekacin,Gentamicin,Sisomicin,Netilmicin	2515793	Enzymatic modification
+aac(6')-IIb_1_L06163	Aminoglycoside	Tobramycin,Dibekacin,Gentamicin,Sisomicin,Netilmicin	unpublished	Enzymatic modification
+aac(6')-IIc_1_NC_012555	Aminoglycoside	Gentamicin, Tobramycin	19075060	Enzymatic modification
+aac(6')-Iid_1_AJ584700	Aminoglycoside	Amikacin, Tobramycin	15849260	Enzymatic modification	Chromosomal in Enterococcus hirae
+aac(6')-Iih_1_AJ584701	Aminoglycoside	Amikacin, Tobramycin	15849260	Enzymatic modification	Chromosomal in Enterococcus durans
+aac(6')-Ij_1_L29045	Aminoglycoside	Amikacin, Tobramycin	7810994	Enzymatic modification	Chromosomal in Acinetobacter sp. 13
+aac(6')-Ik_1_L29510	Aminoglycoside	Amikacin, Tobramycin	8001769	Enzymatic modification	Chromosomal in Acinetobacter sp. 6
+aac(6')-Il_1_U13880	Aminoglycoside	Amikacin, Tobramycin	7793874	Enzymatic modification	Alternative name aacA7
+aac(6')-Im_1_AF337947	Aminoglycoside	Amikacin, Tobramycin, Kanamycin	11557456	Enzymatic modification
+aac(6')-Ip_1_Z54241	Aminoglycoside	Amikacin, Tobramycin, Netilmicin	9021185	Enzymatic modification	Alternative name aac(6')-Il, aacA16
+aac(6')-Iq_1_AF047556	Aminoglycoside	Amikacin, Tobramycin, Netilmicin, Kanamycin	9624504	Enzymatic modification	Alternative name aacA17
+aac(6')-Ir_1_AF031326	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-Is_1_AF031327	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-Isa_1_AB116646	Aminoglycoside	Amikacin, Tobramycin	15625322	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-It_1_AF031328	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-Iu_1_AF031329	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-Iv_1_AF031330	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-Iw_1_AF031331	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-Ix_1_AF031332	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
+aac(6')-Iz_1_AF140221	Aminoglycoside	Amikacin, Tobramycin	10508008	Enzymatic modification	Chromosomal in Stenotrophomonas maltophilia
+aac(6')-Iz_2_AB971834	Aminoglycoside	Amikacin, Tobramycin	18419807	Enzymatic modification	Chromosomal in Stenotrophomonas maltophilia, Alternative name aac(6')-Iak
+aac(6')-Iaa_1_NC_003197	Aminoglycoside	Amikacin, Tobramycin	11677609	Enzymatic modification	Chromosomal, Crytpic gene in Salmonella sp.
+aacA43_1_HQ247816	Aminoglycoside	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin	21422220	Enzymatic modification
+aadA1_2_FJ591054	Aminoglycoside	Spectinomycin,Streptomycin	19243438	Enzymatic modification	Alternative name ant(3'')-Ia
+aadA1_3_JQ414041	Aminoglycoside	Spectinomycin,Streptomycin	23180481	Enzymatic modification	Alternative name ant(3'')-Ia
+aadA1_4_JQ480156	Aminoglycoside	Spectinomycin,Streptomycin	22486636	Enzymatic modification	Alternative name ant(3'')-Ia
+aadA1_5_JX185132	Aminoglycoside	Spectinomycin,Streptomycin	23934739	Enzymatic modification	Alternative name ant(3'')-Ia
+aadA10_1_U37105	Aminoglycoside	Spectinomycin,Streptomycin	12121911	Enzymatic modification
+aadA10_2_AM087405	Aminoglycoside	Spectinomycin,Streptomycin	16495246	Enzymatic modification
+aadA11_1_AY144590	Aminoglycoside	Spectinomycin,Streptomycin	16451415	Enzymatic modification
+aadA11_2_AJ567827	Aminoglycoside	Spectinomycin,Streptomycin	unpublished	Enzymatic modification
+aadA12_1_AY665771	Aminoglycoside	Spectinomycin,Streptomycin	unpublished	Enzymatic modification
+aadA13_1_AY713504	Aminoglycoside	Spectinomycin,Streptomycin	unpublished	Enzymatic modification
+aadA13_2_NC010643	Aminoglycoside	Spectinomycin,Streptomycin	18268088	Enzymatic modification
+aadA14_1_AJ884726	Aminoglycoside	Spectinomycin,Streptomycin	15980396	Enzymatic modification
+aadA15_1_DQ393783	Aminoglycoside	Spectinomycin,Streptomycin	16816399	Enzymatic modification
+aadA16_1_EU675686	Aminoglycoside	Spectinomycin,Streptomycin	19008256	Enzymatic modification
+aadA17_1_FJ460181	Aminoglycoside	Spectinomycin,Streptomycin	22127350	Enzymatic modification
+aadA1b_1_M95287	Aminoglycoside	Spectinomycin,Streptomycin	10673049	Enzymatic modification	Alternative name aadA2
+aadA2_1_NC_010870	Aminoglycoside	Spectinomycin,Streptomycin	17526756	Enzymatic modification
+aadA2_2_JQ364967	Aminoglycoside	Spectinomycin,Streptomycin	22511964	Enzymatic modification
+aadA21_1_AY171244	Aminoglycoside	Spectinomycin,Streptomycin	12760885	Enzymatic modification
+aadA22_1_AM261837	Aminoglycoside	Spectinomycin,Streptomycin	17597002	Enzymatic modification
+aadA23_1_AJ809407	Aminoglycoside	Spectinomycin,Streptomycin	15761062	Enzymatic modification
+aadA24_1_AM711129	Aminoglycoside	Spectinomycin,Streptomycin	18571383	Enzymatic modification
+aadA24_1_DQ677333	Aminoglycoside	Spectinomycin,Streptomycin	17650961	Enzymatic modification
+aadA2b_1_D43625	Aminoglycoside	Spectinomycin,Streptomycin	85862590	Enzymatic modification
+aadA3_1_AF047479	Aminoglycoside	Spectinomycin,Streptomycin	10673049	Enzymatic modification
+aadA4_1_Z50802	Aminoglycoside	Spectinomycin,Streptomycin	10673049	Enzymatic modification
+aadA5_1_AF137361	Aminoglycoside	Spectinomycin,Streptomycin	10673049	Enzymatic modification
+aadA6_1_AF140629	Aminoglycoside	Spectinomycin,Streptomycin	10673049	Enzymatic modification
+aadA7_1_AF224733	Aminoglycoside	Spectinomycin,Streptomycin	10817710	Enzymatic modification
+aadA7_2_AB114632	Aminoglycoside	Spectinomycin,Streptomycin	15117923	Enzymatic modification
+aadA8_1_AF326210	Aminoglycoside	Spectinomycin,Streptomycin	11557503	Enzymatic modification
+aadA8b_1_AY139603	Aminoglycoside	Spectinomycin,Streptomycin	19719593	Enzymatic modification
+aadA8b_2_AM040708	Aminoglycoside	Spectinomycin,Streptomycin	16291869	Enzymatic modification
+aadA9_1_AJ420072	Aminoglycoside	Spectinomycin,Streptomycin	12383729	Enzymatic modification
+aadD_1_AF181950	Aminoglycoside	Amikacin, Tobramycin	10858352	Enzymatic modification	Alternative name ant(4')-Ia
+aadD_2_M19465	Aminoglycoside	Amikacin, Tobramycin	3010356	Enzymatic modification	Alternative name ant(4')-Ia
+aadE-Cc_1_CP013733	Aminoglycoside	Streptomycin	unpublished	Enzymatic modification
+aadK_1_M26879	Aminoglycoside	Streptomycin	2550327	Enzymatic modification
+ant(3'')-Ih-aac(6')-IId_1_AF453998	Aminoglycosides	Gentamicin,Amikacin,Tobramycin,Streptomycin	20833577	Enzymatic inactivation
+aph(4)-Ib_1_X03615	Aminoglycosides	Hygromycin	8385262
+aac(6')-Ib-cr_3_EF210035	Aminoglycosides, Quinolones	Tobramycin,Dibekacin,Amikacin,Sisomicin,Netilmicin,Fluoroquinolone,Ciprofloxacin	8385262,26324269

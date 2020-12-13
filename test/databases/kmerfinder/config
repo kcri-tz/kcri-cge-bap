@@ -1,0 +1,5 @@
+# Database configuration file - Describes the content of the database
+# Each db consist of 4 files with the following extensions: comp.b, length.b, seq.b, name
+# It also needs a file with the .tax extension, if the .name file is single column only
+#db_prefix	name	description
+bacteria	Bacteria organisms	Bacteria organism library

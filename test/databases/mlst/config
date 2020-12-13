@@ -1,0 +1,8 @@
+# Database configuration file - Describes the content of the database
+# Each species has its own directory under alleles, with an .fsa file for
+# each locus, or a directory with a single .fsa with all loci, and a .tsv
+# file defining the ST profiles.
+# Other important files are: config
+# species_db	species_name	folder_content(locilist,profilefile)
+ecoli	Escherichia coli#1	adk,fumC,gyrB,icd,mdh,purA,recA
+ecoli_2	Escherichia coli#2	dinB,icdA,pabB,polB,putP,trpA,trpB,uidA

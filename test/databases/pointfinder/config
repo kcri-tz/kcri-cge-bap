@@ -1,0 +1,4 @@
+# Database configuration file - Describes the content of the database
+# Each db consist of 1 folder
+#db_prefix	name	description
+escherichia_coli	E. coli	E. coli

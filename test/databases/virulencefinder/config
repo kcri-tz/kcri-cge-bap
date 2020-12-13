@@ -1,0 +1,4 @@
+# Database configuration file - Describes the content of the database
+# Each db consist of 1 file(s) with the following extensions: fsa
+#db_prefix	name	description
+virulence_ecoli	Escherichia coli	virulence gene database for Escherichia coli
