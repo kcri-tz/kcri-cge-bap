@@ -99,20 +99,21 @@ Smoke test
 
 Index the test databases
 
-    # This uses the kma_index and kcst indexing scripts in the freshly
-    # built container to index test/databases/* in this repository:
+    # This uses the kma_index and kcst indexers in the freshly built
+    # container to index all test/databases/*:
 
-    BAP_DB_DIR=$PWD/test/databases \
-    BAP_WORK_DIR=$BAP_DB_DIR \
-    bin/bap-container-run ./index-databases.sh
+    test/databases/index-databases.sh
 
-First run, against the test databases:
+Maiden run against the test databases:
 
     # Test run BAP on an assembled sample genome
-    test/run-quick-test.sh
+    test/test-01-fa.sh
 
     # Test run BAP on paired-end sample reads
-    test/run-quick-fq-test.sh
+    test/test-02-fq.sh
+
+    # Same but additionally do assembly
+    test/test-03-asm.sh
 
 
 ### Installation - CGE Databases
@@ -123,11 +124,9 @@ come with this repository.  In this step we install the real databases.
 > NOTE: The download can take a _lot_ of time.  The KmerFinder and cgMLST
 > databases in particular are huge.  It is possible to run the BAP without
 > these, with some loss of functionality.  The BAP will use KCST to predict
-> species, but it does not return a closest reference, and it is limited to
-> species for which an MLST scheme exists (it does species detection and
-> MLST in one step).
-> Also, KCST will trigger assembly (if you feed the BAP reads), as it
-> operates on contigs only.
+> species (after assembly, because it runs against contigs only), but will
+> not return a closest reference, and is limited to species for which an MLST
+> scheme exists (KCST does species detection and MLST in one step).
 
 Clone the CGE database repositories:
 
@@ -139,39 +138,35 @@ Clone the CGE database repositories:
     mkdir -p "$BAP_DB_DIR"
     scripts/clone-databases.sh "$BAP_DB_DIR"
 
-Download the KmerFinder and cgMLST databases
-
-    @TODO@: instruct to follow the README.md and pick only needed ones
+You now have databases for all services except but KmerFinder and cgMLST.
+To download those, follow the instructions in their repositories.
 
 Index the databases:
 
-Add the KCST database to MLST:
-
-    # Separate step because not yet in install script
-    bin/bap-run-container make-kcst-db.sh -f "$BAP_DB_DIR/mlst"
+    @TODO@: adjust the test database index script to work for both
 
 Run test against the real databases:
 
     # With BAP_DB_DIR pointing at the installed databases
-    test/run-realdb-test.sh
-    test/run-realdb-fq-test.sh
+    test/test-04-fa-live.sh
+    test/test-05-fq-live.sh
 
 
 ## Usage
 
 If you have set `BAP_DB_DIR` in `bin/bap-container-run`, you are all set
-to go.  Otherwise, read the following section.
+to go.
 
-#### Points to remember when running the Docker container
+#### Points to remember when running the BAP container
 
 * The container expects to find the databases mounted at `/databases`.  The
   `bin/BAP` and `bin/bap-container-run` scripts mount `$BAP_DB_DIR` at that
   mount point.  Set `BAP_DB_DIR` in `bin/bap-container-run`.
 
 * The container expects a writeable work directory mounted at `/workdir`.
-  The `bin/BAP` and `bin/bap-container-run` scripts mount `$PWD` there.
-  For special use cases, this can be overridden by setting `BAP_WORK_DIR`
-  to some other location.
+  The `bin/BAP` and `bin/bap-container-run` scripts mount `$PWD` there, as
+  the user would expect.  For special use cases, this can be overridden by
+  environment variable `BAP_WORK_DIR`.
 
 * Keep in mind that inside the container, only paths inside the work dir
   can be seen.  This means that:
@@ -198,9 +193,6 @@ Run the BAP on the test databases:
 
     BAP_DB_DIR=$PWD/test/databases BAP --help
 
-The components are available in the container too:
-
-    bap-container-run kmerfinder --help  # and so on
 
 
 ## Development / Upgrades
@@ -211,12 +203,12 @@ The components are available in the container too:
 * To upgrade some backend to the latest on master (or some other branch),
   set their requested version to `master`, then run `scripts/update-backends.sh`.
 
-* Before committing a release to production, pin all backends to their current
-  commit tag using `scripts/pin-backend-versions.sh`.
+* Before committing a release to production, it aids reproducibility to run
+  `scripts/pin-backend-versions.sh` which records the actual versions.
 
 * Run tests after upgrading backends:
 
-        # Runs the 4 tests we ran above
+        # Runs the 5 tests we ran above
         test/run-all-tests.sh
 
 

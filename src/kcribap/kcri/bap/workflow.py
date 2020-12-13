@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.workflow - Defines the BAP workflow logic.
+# cge.flow.bap.workflow - Defines the BAP workflow logic.
 #
 #   This module defines the DEPENDENCIES dict that captures the workflow logic
 #   of the current version of the BAP.  It defines this in term of the primitives
-#   offered by the cgetools.workflow.logic module.
+#   offered by the cge.flow.workflow.logic module.
 #
 #   The workflow defined herein can be 'dry tested' by running the module from
 #   the command line:
 #
-#       python3 -m cgetools.bap.workflow --help
+#       python3 -m kcri.bap.workflow --help
 #
 #   The sibling module bap.services defines the mapping from the Services enum
 #   defined below to the shims that wrap the actual backends.  The sibling module
@@ -17,17 +17,17 @@
 #   for collecting and exchanging data.
 #
 
-import cgetools.workflow.logic
-from cgetools.workflow.logic import ALL, ONE, OPT, OIF, SEQ
+import cge.flow.workflow.logic
+from cge.flow.workflow.logic import ALL, ONE, OPT, OIF, SEQ
 
 
 ### Target definitions
 #
 #   Define the Params.*, Checkpoints.*, Services.*, and UserTargets.* constants
 #   for the BAP.  The classes are subclassed from their synonymous counterparts
-#   in the cgetools.workflow.logic module.
+#   in the cge.flow.workflow.logic module.
 
-class Params(cgetools.workflow.logic.Params):
+class Params(cge.flow.workflow.logic.Params):
     '''Flags to signal to the Workflow that some input parameter was provided.'''
     READS = 'reads'         # Signals that user has provided fastq files
     CONTIGS = 'contigs'     # Signals that user has provided contigs
@@ -35,14 +35,14 @@ class Params(cgetools.workflow.logic.Params):
     PLASMIDS = 'plasmids'   # Signals that user has specified the plasmids
     ILLUMINA = 'illumina'   # Signals that fastqs are Illumina reads
 
-class Checkpoints(cgetools.workflow.logic.Checkpoints):
+class Checkpoints(cge.flow.workflow.logic.Checkpoints):
     '''Internal targets for other targets to depend on.  Useful when a service
        takes an input that could come either from user or as a service output.'''
     CONTIGS = 'contigs'   # Contigs are available either as inputs or from assembly
     SPECIES = 'species'   # Species is known, either from user input or a service
     PLASMIDS = 'plasmids' # Plasmids are known, either from user input or a service
 
-class Services(cgetools.workflow.logic.Services):
+class Services(cge.flow.workflow.logic.Services):
     '''Enum that identifies the available services.  Each corresponds to a shim
        (defined in SERVICES below) that performs the input and output wrangling
        and invokes the actual backend.'''
@@ -61,7 +61,7 @@ class Services(cgetools.workflow.logic.Services):
     CGMLSTFINDER = 'cgMLSTFinder'
     PROKKA = 'PROKKA'
 
-class UserTargets(cgetools.workflow.logic.UserTargets):
+class UserTargets(cge.flow.workflow.logic.UserTargets):
     '''Enum defining the targets that the user can request.'''
     METRICS = 'metrics'
     ASSEMBLY = 'assembly'
@@ -142,7 +142,7 @@ for t in [ Checkpoints, Services, UserTargets ]:
 if __name__ == '__main__':
 
     import sys, argparse, functools, operator
-    from cgetools.workflow.logic import Workflow
+    from cge.flow.workflow.logic import Workflow
 
     def UserTargetOrService(s):
         '''Translate string to either a UserTarget or Service, throw if neither'''

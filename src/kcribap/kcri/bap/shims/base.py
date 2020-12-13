@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.base - base functionality across all service shims
+# kcri.bap.shims.base - base functionality across all service shims
 #
 #   This module defines BAPServiceExecution and UnimplementedService.
 #
 
 import os
 from datetime import datetime
-from cgetools.bap.data import SeqPlatform, SeqPairing
-from cgetools.workflow.executor import Execution
-from cgetools.jobcontrol.job import Job
+from cge.flow.workflow.executor import Execution
+from cge.flow.jobcontrol.job import Job
+from kcri.bap.data import SeqPlatform, SeqPairing
 
 
 ### class UserException

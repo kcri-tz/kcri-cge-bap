@@ -89,7 +89,7 @@ WORKDIR /usr/src/cge
 COPY ext ext
 
 # Install BLAST by putting its binaries on the PATH
-ENV PATH $PATH:/usr/src/cge/ext/ncbi-blast
+ENV PATH $PATH:/usr/src/cge/ext/ncbi-blast/bin
 
 # Make and install skesa
 RUN cd ext/skesa && \

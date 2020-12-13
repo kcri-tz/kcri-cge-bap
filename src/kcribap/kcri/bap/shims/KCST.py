@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.KCST - service shim to the KCST backend
+# kcri.bap.shims.KCST - service shim to the KCST backend
 #
 
 import logging
-from cgetools.workflow.executor import Execution
-from cgetools.bap.shims.base import BAPServiceExecution, UserException
-from cgetools.jobcontrol.job import JobSpec, Job
+from cge.flow.workflow.executor import Execution
+from cge.flow.jobcontrol.job import JobSpec, Job
+from kcri.bap.shims.base import BAPServiceExecution, UserException
 
 # Global variables, will be updated by the update-services script
 SERVICE, VERSION = "KCST", "1.2.5"

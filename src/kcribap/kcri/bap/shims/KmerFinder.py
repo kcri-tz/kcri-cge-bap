@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.KmerFinder - service shim to the KmerFinder backend
+# kcri.bap.shims.KmerFinder - service shim to the KmerFinder backend
 #
 
 import os, logging
-from cgetools.workflow.executor import Execution
-from cgetools.bap.shims.base import BAPServiceExecution, UserException
-from cgetools.jobcontrol.job import JobSpec, Job
+from cge.flow.workflow.executor import Execution
+from cge.flow.jobcontrol.job import JobSpec, Job
+from kcri.bap.shims.base import BAPServiceExecution, UserException
 
 # Global variables, will be updated by the update-services script
 SERVICE, VERSION = "KmerFinder", "3.0.2-3-g0bb2"
@@ -167,22 +167,24 @@ def find_db(db_dir, name):
     # Look up the database in the config
     with open(config) as f:
         for l in f:
-            # Lines are {name}.{kmersuffix}\t{Description}\t{More}
-            if l.startswith(name.lower() + '.'):
-                # Locate full path (with kmer suffix) to the database
-                db = l.split('\t')[0]
-                path = os.path.join(db_dir, db)
-                if not os.path.isfile(path + ".seq.b"):
-                    # Check in subdirectory 'name' just in case
-                    path = os.path.join(db_dir, name, db)
-                    if not os.path.isfile(path + ".seq.b"):
-                        raise UserException('invalid database, no seq.b file: %s', name)
-                    # Locate full path to the tax file (which may be absent)
-                    tax = os.path.join(os.path.dirname(path), name) + ".tax"
-                    if not os.path.isfile(tax):
-                        tax = None
-                    return (path, tax)
+            # Lines are {name}[.{kmersuffix}]\t{Description}\t{More}
+            if not l.startswith(name.lower()): continue
+            db_pfx = l.split('\t')[0].strip()
+            db = l.split('.')[0] if '.' in db_pfx else db_pfx
+            path = os.path.join(db_dir, db_pfx)
+            if not os.path.isfile(path + '.seq.b'):
+                # Check in subdirectory just in case
+                path = os.path.join(db_dir, db, db_pfx)
+                if not os.path.isfile(path + '.seq.b'):
+                    raise UserException('invalid database, no seq.b file: %s', db_pfx)
+            # Locate full path to the tax file (which may be absent)
+            tax = os.path.join(os.path.dirname(path), db + ".tax")
+            if not os.path.isfile(tax):  # try with pfx and tax
+                tax = os.path.join(os.path.dirname(path), db_pfx + ".tax")
+                if not os.path.isfile(tax):
+                    tax = None
+            return (path, tax)
 
-    # If we get here, the database was no in the config
-    raise UserException("database '%s' not in config; databases are: ", name, list_dbs(db_dir))
+    # If we get here, the database was not in the config
+    raise UserException("database '%s' not in config; databases are: %s", name, list_dbs(db_dir))
 

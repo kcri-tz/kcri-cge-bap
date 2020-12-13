@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.Quast - service shim to the Quast backend
+# kcri.bap.shims.Quast - service shim to the Quast backend
 #
 
 import os, csv, logging
-from cgetools.workflow.executor import Execution
-from cgetools.bap.data import SeqPlatform, SeqPairing
-from cgetools.bap.shims.base import BAPServiceExecution, UserException
-from cgetools.jobcontrol.job import JobSpec, Job
+from cge.flow.workflow.executor import Execution
+from cge.flow.jobcontrol.job import JobSpec, Job
+from kcri.bap.data import SeqPlatform, SeqPairing
+from kcri.bap.shims.base import BAPServiceExecution, UserException
 
 # Global variables, will be updated by the update-services script
 SERVICE, VERSION = "Quast", "5.0.2"

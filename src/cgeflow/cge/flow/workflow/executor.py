@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# cgetools.workflow.executor - manages the execution of a Workflow
+# cge.flow.workflow.executor - manages the execution of a Workflow
 #
 # Background
 #
@@ -16,7 +16,7 @@
 #
 #   An Executor instance controls a single run of a pipeline from start to end.
 #   It does this by starting services according to the state of a workflow,
-#   encapsulated in the cgetools.workflow.logic.Workflow object passed to it.
+#   encapsulated in the cge.flow.workflow.logic.Workflow object passed to it.
 #
 #   At any time, the Workflow will indicate which services are 'runnable'. The
 #   executor then invokes the execute() method on the service, passing in the
@@ -46,7 +46,7 @@
 #
 
 import enum
-from cgetools.workflow.logic import Workflow, Services as ServicesEnum
+from cge.flow.workflow.logic import Workflow, Services as ServicesEnum
 
 
 ### class Execution

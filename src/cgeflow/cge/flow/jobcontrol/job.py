@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# cgetools.jobcontrol.job - base functionality for backend jobs.
+# cge.flow.jobcontrol.job - base functionality for backend jobs.
 #
 #   Defines classes JobSpec and Job.  JobSpec hold the command, arguments, and
 #   resource requirements of the job (so the scheduler can decide if/how it can

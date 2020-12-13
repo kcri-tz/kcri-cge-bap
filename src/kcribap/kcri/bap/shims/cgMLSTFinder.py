@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.cgMLSTFinder - service shim to the cgMLSTFinder backend
+# kcri.bap.shims.cgMLSTFinder - service shim to the cgMLSTFinder backend
 #
 
 import os, json, tempfile, logging
-from cgetools.workflow.executor import Execution
-from cgetools.bap.shims.base import BAPServiceExecution, UserException
-from cgetools.jobcontrol.job import JobSpec, Job
+from cge.flow.workflow.executor import Execution
+from cge.flow.jobcontrol.job import JobSpec, Job
+from kcri.bap.shims.base import BAPServiceExecution, UserException
 
 # Global variables, will be updated by the update-services script
 SERVICE, VERSION = "cgMLSTFinder", "1.1.0-10-g72bb"

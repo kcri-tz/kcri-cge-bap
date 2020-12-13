@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.PlasmidFinder - service shim to the PlasmidFinder backend
+# kcri.bap.shims.PlasmidFinder - service shim to the PlasmidFinder backend
 #
 
 import os, tempfile, json, logging
-from cgetools.workflow.executor import Execution
-from cgetools.bap.shims.base import BAPServiceExecution, UserException
-from cgetools.jobcontrol.job import JobSpec, Job
+from cge.flow.workflow.executor import Execution
+from kcri.bap.shims.base import BAPServiceExecution, UserException
+from cge.flow.jobcontrol.job import JobSpec, Job
 
 # Global variables, will be updated by the update-services script
 SERVICE, VERSION = "pMLST", "2.0.1-5-g5618"

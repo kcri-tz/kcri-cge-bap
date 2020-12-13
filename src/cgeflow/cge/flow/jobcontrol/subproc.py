@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# cgetools.jobcontrol.subproc
+# cge.flow.jobcontrol.subproc
 #
 #   Defines SubprocessScheduler and SubprocessJob.  This scheduler takes a JobSpec
 #   and, depending on available resources, queues or spawns a system process using
@@ -32,8 +32,8 @@
 #
 #   The module has a main() function which can be used for simple CLI testing:
 #
-#       python3 -m cgetools.jobcontrol.subproc --help
-#       python3 -m cgetools.jobcontrol.subproc sleep $((RANDOM / 1000))
+#       python3 -m cge.flow.jobcontrol.subproc --help
+#       python3 -m cge.flow.jobcontrol.subproc sleep $((RANDOM / 1000))
 #
 
 import os, sys, psutil, time
@@ -310,44 +310,44 @@ class SubprocessScheduler:
 #
 #   Do a simple 'ls -l' (needs the -- due to Python's non-POSIX option parsing):
 #
-#       python3 -m cgetools.jobcontrol.subproc -- ls -l    # output will be in job.out
+#       python3 -m cge.flow.jobcontrol.subproc -- ls -l    # output will be in job.out
 #
 #   Run three parallel replicates of a sleep job in /tmp, polling each second:
 #
-#       time python3 -m cgetools.jobcontrol.subproc -p 1 -r 3 -w /tmp -- sleep 2
+#       time python3 -m cge.flow.jobcontrol.subproc -p 1 -r 3 -w /tmp -- sleep 2
 #       # time will show about 2 seconds
 #
 #   Now force them sequential by limiting available CPU's to 1
 #
-#       time python3 -m cgetools.jobcontrol.subproc --tot-cpu=1 -p 1 -r 3 -w /tmp -- sleep 2
+#       time python3 -m cge.flow.jobcontrol.subproc --tot-cpu=1 -p 1 -r 3 -w /tmp -- sleep 2
 #       # time now shows about 6 seconds
 #
 #   To see that happening in more detail (and with 5 jobs), set the verbose flag:
 #
-#       time python3 -m cgetools.jobcontrol.subproc -v --tot-cpu=1 -p 1 -r 5 -w /tmp -- sleep 2
+#       time python3 -m cge.flow.jobcontrol.subproc -v --tot-cpu=1 -p 1 -r 5 -w /tmp -- sleep 2
 #
 #   Fail due to scheduler total run time limit:
 #
-#       python3 -m cgetools.jobcontrol.subproc --tot-tim 5 sleep 12
+#       python3 -m cge.flow.jobcontrol.subproc --tot-tim 5 sleep 12
 #
 #   Fail single job due to it exceeding its run time limit
 #
-#       python3 -m cgetools.jobcontrol.subproc -p 1 -t 3 sleep 5
+#       python3 -m cge.flow.jobcontrol.subproc -p 1 -t 3 sleep 5
 #       cat job.err   # has an error message
 #
 #   Try to schedule a job exceeding system memory:
 #
-#       python3 -m cgetools.jobcontrol.subproc -m 10000 -- ls
+#       python3 -m cge.flow.jobcontrol.subproc -m 10000 -- ls
 #
 #   Verbosely run five replicates running for different times:
 #
-#       python3 -m cgetools.jobcontrol.subproc -v -p 1 -w /tmp -r 5 -- \
+#       python3 -m cge.flow.jobcontrol.subproc -v -p 1 -w /tmp -r 5 -- \
 #           bash -c 'S=$((RANDOM / 1000)); echo "Sleeping ${S}s"; sleep $S'
 #       cat /tmp/job-*/*.{out,err}
 #
 #   And try this with an 8s time limit on each job
 #
-#       python3 -m cgetools.jobcontrol.subproc -v -p 1 -w /tmp -r 5 -t 8 -- \
+#       python3 -m cge.flow.jobcontrol.subproc -v -p 1 -w /tmp -r 5 -t 8 -- \
 #           bash -c 'S=$((RANDOM / 1000)); echo "Sleeping ${S}s"; sleep $S'
 #       cat /tmp/job-*/*.{out,err}
 

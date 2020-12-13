@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.PlasVirBase - common functionality of Plasmid- and VirulenceFinder
+# kcri.bap.shims.PlasVirBase - common functionality of Plasmid- and VirulenceFinder
 #
 #   The PlasmidFinder and VirulenceFinder classes have backends that operate
 #   almost identically.  The PlasVirBaseExecution class herein captures this.
 
 import os, json, tempfile
-from cgetools.workflow.executor import Execution
-from cgetools.bap.shims.base import BAPServiceExecution, UserException
-from cgetools.jobcontrol.job import JobSpec, Job
+from cge.flow.workflow.executor import Execution
+from cge.flow.jobcontrol.job import JobSpec, Job
+from kcri.bap.shims.base import BAPServiceExecution, UserException
 
 # Backend resource parameters: cpu, memory, disk, run time
 MAX_CPU = 1

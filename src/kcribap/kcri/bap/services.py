@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.services - Defines the services used by the BAP workflow
+# kcri.bap.services - Defines the services used by the BAP workflow
 #
-#   This module defines the SERVICES dict that maps each Service.* enum defined
-#   in cgetools.bap.workflow to a class (called a 'shim') that implements the
-#   service.
+#   This module defines the SERVICES dict that maps each Service.* enum
+#   defined in kcri.bap.workflow to a class (called a 'shim') that
+#   implements the service.
 #
 
-# Import the Services enum defined in cgetools.bap.workflow
-from cgetools.bap.workflow import Services
+# Import the BAP Services enum
+from kcri.bap.workflow import Services
 
 # Import the shim classes that implement each service
 from .shims.KCST import KCSTShim

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.SKESA - service shim to the SKESA backend
+# kcri.bap.shims.SKESA - service shim to the SKESA backend
 #
 
 import os, logging
-from cgetools.workflow.executor import Execution
-from cgetools.bap.data import SeqPlatform, SeqPairing
-from cgetools.bap.shims.base import BAPServiceExecution, UserException
-from cgetools.jobcontrol.job import JobSpec, Job
+from cge.flow.workflow.executor import Execution
+from cge.flow.jobcontrol.job import JobSpec, Job
+from kcri.bap.data import SeqPlatform, SeqPairing
+from kcri.bap.shims.base import BAPServiceExecution, UserException
 
 # Global variables, will be updated by the update-services script
 SERVICE, VERSION = "SKESA", "2.4.0-8-g9a75"

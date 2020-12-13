@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# cgecore.bap.data
+# kcri.bap.data
 #
 #   Defines the structure of the data produced by the BAP and its services, by
 #   implementing class BAPBlackboard which adds a semantic layer over the generic
@@ -10,7 +10,7 @@
 
 import os, enum
 from datetime import datetime
-from cgetools.workflow.blackboard import Blackboard
+from cge.flow.workflow.blackboard import Blackboard
 
 
 ### Enums

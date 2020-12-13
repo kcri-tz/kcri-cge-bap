@@ -2,12 +2,13 @@
 
 import sys, os, argparse, json, re, textwrap
 from cgecore import check_file_type
-from cgetools.workflow.logic import Workflow
-from cgetools.workflow.executor import Executor
-from cgetools.bap.data import BAPBlackboard, SeqPlatform, SeqPairing
-from cgetools.bap.services import SERVICES as BAP_SERVICES
-from cgetools.bap.workflow import DEPENDENCIES as BAP_DEPENDENCIES
-from cgetools.jobcontrol.subproc import SubprocessScheduler
+from cge.flow.workflow.logic import Workflow
+from cge.flow.workflow.executor import Executor
+from cge.flow.jobcontrol.subproc import SubprocessScheduler
+from kcri.bap.data import BAPBlackboard, SeqPlatform, SeqPairing
+from kcri.bap.services import SERVICES as BAP_SERVICES
+from kcri.bap.workflow import DEPENDENCIES as BAP_DEPENDENCIES
+from kcri.bap.workflow import UserTargets, Services, Params
 
 # Global variables and defaults
 service, version = "KCRI CGE BAP", "3.0.0"
@@ -20,8 +21,8 @@ def err_exit(msg, *args):
 
 # Helper to parse string ts which may be UserTarget or Service
 def UserTargetOrService(s):
-    try: return bap.UserTargets(s)
-    except: return bap.Services(s)
+    try: return UserTargets(s)
+    except: return Services(s)
 
 
 def main():
@@ -113,7 +114,7 @@ def main():
     # Parse targets and translate to BAP workflow arguments
     targets = []
     try:
-        targets = list(map(lambda t: bap.UserTargets(t), args.targets.split(',') if args.targets else []))
+        targets = list(map(lambda t: UserTargets(t), args.targets.split(',') if args.targets else []))
     except ValueError as ve:
         err_exit('invalid target: %s (try --list-targets)', ve)
 
@@ -143,11 +144,9 @@ def main():
 
     # Parse the --list options
     if args.list_targets:
-        for t in bap.UserTargets:
-            print(t.value)
+        print('targets:', ','.join(t.value for t in UserTargets))
     if args.list_services:
-        for s in bap.Services:
-            print(s.value)
+        print('services:', ','.join(s.value for s in Services))
 
     # Exit when no contigs and/or fastqs were provided
     if not contigs and not fastqs:
@@ -218,20 +217,20 @@ def main():
     # Set the workflow params based on user inputs present
     params = list()
     if contigs:
-        params.append(bap.Params.CONTIGS)
+        params.append(Params.CONTIGS)
         blackboard.put_user_contigs_path(contigs)
     if fastqs:
-        params.append(bap.Params.READS)
+        params.append(Params.READS)
         blackboard.put_fastq_paths(fastqs)
         blackboard.put_seq_platform(seq_platform)
         blackboard.put_seq_pairing(seq_pairing)
     if seq_platform == SeqPlatform.ILLUMINA:
-        params.append(bap.Params.ILLUMINA)   # is workflow param: SKESA requires them
+        params.append(Params.ILLUMINA)   # is workflow param: SKESA requires them
     if args.species:
-        params.append(bap.Params.SPECIES)
+        params.append(Params.SPECIES)
         blackboard.put_user_species(list(filter(None, map(lambda x: x.strip(), args.species.split(',')))))
     if args.plasmids:
-        params.append(bap.Params.PLASMIDS)
+        params.append(Params.PLASMIDS)
         blackboard.put_user_plasmids(list(filter(None, map(lambda x: x.strip(), args.plasmids.split(',')))))
 
     # Pass the actual data via the blackboard

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.VirulenceFinder - service shim to the VirulenceFinder backend
+# kcri.bap.shims.VirulenceFinder - service shim to the VirulenceFinder backend
 #
 #   Note that VirulenceFinder and PlasmidFinder have most backend logic in common.
 #   This is captured in the shared PlasVirBaseExecution class.
 
 import logging
-from cgetools.bap.shims.base import UserException
+from kcri.bap.shims.base import UserException
 from .PlasVirBase import PlasVirBaseExecution
 
 # Global variables, will be updated by the update-services script

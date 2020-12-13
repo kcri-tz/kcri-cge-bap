@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# cgetools.bap.shims.PlasmidFinder - service shim to the PlasmidFinder backend
+# kcri.bap.shims.PlasmidFinder - service shim to the PlasmidFinder backend
 #
 #   Note that VirulenceFinder and PlasmidFinder have most backend logic in common.
 #   This is captured in the shared PlasVirBaseExecution class.
