@@ -28,13 +28,15 @@
 #
 # SETTINGS
 #
-#   You must set these variables to match your installation.  Note the
-#   ${VAR:-default} syntax means that these variables can be overridden
-#   from the invoking shell.
+#   You must set the following variables to match your installation.
+#   Note the ${VAR:-default} syntax means that these variables can be
+#   overridden from the invoking shell.
 #
+# You must change /data/genomics/cge/db to whereever you put the databases
 BAP_DB_DIR="${BAP_DB_DIR:-"/data/genomics/cge/db"}"
+# The BAP_IMAGE setting doesn't need changing if you followed the README.md
 BAP_IMAGE="${BAP_IMAGE:-"kcri-cge-bap:latest"}"
-# The BAP_WORK_DIR setting is probably OK as is: use $PWD
+# The BAP_WORK_DIR setting most likely doesn't need changing: $PWD by default
 BAP_WORK_DIR="${BAP_WORK_DIR:-$PWD}"
 
 ### No changes needed beyond this point, but feel free to look ###
@@ -45,13 +47,16 @@ err_exit() { echo "$(basename "$0"): $*" >&2; exit 1; }
     err_exit "please set BAP_DB_DIR to a valid directory: no such directory: $BAP_DB_DIR"
 
 [ -n "$BAP_IMAGE" ] && [ -n "$(docker image ls -q "$BAP_IMAGE" 2>/dev/null)" ] ||
-    err_exit "check that docker is running and BAP_IMAGE ($BAP_IMAGE) is correct"
+    err_exit "either docker is not running or BAP_IMAGE ($BAP_IMAGE) is incorrect"
+
+[ -d "$BAP_WORK_DIR" ] ||
+    err_exit "no such directory (BAP_WORK_DIR): $BAP_WORK_DIR"
 
 # If no arguments, pass the arguments for entering interactive bash
 [ $# -eq 0 ] && { OPT_TI="-ti"; DO_CMD="bash -l"; } || unset OPT_TI DO_CMD
 
-# Run docker image $BAP_IMAGE as the invoking user, with $PWD mounted
-# as workdir, and BAP_DB_DIR mounted at /databases.
+# Run docker image BAP_IMAGE as the invoking user, with BAP_WORK_DIR mounted
+# as workdir, and BAP_DB_DIR mounted read-only at /databases.
 
 exec docker run -u "$(id -u):$(id -g)" $OPT_TI --rm --read-only \
    --tmpfs /run --tmpfs /tmp \

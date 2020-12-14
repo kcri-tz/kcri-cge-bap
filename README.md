@@ -21,7 +21,7 @@ or contigs and produces the following:
  * Core genome MLST (optional) (cgMLST)
 
 The BAP comes with sensible default settings and a standard workflow, but
-can be configured with command line parameters.
+can be adjusted with command line parameters.
 
 
 #### Examples
@@ -38,8 +38,8 @@ Same but also produce the assembled genome:
 
     BAP -t DEFAULT,assembly read_1.fq.gz read_2.fq.gz
 
-Note that when omitted, the `-t/--target` parameter has value `DEFAULT`.
-This implies species, resistance, plasmids, virulence, and metrics.
+Note that when omitted, the `-t/--target` parameter has value `DEFAULT`,
+which implies species, resistance, plasmids, virulence, and metrics.
 
 Perform _only_ assembly (by omitting the DEFAULT target):
 
@@ -50,12 +50,12 @@ See what targets (values for the `-t` parameter) are available:
     BAP --list-targets
     -> metrics assembly species mlst resistance virulence plasmids ...
 
-> Note that the targets are 'logical' names for what the BAP must do.
+> Note how the targets are 'logical' names for what the BAP must do.
 > The BAP will determine which services to involve, in what order, and
 > what alternatives to try if a service fails.
 
-Specific parameters can be passed to services in the pipeline.  For
-instance, to change the identity and coverage thresholds for ResFinder:
+Service parameters can be passed to individual services in the pipeline.
+For instance, to change ResFinder's identity and coverage thresholds:
 
     BAP --rf-i=0.95 --rf-c=0.8 assembly.fna
 
@@ -70,6 +70,9 @@ The BAP was developed to run on a moderately high-end Linux workstation
 (see [history](#history-and-credits) below).  It is most easily installed
 in a Docker container, but could also be set up in a Conda environment.
 
+The installation has two major steps: building the Docker image, and
+downloading the databases.
+
 
 ### Installation - Docker Image
 
@@ -78,42 +81,47 @@ Test that Docker is installed
     docker version
     docker run hello-world
 
-Build the CGE Tools Docker image
+Clone and enter this repository
 
-    # Clone and enter this repository
     git clone https://github.com/zwets/kcri-cge-bap.git
     cd kcri-cge-bap
 
-    # Download backend repositories and tarballs
-    scripts/update-backend.sh
+Download the backend services
 
-    # Build the CGETools docker image
-    docker build -t kcri-cge-bap "." | tee Docker.build.log
+    scripts/update-backends.sh
 
-Smoke test
+Build the `kcri-cge-bap` Docker image
 
-    # Run 'BAP --help' in the container, using the bin/BAP wrapper
-    # (Setting set BAP_DB_DIR to a dummy as we have no databases yet)
+    docker build -t kcri-cge-bap "." | tee build.log
+
+Smoke test the container
+
+    # Run 'BAP --help' in the container, using the bin/BAP wrapper.
+    # (We set BAP_DB_DIR to a dummy as we have no databases yet)
 
     BAP_DB_DIR=/tmp bin/BAP --help
 
 Index the test databases
 
     # This uses the kma_index and kcst indexers in the freshly built
-    # container to index all test/databases/*:
+    # image to index test/databases/*:
 
-    test/databases/index-databases.sh
+    scripts/index-databases test/databases
 
-Maiden run against the test databases:
+Run on test data against the test databases:
 
     # Test run BAP on an assembled sample genome
     test/test-01-fa.sh
 
-    # Test run BAP on paired-end sample reads
+    # Run BAP on a sample of paired-end reads
     test/test-02-fq.sh
 
     # Same but additionally do assembly
     test/test-03-asm.sh
+
+If the tests above all end with with `[OK]`, you are good to go.  (Note
+the test reads are just a small subset of a normal run, so the run output
+for tests 02 and 03 is not representative.)
 
 
 ### Installation - CGE Databases
@@ -122,28 +130,24 @@ In the previous step we tested against the miniature test databases that
 come with this repository.  In this step we install the real databases.
 
 > NOTE: The download can take a _lot_ of time.  The KmerFinder and cgMLST
-> databases in particular are huge.  It is possible to run the BAP without
-> these, with some loss of functionality.  The BAP will use KCST to predict
-> species (after assembly, because it runs against contigs only), but will
-> not return a closest reference, and is limited to species for which an MLST
-> scheme exists (KCST does species detection and MLST in one step).
+> databases in particular are very large (~100GB).  It is possible to run
+> the BAP without these, but with loss of functionality.
+
+Pick a location for the databases:
+
+    # Remember to set this BAP_DB_DIR in bin/bap-container-run
+    BAP_DB_DIR=/data/genomics/cge/db   # KCRI path, replace by yours
 
 Clone the CGE database repositories:
 
-    # Pick your own location for installing the databases,
-    # and set BAP_DB_DIR to its *absolute* path.
-    BAP_DB_DIR=/data/genomics/cge/db   # your path here
-
-    # Create the base directory and run the clone script
     mkdir -p "$BAP_DB_DIR"
     scripts/clone-databases.sh "$BAP_DB_DIR"
 
-You now have databases for all services except but KmerFinder and cgMLST.
-To download those, follow the instructions in their repositories.
+You now have databases for all services except KmerFinder and cgMLST.  To
+download these (or a subset), follow the instructions in the repositories.
 
-Index the databases:
-
-    @TODO@: adjust the test database index script to work for both
+    cd "$BAP_DB_DIR/kmerfinder"
+    less README.md   # has instructions on download and installation
 
 Run test against the real databases:
 
@@ -154,8 +158,8 @@ Run test against the real databases:
 
 ## Usage
 
-If you have set `BAP_DB_DIR` in `bin/bap-container-run`, you are all set
-to go.
+If all tests succeeded and you have set `BAP_DB_DIR` in `bin/bap-container-run`,
+you are good to go.
 
 #### Points to remember when running the BAP container
 
@@ -191,7 +195,7 @@ Run a terminal shell in the container:
 
 Run the BAP on the test databases:
 
-    BAP_DB_DIR=$PWD/test/databases BAP --help
+    BAP_DB_DIR=$PWD/test/databases BAP test/data/test.fna
 
 
 
@@ -203,7 +207,7 @@ Run the BAP on the test databases:
 * To upgrade some backend to the latest on master (or some other branch),
   set their requested version to `master`, then run `scripts/update-backends.sh`.
 
-* Before committing a release to production, it aids reproducibility to run
+* Before committing a release to production, for reproducibility, run
   `scripts/pin-backend-versions.sh` which records the actual versions.
 
 * Run tests after upgrading backends:
