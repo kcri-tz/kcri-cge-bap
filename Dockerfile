@@ -173,17 +173,14 @@ RUN cd kcribap && \
 # Set up system and user settings
 #----------------------------------------------------------------------
 
-# Set services default path to mounted databases
-ENV BAP_DB_ROOT /databases
-
 # Stop container's bash from leaving .bash_histories everywhere
 # and add convenience aliases for interactive (debugging) use
 RUN echo "unset HISTFILE" >>/etc/bash.bashrc && \
     echo "alias ls='ls --color=auto' l='ls -CF' la='l -a' ll='l -l' lla='ll -a'" >>/etc/bash.bashrc
 
 # Create user 'bapuser' and make container drop from root
-RUN useradd --no-log-init --no-create-home --user-group -d /workdir bapuser
-USER bapuser:bapuser
+#RUN useradd --no-log-init --no-create-home --user-group -d /workdir bapuser
+USER nobody:nogroup
 
 # Change to the mounted workdir by default
 WORKDIR /workdir

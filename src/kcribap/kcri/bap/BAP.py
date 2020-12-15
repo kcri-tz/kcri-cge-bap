@@ -12,7 +12,6 @@ from kcri.bap.workflow import UserTargets, Services, Params
 
 # Global variables and defaults
 service, version = "KCRI CGE BAP", "3.0.0"
-default_db_root = os.getenv('BAP_DB_ROOT', '/databases')
 
 # Exit the BAP with error message and non-zero code
 def err_exit(msg, *args):
@@ -56,9 +55,10 @@ def main():
     group.add_argument('-s', '--species', metavar='NAME[,...]', help="scientific name(s) of the bacterial species, if known")
     group.add_argument('-p', '--plasmids',metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
     group.add_argument('-i', '--id',      metavar='ID', help="identifier to use for the isolate in reports")
-    group.add_argument('-d', '--db-root', metavar='PATH', default=default_db_root, help="base path to service databases [%s]" % default_db_root)
+    group.add_argument('-o', '--out-dir', metavar='PATH', default='.', help="directory to write output to, will be created (must be relative to PWD when dockerised)")
     group.add_argument('--list-targets',  action='store_true', help="list the available targets")
     group.add_argument('--list-services', action='store_true', help="list the available services")
+    group.add_argument('-d', '--db-root', metavar='PATH', default='/databases', help="base path to service databases (leave at default when dockerised)")
     group.add_argument('-v', '--verbose', action='store_true', help="write verbose output to stderr")
     group.add_argument('files', metavar='FILE', nargs='*', default=[], help="input file(s) in optionally gzipped FASTA or fastq format")
 
@@ -114,14 +114,14 @@ def main():
     # Parse targets and translate to BAP workflow arguments
     targets = []
     try:
-        targets = list(map(lambda t: UserTargets(t), args.targets.split(',') if args.targets else []))
+        targets = list(map(lambda t: UserTargets(t.strip()), args.targets.split(',') if args.targets else []))
     except ValueError as ve:
         err_exit('invalid target: %s (try --list-targets)', ve)
 
     # Parse excludes and translate to BAP workflow arguments
     excludes = []
     try:
-        excludes = list(map(lambda t_or_s: UserTargetOrService(t_or_s), args.exclude.split(',') if args.exclude else []))
+        excludes = list(map(lambda t_or_s: UserTargetOrService(t_or_s.strip()), args.exclude.split(',') if args.exclude else []))
     except ValueError as ve:
         err_exit('invalid exclude: %s (try --list-targets and --list-services)', ve)
 
@@ -157,8 +157,16 @@ def main():
 
     # Check existence of the db_root directory
     if not os.path.isdir(args.db_root):
-        err_exit('no such directory (use --db-root or set BAP_DB_ROOT): %s', args.db_root)
+        err_exit('no such directory for --db-root: %s', args.db_root)
     db_root = os.path.abspath(args.db_root)
+
+    # Now that all path handling has been done, and all file references
+    # been made, we can safely change the base working directory to out-dir.
+    try:
+        os.makedirs(args.out_dir, exist_ok=True)
+        os.chdir(args.out_dir)
+    except Exception as e:
+        err_exit('error creating or changing to --out-dir %s: %s', args.out_dir, str(e))
 
     # Generate sample id if not given
     sample_id = args.id

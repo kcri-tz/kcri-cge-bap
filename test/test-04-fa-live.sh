@@ -7,13 +7,7 @@ BASE_DIR="$(realpath "$(dirname "$0")")"
 
 . "$BASE_DIR/functions.sh"
 
-make_workdir
-
-cp "$BASE_DIR/data/test.fa" "$BAP_WORK_DIR/"
-
-run_bap -v "test.fa"
-
-rm -f "$BAP_WORK_DIR/test.fa"
-
+make_output_dir
+run_bap -v -o "$OUTPUT_DIR" "$BASE_DIR/data/test.fa"
 check_output
 

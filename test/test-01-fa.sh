@@ -9,13 +9,7 @@ export BAP_DB_DIR="$BASE_DIR/databases"
 
 . "$BASE_DIR/functions.sh"
 
-make_workdir
-
-cp "$BASE_DIR/data/test.fa.gz" "$BAP_WORK_DIR/"
-
-run_bap -v "test.fa.gz"
-
-rm -f "$BAP_WORK_DIR/test.fa.gz"
-
+make_output_dir
+run_bap -v -o "$OUTPUT_DIR" "$BASE_DIR/data/test.fa.gz"
 check_output
 

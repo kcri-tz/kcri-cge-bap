@@ -149,7 +149,8 @@ download these (or a subset), follow the instructions in the repositories.
     cd "$BAP_DB_DIR/kmerfinder"
     less README.md   # has instructions on download and installation
 
-Run test against the real databases:
+Run tests against the real databases (ignore failure "does not match expected
+output" as there may have been additions to the CGE databases):
 
     # With BAP_DB_DIR pointing at the installed databases
     test/test-04-fa-live.sh
@@ -158,34 +159,12 @@ Run test against the real databases:
 
 ## Usage
 
-If all tests succeeded and you have set `BAP_DB_DIR` in `bin/bap-container-run`,
-you are good to go.
+If the tests succeeded you set `BAP_DB_DIR` in `bin/bap-container-run`, you
+are good to go.  
 
-#### Points to remember when running the BAP container
-
-* The container expects to find the databases mounted at `/databases`.  The
-  `bin/BAP` and `bin/bap-container-run` scripts mount `$BAP_DB_DIR` at that
-  mount point.  Set `BAP_DB_DIR` in `bin/bap-container-run`.
-
-* The container expects a writeable work directory mounted at `/workdir`.
-  The `bin/BAP` and `bin/bap-container-run` scripts mount `$PWD` there, as
-  the user would expect.  For special use cases, this can be overridden by
-  environment variable `BAP_WORK_DIR`.
-
-* Keep in mind that inside the container, only paths inside the work dir
-  can be seen.  This means that:
-  * Input files must be located in or below the work directory
-  * Relative paths to input files are interpreted relative to the work dir
-  * Output will be produced in the work directory
-
-#### Usage examples
-
-It is most convenient from here to put the `bin` directory on the `PATH`:
-
-    # Adds BAP and bap-container-run to PATH
-    PATH="$PWD/bin:$PATH"
-
-Check that all works:
+For convenience, add the `bin` directory to your `PATH` in `~/.profile`, or
+copy or link the `bin/BAP` script from `~/.local/bin` or `~/bin`, so that
+this works:
 
     BAP --help
 
@@ -193,10 +172,10 @@ Run a terminal shell in the container:
 
     bap-container-run
 
-Run the BAP on the test databases:
+Run any of the services in the container directly:
 
-    BAP_DB_DIR=$PWD/test/databases BAP test/data/test.fna
-
+    bap-container-run skesa --help
+    bap-container-run kmerfinder --help
 
 
 ## Development / Upgrades
@@ -208,11 +187,11 @@ Run the BAP on the test databases:
   set their requested version to `master`, then run `scripts/update-backends.sh`.
 
 * Before committing a release to production, for reproducibility, run
-  `scripts/pin-backend-versions.sh` which records the actual versions.
+  `scripts/pin-backend-versions.sh` to record the actual versions.
 
 * Run tests after upgrading backends:
 
-        # Runs the 5 tests we ran above
+        # Runs the tests we ran above
         test/run-all-tests.sh
 
 

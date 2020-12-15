@@ -34,10 +34,9 @@
 #
 # You must change /data/genomics/cge/db to whereever you put the databases
 BAP_DB_DIR="${BAP_DB_DIR:-"/data/genomics/cge/db"}"
-# The BAP_IMAGE setting doesn't need changing if you followed the README.md
+# The BAP_IMAGE setting needs changing only if your image has a different tag,
+# for instance in a production environment where you use 'kcri-cge-bap:prod'
 BAP_IMAGE="${BAP_IMAGE:-"kcri-cge-bap:latest"}"
-# The BAP_WORK_DIR setting most likely doesn't need changing: $PWD by default
-BAP_WORK_DIR="${BAP_WORK_DIR:-$PWD}"
 
 ### No changes needed beyond this point, but feel free to look ###
 
@@ -49,19 +48,19 @@ err_exit() { echo "$(basename "$0"): $*" >&2; exit 1; }
 [ -n "$BAP_IMAGE" ] && [ -n "$(docker image ls -q "$BAP_IMAGE" 2>/dev/null)" ] ||
     err_exit "either docker is not running or BAP_IMAGE ($BAP_IMAGE) is incorrect"
 
-[ -d "$BAP_WORK_DIR" ] ||
+[ -z "$BAP_WORK_DIR" ] || [ -d "$BAP_WORK_DIR" ] ||
     err_exit "no such directory (BAP_WORK_DIR): $BAP_WORK_DIR"
 
 # If no arguments, pass the arguments for entering interactive bash
 [ $# -eq 0 ] && { OPT_TI="-ti"; DO_CMD="bash -l"; } || unset OPT_TI DO_CMD
 
 # Run docker image BAP_IMAGE as the invoking user, with BAP_WORK_DIR mounted
-# as workdir, and BAP_DB_DIR mounted read-only at /databases.
+# as workdir, BAP_DB_DIR mounted read-only at /databases, and the host root at /.
 
 exec docker run -u "$(id -u):$(id -g)" $OPT_TI --rm --read-only \
-   --tmpfs /run --tmpfs /tmp \
+   --tmpfs /run --tmpfs /tmp -v /:/host:ro \
    -v "$BAP_DB_DIR:/databases:ro" \
-   -v "$BAP_WORK_DIR:/workdir" \
+   -v "${BAP_WORK_DIR:-$PWD}:/workdir" \
    -w /workdir \
    $INTERACTIVE \
    "$BAP_IMAGE" $DO_CMD "$@"

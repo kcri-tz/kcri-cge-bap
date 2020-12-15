@@ -2,13 +2,133 @@
 #
 # BAP - run the BAP in the kcri-cge-bap container.
 #
-#   This is just a shorthand for ./bap-container-run BAP ...
+#   This is a shorthand for ./bap-container-run BAP ..., but with the
+#   added convenience of working around the constraint that input files
+#   must be inside the container's WORKDIR.
 #
-# NOTE: You must set the BAP_IMAGE and BAP_DB_DIR environment variables
-#       in the bap-container-run script, or else on every invocation.
-#
-# ALSO: You can then override these variables (as well as BAP_WORK_DIR
-#       which defaults to $PWD) by setting them in the environment.
+# NOTE: You must set the BAP_DB_DIR environment variable in the script
+#       ./bap-container-run, or else define it on every invocation.
 #
 
-exec "$(dirname "$0")/bap-container-run" BAP "$@"
+# Resolving input files outside the container's workdir:
+#
+#   We resolve all paths relative to PWD.  If BAP_WORK_DIR is left at its
+#   default of PWD, then all such relative paths are immediately portable
+#   between us and the container, because BAP_WORK_DIR is the initial PWD
+#   in the container (and mounted at /workdir).
+#
+#   If BAP_WORK_DIR points elsewhere, then we must translate our relative
+#   paths (seen relative to PWD), to paths relative to BAP_WORK_DIR (the
+#   PWD of the container).
+#
+#   In all cases, a path that does not resolve to within BAP_WORK_DIR must
+#   be passed to the container as /host/absolute-path, and can then only
+#   be an input, because /host is the read-only mounted root of the host.
+#
+#   If user passes -o/--out-dir, and OUT_DIR (as seen from PWD) resolves
+#   to a directory below BAP_WORK_DIR, then we translate it like above.
+#   If it does not, then:
+#   - if the user has NOT set BAP_WORK_DIR, then we set it to OUT_DIR
+#     (and translate everything else relative to it), so the container
+#     sees it as its PWD and can write to it.
+#   - if the user did set BAP_WORK_DIR, we error out because things would
+#     just become too confusing for everyone.
+#
+#   For input files, we just use the rules described above: translate to
+#   path relative to BAP_WORK_DIR, and if it is absolute, prefix /host.
+
+# Parsing the BAP command line
+#
+#   Minor issue left is that are going to parse the BAP command line but
+#   want to remain oblivious of its flags and options.  We are only going
+#   to mangle OUT_DIR and FILES.
+#   We solve it with a hack here: we assume all options except a known list
+#   of no-arg flags take an argument.  This will only break once a new flag
+#   is added to the BAP but not taken into account below.
+
+CMD_LINE='BAP'
+
+# Exit with message to stderr
+err_exit() { echo "$(basename "$0"): $*"; exit 1; }
+
+# Append escaped arg to CMD_LINE, , uses bash's builtin
+#append_arg() { printf -v ARG '%q' "$1"; CMD_LINE="$CMD_LINE $ARG"; }
+append_arg() { CMD_LINE="$CMD_LINE '$1'"; }
+
+# Parse and store all arguments until we hit the FILES,
+# but intercept the OUT_DIR for possible adjustment,
+# (and break on -d/--db-root while we are at it)
+
+while [ $# -ge 1 ]; do
+    case "$1" in
+    --out-dir=*)
+        OUT_DIR="${1##--out-dir=}"
+	shift
+        ;;
+    -o|--out-dir)
+        OUT_DIR="$2"
+        shift 2
+        ;;
+    -d|--db-root*)
+        err_exit "set BAP_DB_DIR instead of parameter -d/--db-root when dockerised"
+        ;;
+    --*=*|-h|--help|-v|--verbose|--list-*|--pt-a)  # The currently known no-arg flags
+        append_arg "$1"
+        shift ;;
+    -*)                                  # Assume all the rest come with arg
+        append_arg "$1"                  # and therefore we pop off two args
+        append_arg "$2"
+        shift 2 ;;
+    *)                                   # No dash, we've hit the input files
+        break ;;
+    esac
+done
+
+# First handle OUT_DIR if it was set
+if [ -n "$OUT_DIR" ]; then
+
+    # Translate it from relative to PWD to relative to BAP_WORK_DIR
+    REL_OUT="$(realpath --relative-base="${BAP_WORK_DIR:-$PWD}" "$OUT_DIR" 2>/dev/null)" ||
+        err_exit "cannot create --out-dir: $OUT_DIR"
+
+    # If an absolute path came out, then it is not inside BAP_WORK_DIR
+    if [ -z "${REL_OUT##/*}" ]; then
+
+        # If BAP_WORK_DIR is set as well, we give up, too confusing
+        if [ -n "$BAP_WORK_DIR" ]; then
+            err_exit "output directory must be inside of BAP_WORK_DIR ($BAP_WORK_DIR): $OUT_DIR"
+
+        # Else we use BAP_WORK_DIR directly as OUT_DIR (and no need to pass -o to BAP)
+        else
+            mkdir -p "$OUT_DIR" || err_exit "failed to create output directory: $OUT_DIR"
+            BAP_WORK_DIR="$(realpath -e "$OUT_DIR")"
+            unset OUT_DIR
+        fi
+
+    # Else OUT_DIR is relative within the BAP_WORK_DIR and life is simple
+    else
+        append_arg "-o"
+        append_arg "$REL_OUT"
+    fi
+fi
+
+# Now handle the input FILES
+
+while [ $# -ge 1 ]; do
+
+    # Set F to absolute path unless beneath $PWD
+    F="$(realpath -e --relative-base="${BAP_WORK_DIR:-$PWD}" "$1" 2>/dev/null)" ||
+        err_exit "no such file: $1"
+
+    # Unless it is a relative path, prefix it with /host
+    [ -n "${F##/*}" ] || F="/host$F"
+
+    # Append to the command line
+    append_arg "$F"
+    shift
+
+done
+
+# Execute the collected command line, note we use eval to dequote the args
+eval exec "$(dirname "$(realpath -e "$0")")/bap-container-run" $CMD_LINE
+

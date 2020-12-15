@@ -9,13 +9,7 @@ export BAP_DB_DIR="$BASE_DIR/databases"
 
 . "$BASE_DIR/functions.sh"
 
-make_workdir
-
-cp "$BASE_DIR/data/test_1.fq.gz" "$BASE_DIR/data/test_2.fq.gz" "$BAP_WORK_DIR/"
-
-run_bap -v -t DEFAULT,assembly "test_1.fq.gz" "test_2.fq.gz"
-
-rm -f "$BAP_WORK_DIR/test_1.fq.gz" "$BAP_WORK_DIR/test_2.fq.gz"
-
+make_output_dir
+run_bap -v -t "DEFAULT,assembly" -o "$OUTPUT_DIR" "$BASE_DIR/data/test_1.fq.gz" "$BASE_DIR/data/test_2.fq.gz"
 check_output
 

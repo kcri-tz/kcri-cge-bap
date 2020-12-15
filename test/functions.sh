@@ -5,21 +5,21 @@ LC_ALL="C"
 run_bap() {
 
     "$(realpath -e "$BASE_DIR/../bin/BAP")" "$@" \
-        2>&1 > "$BAP_WORK_DIR/run-bap.out" |
-        tee -a "$BAP_WORK_DIR/run-bap.err"
+        2>&1 > "${OUTPUT_DIR:-$PWD}/run-bap.out" |
+        tee -a "${OUTPUT_DIR:-$PWD}/run-bap.err"
 }
 
-make_workdir() {
+make_output_dir() {
 
-    export BAP_WORK_DIR="$BASE_DIR/output/$BASE_NAME-$(date '+%Y%m%d%H%M%S')"
+    export OUTPUT_DIR="$BASE_DIR/output/$BASE_NAME-$(date '+%Y%m%d%H%M%S')"
 
-    mkdir -p "$BAP_WORK_DIR"
+    mkdir -p "$OUTPUT_DIR"
 
     [ -e "$BASE_DIR/output/latest" ] && 
         rm -f "$BASE_DIR/output/previous" &&
         mv -f "$BASE_DIR/output/latest" "$BASE_DIR/output/previous"
 
-    ln -rsfT "$BAP_WORK_DIR" "$BASE_DIR/output/latest"
+    ln -rsfT "$OUTPUT_DIR" "$BASE_DIR/output/latest"
 }
 
 check_output() {
