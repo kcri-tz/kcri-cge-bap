@@ -185,6 +185,10 @@ USER nobody:nogroup
 # Change to the mounted workdir by default
 WORKDIR /workdir
 
+# Workaround an apparent BLAST Phone Home bug in 2.11.0 by opting out
+# https://github.com/ncbi/blast_plus_docs/issues/15
+ENV BLAST_USAGE_REPORT false
+
 # No ENTRYPOINT so that any binary on the PATH in the container can be
 # simply run.  Set CMD so that without arguments, user sees BAP --help.
 CMD ["BAP", "--help"]
