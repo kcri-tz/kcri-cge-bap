@@ -128,8 +128,6 @@ RUN cd ext/cge_core_module && \
 
 # Patch cgmlstfinder ete3 dependency and directory bug
 RUN sed -i -Ee 's@^from ete3 import@#from ete3 import@' \
-        'ext/cgmlstfinder/cgMLST.py' && \
-    sed -i -Ee 's@"-tmp", tmp_dir,@"-tmp", tmp_dir + "/"@' \
         'ext/cgmlstfinder/cgMLST.py'
 
 # Precompile the services (optional)
