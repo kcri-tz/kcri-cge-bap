@@ -52,7 +52,7 @@ err_exit() { echo "$(basename "$0"): $*" >&2; exit 1; }
     err_exit "no such directory (BAP_WORK_DIR): $BAP_WORK_DIR"
 
 # If no arguments, pass the arguments for entering interactive bash
-[ $# -eq 0 ] && { OPT_TI="-ti"; DO_CMD="bash -l"; } || unset OPT_TI DO_CMD
+[ $# -eq 0 ] && { OPT_TI="-ti"; DO_CMD="bash"; } || unset OPT_TI DO_CMD
 
 # Run docker image BAP_IMAGE as the invoking user, with BAP_WORK_DIR mounted
 # as workdir, BAP_DB_DIR mounted read-only at /databases, and the host root at /.
