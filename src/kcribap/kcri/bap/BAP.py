@@ -35,7 +35,8 @@ def main():
 
             The analyses to be performed are specified using the -t/--targets option.
             The default target performs species detection, MLST, resistance, virulence,
-            and plasmid typing (but no assembly).
+            and plasmid typing (but no assembly, cgMLST, or specialised services).
+            The FULL target runs every available service.
 
             Use -l/--list-targets to see the available targets.  Use -t/--targets to
             specify a custom set of targets, or combine with -x/--exclude to exclude
@@ -105,6 +106,10 @@ def main():
     group.add_argument('--pm-s', metavar='SCHEME[,...]', help='pMLST schemes to apply')
     group = parser.add_argument_group('cgMLSTFinder parameters')
     group.add_argument('--cg-s', metavar='SCHEME[,...]', help='cgMLST schemes to apply')
+    group = parser.add_argument_group('CholeraeFinder parameters')
+    group.add_argument('--ch-i', metavar='FRAC', default=0.90, help='CholeraeFinder identity threshold')
+    group.add_argument('--ch-c', metavar='FRAC', default=0.60, help='CholeraeFinder minimum coverage')
+    group.add_argument('--ch-o', metavar='NT', default=30, help='CholeraeFinder maximum overlapping nucleotides')
     group = parser.add_argument_group('QC and Metrics parameters')
     group.add_argument('--qc-t', metavar='LEN', default=500, help="Threshold contig length for Quast (500)")
 

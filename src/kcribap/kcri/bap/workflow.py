@@ -59,6 +59,7 @@ class Services(cge.flow.workflow.logic.Services):
     PLASMIDFINDER = 'PlasmidFinder'
     PMLSTFINDER = 'pMLSTFinder'
     CGMLSTFINDER = 'cgMLSTFinder'
+    CHOLERAEFINDER = 'CholeraeFinder'
     PROKKA = 'PROKKA'
 
 class UserTargets(cge.flow.workflow.logic.UserTargets):
@@ -72,8 +73,10 @@ class UserTargets(cge.flow.workflow.logic.UserTargets):
     PLASMIDS = 'plasmids'
     PMLST = 'pmlst'
     CGMLST = 'cgmlst'
+    SPECIALISED = 'specialised'
     ANNOTATION = 'annotation'
     DEFAULT = 'DEFAULT'
+    FULL = 'FULL'
 
 
 ### Dependency definitions
@@ -93,12 +96,15 @@ DEPENDENCIES = {
     UserTargets.PLASMIDS:       SEQ( Services.PLASMIDFINDER, Services.PMLSTFINDER ),
     UserTargets.PMLST:	        SEQ( Checkpoints.PLASMIDS, Services.PMLSTFINDER ),
     UserTargets.CGMLST:         Services.CGMLSTFINDER,
+    UserTargets.SPECIALISED:    OPT(Services.CHOLERAEFINDER),
     UserTargets.ANNOTATION:     Services.PROKKA,
     # The DEFAULT target depends on a list of standard targets.
     # All are optional so the pipeline runs till the end even if one fails.
     UserTargets.DEFAULT:        ALL( OPT(UserTargets.METRICS), OPT(UserTargets.SPECIES),
                                      OPT(UserTargets.MLST), OPT(UserTargets.RESISTANCE),
                                      OPT(UserTargets.VIRULENCE), OPT(UserTargets.PLASMIDS) ),
+    UserTargets.FULL:           ALL( UserTargets.DEFAULT, OPT(UserTargets.ASSEMBLY), 
+                                     OPT(UserTargets.CGMLST), OPT(UserTargets.SPECIALISED) ),
 
     Services.READSMETRICS:      OIF( Params.READS ),
     Services.QUAST:             OIF( Checkpoints.CONTIGS ),
@@ -113,6 +119,7 @@ DEPENDENCIES = {
     Services.PLASMIDFINDER:     ONE( Params.READS, Checkpoints.CONTIGS ),
     Services.PMLSTFINDER:       ALL( Checkpoints.PLASMIDS, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.CGMLSTFINDER:      ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
+    Services.CHOLERAEFINDER:    ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.PROKKA:            ALL( Checkpoints.SPECIES, Checkpoints.CONTIGS ),
 
     Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA, Services.SPADES ),

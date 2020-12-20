@@ -11,6 +11,7 @@
 from kcri.bap.workflow import Services
 
 # Import the shim classes that implement each service
+from .shims.CholeraeFinder import CholeraeFinderShim
 from .shims.KCST import KCSTShim
 from .shims.KmerFinder import KmerFinderShim
 from .shims.MLSTFinder import MLSTFinderShim
@@ -38,6 +39,7 @@ SERVICES = {
     Services.PLASMIDFINDER:     PlasmidFinderShim(),
     Services.PMLSTFINDER:       pMLSTShim(),
     Services.CGMLSTFINDER:      cgMLSTFinderShim(),
+    Services.CHOLERAEFINDER:    CholeraeFinderShim(),
     Services.PROKKA:            UnimplementedService()
 }
 
