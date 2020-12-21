@@ -38,6 +38,11 @@ RUN apt-get -qq update --fix-missing && \
     apt-get -qq clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Stop container's bash from leaving .bash_histories everywhere
+# and add convenience aliases for interactive (debugging) use
+RUN echo "unset HISTFILE" >>/etc/bash.bashrc && \
+    echo "alias ls='ls --color=auto' l='ls -CF' la='l -a' ll='l -l' lla='ll -a'" >>/etc/bash.bashrc
+
 
 # Python dependencies
 # ----------------------------------------------------------------------
@@ -88,8 +93,11 @@ WORKDIR /usr/src/cge
 # Note the .dockerignore filters out a lot
 COPY ext ext
 
-# Install BLAST by putting its binaries on the PATH
-ENV PATH $PATH:/usr/src/cge/ext/ncbi-blast/bin
+# Install BLAST by putting its binaries on the PATH,
+# and prevent 2.11.0 phone home bug by opting out
+# https://github.com/ncbi/blast_plus_docs/issues/15
+ENV PATH=/usr/src/cge/ext/ncbi-blast/bin:$PATH \
+    BLAST_USAGE_REPORT=false
 
 # Make and install skesa
 RUN cd ext/skesa && \
@@ -130,16 +138,16 @@ RUN cd ext/cge_core_module && \
 RUN sed -i -Ee 's@^from ete3 import@#from ete3 import@' \
         'ext/cgmlstfinder/cgMLST.py'
 
-# Precompile the services (optional)
+# Precompile the services
 RUN python3 -m compileall \
-    ext/cgmlstfinder/* \
-    ext/choleraefinder/* \
-    ext/kmerfinder/* \
-    ext/mlst/* \
-    ext/plasmidfinder/* \
-    ext/pmlst/* \
-    ext/resfinder/* \
-    ext/virulencefinder/*
+    ext/cgmlstfinder \
+    ext/choleraefinder \
+    ext/kmerfinder \
+    ext/mlst \
+    ext/plasmidfinder \
+    ext/pmlst \
+    ext/resfinder \
+    ext/virulencefinder
 
 # Add service script directories to PATH
 ENV PATH $PATH""\
@@ -168,26 +176,16 @@ RUN cd kcribap && \
     python3 setup.py install
 
 
-# Set up system and user settings
+# Set up user and workdir
 #----------------------------------------------------------------------
 
-# Stop container's bash from leaving .bash_histories everywhere
-# and add convenience aliases for interactive (debugging) use
-RUN echo "unset HISTFILE" >>/etc/bash.bashrc && \
-    echo "alias ls='ls --color=auto' l='ls -CF' la='l -a' ll='l -l' lla='ll -a'" >>/etc/bash.bashrc
-
-# Create user 'bapuser' and make container drop from root
-#RUN useradd --no-log-init --no-create-home --user-group -d /workdir bapuser
+# Drop to user nobody (running containers as root is not a good idea)
 USER nobody:nogroup
 
-# Change to the mounted workdir by default
+# Change to the mounted workdir as initial PWD
 WORKDIR /workdir
 
-# Workaround an apparent BLAST Phone Home bug in 2.11.0 by opting out
-# https://github.com/ncbi/blast_plus_docs/issues/15
-ENV BLAST_USAGE_REPORT false
-
-# No ENTRYPOINT so that any binary on the PATH in the container can be
-# simply run.  Set CMD so that without arguments, user sees BAP --help.
+# No ENTRYPOINT means that any binary on the PATH in the container can
+# be run.  Set CMD so that without arguments, user gets BAP --help.
 CMD ["BAP", "--help"]
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os, argparse, json, re, textwrap
-from cgecore import check_file_type
+import sys, os, argparse, gzip, json, re, textwrap
 from cge.flow.workflow.logic import Workflow
 from cge.flow.workflow.executor import Executor
 from cge.flow.jobcontrol.subproc import SubprocessScheduler
@@ -17,6 +16,15 @@ service, version = "KCRI CGE BAP", "3.0.0"
 def err_exit(msg, *args):
     print(('BAP: %s' % msg) % args, file=sys.stderr)
     sys.exit(1)
+
+# Helper to detect whether file is (gzipped) fasta or fastq
+def detect_filetype(fname):
+    with open(fname, 'rb') as f:
+        b = f.peek(2)
+        if b[:2] == b'\x1f\x8b':
+            b = gzip.GzipFile(fileobj=f).peek(2)[:2]
+        c = chr(b[0]) if len(b) > 0 else '\x00'
+    return 'fasta' if c == '>' else 'fastq' if c == '@' else 'other'
 
 # Helper to parse string ts which may be UserTarget or Service
 def UserTargetOrService(s):
@@ -136,11 +144,11 @@ def main():
     for f in args.files:
         if not os.path.isfile(f):
             err_exit('no such file: %s', f)
-        if check_file_type(f) == 'fasta':
+        if detect_filetype(f) == 'fasta':
             if contigs:
                 err_exit('more than one FASTA file passed: %s', f)
             contigs = os.path.abspath(f)
-        elif check_file_type(f) == 'fastq':
+        elif detect_filetype(f) == 'fastq':
             if len(fastqs) == 2:
                 err_exit('more than two fastq files passed: %s', f)
             fastqs.append(os.path.abspath(f))

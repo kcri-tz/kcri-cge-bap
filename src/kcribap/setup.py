@@ -7,7 +7,7 @@ URL = 'https://github.com/zwets/kcri-cge-bap'
 EMAIL = 'zwets@kcri.ac.tz'
 AUTHOR = 'Marco van Zwetselaar'
 REQUIRES_PYTHON = '>=3.8.0'
-REQUIRED = ['cgeflow', 'cgecore' ]
+REQUIRED = ['cgeflow' ]
 EXTRAS = { }
 
 about = {'__version__': VERSION}

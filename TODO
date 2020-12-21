@@ -1,10 +1,8 @@
 TODO
 
-3.0.0
-- New workflow, all services
-3.0.1
+3.0.2
+- Fix version reporting
 - Add spaTyper & SCCmecFinder
-- Add CholeraeFinder
 - Add KmerResistance
 LATER
 - Add SPIFinder
