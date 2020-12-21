@@ -7,9 +7,10 @@ import os, tempfile, json, logging
 from cge.flow.workflow.executor import Execution
 from cge.flow.jobcontrol.job import JobSpec, Job
 from kcri.bap.shims.base import BAPServiceExecution, UserException
+from .versions import BACKEND_VERSIONS
 
-# Global variables, will be updated by update-services script.
-SERVICE, VERSION = "MLSTFinder", "2.0.4-4-g1ff4"
+# Our service name and current backend version
+SERVICE, VERSION = "MLSTFinder", BACKEND_VERSIONS['mlst']
 
 # MLST backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1     # @TODO@ measure: time --verbose

@@ -7,9 +7,10 @@
 
 import logging
 from .PlasVirBase import PlasVirBaseExecution
+from .versions import BACKEND_VERSIONS
 
-# Global variables, will be updated by the update-services script
-SERVICE, VERSION = "PlasmidFinder", "2.1.1"
+# Our service name and current backend version
+SERVICE, VERSION = "PlasmidFinder", BACKEND_VERSIONS['plasmidfinder']
 
 
 class PlasmidFinderShim:

@@ -7,9 +7,10 @@ import os, json, logging, tempfile
 from cge.flow.workflow.executor import Execution
 from cge.flow.jobcontrol.job import JobSpec, Job
 from kcri.bap.shims.base import BAPServiceExecution, UserException
+from .versions import BACKEND_VERSIONS
 
-# Global variables, will be updated by the update-services script
-SERVICE, VERSION = "CholeraeFinder", "0.0.0.1"
+# Our service name and current backend version
+SERVICE, VERSION = "CholeraeFinder", BACKEND_VERSIONS['choleraefinder']
 
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1

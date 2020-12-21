@@ -8,9 +8,10 @@
 import logging
 from kcri.bap.shims.base import UserException
 from .PlasVirBase import PlasVirBaseExecution
+from .versions import BACKEND_VERSIONS
 
-# Global variables, will be updated by the update-services script
-SERVICE, VERSION = "VirulenceFinder", "2.0.3-11-g5cf8"
+# Our service name and current backend version
+SERVICE, VERSION = "VirulenceFinder", BACKEND_VERSIONS['virulencefinder']
 
 
 class VirulenceFinderShim:
