@@ -1,15 +1,16 @@
 TODO
 
 3.0.2
-- Fix version reporting
 - Add spaTyper & SCCmecFinder
+3.0.3
+- Quast with reference from KmerFinder?
+- ResFinder link pheno to genes and seqvars (see TODO)
+- Check ResFinder test runs and output
 - Add KmerResistance
 LATER
 - Add SPIFinder
 - Add FimTyper, CHTyper, PAst
 - Read Metrics
-- ResFinder link pheno to genes and seqvars
-- Quast with reference from KmerFinder
 - Add Trimmomatic (needed for SpaDES)
 - Add SpaDES/Unicycler
 - Conda variant

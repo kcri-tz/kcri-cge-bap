@@ -91,7 +91,7 @@ DEPENDENCIES = {
     UserTargets.ASSEMBLY:       ONE( Services.SKESA, Services.SPADES ),
     UserTargets.SPECIES:        Checkpoints.SPECIES,
     UserTargets.MLST:           ONE( Services.MLSTFINDER, Services.KCST ),
-    UserTargets.RESISTANCE:     ALL( Services.RESFINDER, OPT( Services.POINTFINDER ) ),
+    UserTargets.RESISTANCE:     ALL( OPT( Services.RESFINDER ), OPT( Services.POINTFINDER ) ),
     UserTargets.VIRULENCE:      Services.VIRULENCEFINDER,
     UserTargets.PLASMIDS:       SEQ( Services.PLASMIDFINDER, Services.PMLSTFINDER ),
     UserTargets.PMLST:	        SEQ( Checkpoints.PLASMIDS, Services.PMLSTFINDER ),

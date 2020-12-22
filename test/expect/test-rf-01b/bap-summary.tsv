@@ -1,0 +1,2 @@
+sample_id	bases_read	bases_assembled	n_contigs	largest_ctg	n50	depth	species	mlst	amr_classes	amr_pheno	amr_genes	virulence_genes	plasmids	pmlsts	cgst	amr_mutations
+test_isolate_01									beta-lactam	amoxicillin,ampicillin,ticarcillin	blaB-2					
