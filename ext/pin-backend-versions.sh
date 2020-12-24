@@ -26,14 +26,12 @@ Usage: $(basename "$0")
 
 " && exit 1
 
-
 # Check for directories and files
 [ -d "$BASE_DIR" ] || err_exit "no such directory: $BASE_DIR"
 [ -r "$CFG_FILE" ] || err_exit "no such file: $CFG_FILE"
 
-# Make a copy, else we create havoc editing the file we are reading
+# Make a copy, else we write the file we are reading and havoc ensues
 cp "$CFG_FILE" "$NEW_FILE"
-
 
 # Iterate over the non-comment lines in CFG_FILE
 LINE=1
@@ -71,10 +69,10 @@ grep -E '^ *[^#].*$' "$CFG_FILE" | while read NAME VER URL REST; do
             err_exit "failed to set version field for $NAME in $CFG_FILE"
     fi
 
-    # Move the new file over the old
-    mv "$NEW_FILE" "$CFG_FILE"
-
 done
+
+# Move the new file over the old
+mv "$NEW_FILE" "$CFG_FILE"
 
 exit 0
 

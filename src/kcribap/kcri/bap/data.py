@@ -148,6 +148,31 @@ class BAPBlackboard(Blackboard):
     def get_detected_species(self, default=None):
         return self.get('bap/summary/species', default)
 
+    # Reference
+
+    def put_user_reference_path(self, path):
+        '''Stores the path to the user provided reference genome.'''
+        self.put_user_input('reference', path)
+
+    def get_user_reference_path(self, default=None):
+        return self.get_user_input('reference', default)
+
+    def put_closest_reference(self, acc, desc):
+        '''Stores the accession and description of closest reference.'''
+        self.put('bap/summary/closest/accession', acc)
+        self.put('bap/summary/closest/name', desc)
+
+    def put_closest_reference_path(self, path):
+        '''Stores the path to the closest reference genome.'''
+        self.put('bap/summary/closest/path', path)
+
+    def get_closest_reference(self, default=None):
+        '''Returns dict with fields accession, name, path, or the default.'''
+        return self.get('bap/summary/closest', default)
+
+    def get_closest_reference_path(self, default=None):
+        return self.get_closest_reference().get('path', default)
+
     # MLST
 
     def add_mlst(self, st, loci, alleles):

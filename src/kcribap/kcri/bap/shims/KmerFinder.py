@@ -136,10 +136,16 @@ class KmerFinderExecution(BAPServiceExecution):
                 # Iterate to next line
                 line = f.readline()
 
-        # Store result and add species to global BAP findings
+        # Store result
         self.store_results(hits)
+
+        # Store species to global BAP findings
         if have_tax and len(hits):
-            self.add_species(hits[0].get('species'))
+            self._blackboard.add_detected_species(hits[0].get('species'))
+
+        # Store closest reference in global BAP findings
+        if len(hits):
+            self._blackboard.put_closest_reference(hits[0].get('accession'), hits[0].get('desc'))
 
 
 # Returns comma-separated list of available databases in db_dir

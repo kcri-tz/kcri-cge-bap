@@ -9,7 +9,8 @@
 #   The workflow defined herein can be 'dry tested' by running the module from
 #   the command line:
 #
-#       python3 -m kcri.bap.workflow --help
+#       # In directory src two levels up
+#       PYTHONPATH=cgeflow:kcribap python3 -m kcri.bap.workflow --help
 #
 #   The sibling module bap.services defines the mapping from the Services enum
 #   defined below to the shims that wrap the actual backends.  The sibling module
@@ -33,14 +34,16 @@ class Params(cge.flow.workflow.logic.Params):
     CONTIGS = 'contigs'     # Signals that user has provided contigs
     SPECIES = 'species'     # Signals that user has specified the species
     PLASMIDS = 'plasmids'   # Signals that user has specified the plasmids
+    REFERENCE = 'reference' # Signals that user has specified a reference genome
     ILLUMINA = 'illumina'   # Signals that fastqs are Illumina reads
 
 class Checkpoints(cge.flow.workflow.logic.Checkpoints):
     '''Internal targets for other targets to depend on.  Useful when a service
        takes an input that could come either from user or as a service output.'''
-    CONTIGS = 'contigs'   # Contigs are available either as inputs or from assembly
-    SPECIES = 'species'   # Species is known, either from user input or a service
-    PLASMIDS = 'plasmids' # Plasmids are known, either from user input or a service
+    CONTIGS = 'contigs'     # Contigs are available either as inputs or from assembly
+    SPECIES = 'species'     # Species is known, either from user input or a service
+    PLASMIDS = 'plasmids'   # Plasmids are known, either from user input or a service
+    REFERENCE = 'reference' # Reference is known, either from user input or a service
 
 class Services(cge.flow.workflow.logic.Services):
     '''Enum that identifies the available services.  Each corresponds to a shim
@@ -53,6 +56,7 @@ class Services(cge.flow.workflow.logic.Services):
     MLSTFINDER = 'MLSTFinder'
     KCST = 'KCST'
     KMERFINDER = 'KmerFinder'
+    GETREFERENCE = 'GetReference'
     RESFINDER = 'ResFinder'
     POINTFINDER = 'PointFinder'
     VIRULENCEFINDER = 'VirulenceFinder'
@@ -67,6 +71,7 @@ class UserTargets(cge.flow.workflow.logic.UserTargets):
     METRICS = 'metrics'
     ASSEMBLY = 'assembly'
     SPECIES = 'species'
+    REFERENCE = 'reference'
     MLST = 'mlst'
     RESISTANCE = 'resistance'
     VIRULENCE = 'virulence'
@@ -87,16 +92,17 @@ class UserTargets(cge.flow.workflow.logic.UserTargets):
 
 DEPENDENCIES = {
     
-    UserTargets.METRICS:        ALL( OPT(Services.QUAST), OPT(Services.READSMETRICS) ),
+    UserTargets.METRICS:        ALL( OPT( Services.QUAST ), OPT( Services.READSMETRICS ) ),
     UserTargets.ASSEMBLY:       ONE( Services.SKESA, Services.SPADES ),
     UserTargets.SPECIES:        Checkpoints.SPECIES,
+    UserTargets.REFERENCE:      Checkpoints.REFERENCE,
     UserTargets.MLST:           ONE( Services.MLSTFINDER, Services.KCST ),
     UserTargets.RESISTANCE:     ALL( OPT( Services.RESFINDER ), OPT( Services.POINTFINDER ) ),
     UserTargets.VIRULENCE:      Services.VIRULENCEFINDER,
     UserTargets.PLASMIDS:       SEQ( Services.PLASMIDFINDER, Services.PMLSTFINDER ),
     UserTargets.PMLST:	        SEQ( Checkpoints.PLASMIDS, Services.PMLSTFINDER ),
     UserTargets.CGMLST:         Services.CGMLSTFINDER,
-    UserTargets.SPECIALISED:    OPT(Services.CHOLERAEFINDER),
+    UserTargets.SPECIALISED:    OPT( Services.CHOLERAEFINDER ),
     UserTargets.ANNOTATION:     Services.PROKKA,
     # The DEFAULT target depends on a list of standard targets.
     # All are optional so the pipeline runs till the end even if one fails.
@@ -107,10 +113,11 @@ DEPENDENCIES = {
                                      OPT(UserTargets.CGMLST), OPT(UserTargets.SPECIALISED) ),
 
     Services.READSMETRICS:      OIF( Params.READS ),
-    Services.QUAST:             OIF( Checkpoints.CONTIGS ),
+    Services.QUAST:             ALL( OIF( Checkpoints.CONTIGS ), OPT( Checkpoints.REFERENCE ) ),
     Services.SKESA:             ALL( Params.ILLUMINA, Params.READS ),
     Services.SPADES:            ONE( Params.READS, ALL( Params.READS, Params.CONTIGS ) ),
     Services.KMERFINDER:        ONE( Params.READS, Checkpoints.CONTIGS ),
+    Services.GETREFERENCE:      Services.KMERFINDER,  # Later: also work if species given and no KmerFinder
     Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.KCST:              Checkpoints.CONTIGS,
     Services.RESFINDER:         ONE( Params.READS, Checkpoints.CONTIGS ),
@@ -120,10 +127,11 @@ DEPENDENCIES = {
     Services.PMLSTFINDER:       ALL( Checkpoints.PLASMIDS, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.CGMLSTFINDER:      ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.CHOLERAEFINDER:    ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
-    Services.PROKKA:            ALL( Checkpoints.SPECIES, Checkpoints.CONTIGS ),
+    Services.PROKKA:            ALL( Checkpoints.SPECIES, Checkpoints.CONTIGS, Checkpoints.REFERENCE ),
 
     Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA, Services.SPADES ),
     Checkpoints.SPECIES:        ONE( Params.SPECIES, Services.KMERFINDER, Services.KCST ),
+    Checkpoints.REFERENCE:      ONE( Params.REFERENCE, Services.GETREFERENCE ),
     Checkpoints.PLASMIDS:       ONE( Params.PLASMIDS, Services.PLASMIDFINDER ),
 }    
 

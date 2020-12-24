@@ -61,7 +61,7 @@ class VirulenceFinderExecution(PlasVirBaseExecution):
     def process_hit(self, hit):
 
         vir_gene = hit['virulence_gene']
-        self.add_virulence_gene(vir_gene)
+        self._blackboard.add_detected_virulence_gene(vir_gene)
 
         return dict({
             'gene': vir_gene,

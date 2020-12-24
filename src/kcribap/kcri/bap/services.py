@@ -12,6 +12,7 @@ from kcri.bap.workflow import Services
 
 # Import the shim classes that implement each service
 from .shims.CholeraeFinder import CholeraeFinderShim
+from .shims.GetReference import GetReferenceShim
 from .shims.KCST import KCSTShim
 from .shims.KmerFinder import KmerFinderShim
 from .shims.MLSTFinder import MLSTFinderShim
@@ -33,6 +34,7 @@ SERVICES = {
     Services.KCST:              KCSTShim(),
     Services.MLSTFINDER:        MLSTFinderShim(),
     Services.KMERFINDER:        KmerFinderShim(),
+    Services.GETREFERENCE:      GetReferenceShim(),
     Services.RESFINDER:         ResFinderShim(),
     Services.POINTFINDER:       PointFinderShim(),
     Services.VIRULENCEFINDER:   VirulenceFinderShim(),

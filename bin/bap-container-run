@@ -20,11 +20,11 @@
 #
 #       bap-container-run BAP ...
 #
-#   When invoked without arguments, this script runs an interactive
-#   bash in the container:
+#   When invoked without any arguments at all, this script runs an
+#   interactive bash in the container:
 #
 #       bap-container-run
-#       bapuser@9febb34:~$ _
+#       nobody@9febb34:~$ _
 #
 # SETTINGS
 #
@@ -32,10 +32,19 @@
 #   Note the ${VAR:-default} syntax means that these variables can be
 #   overridden from the invoking shell.
 #
-# You must change /data/genomics/cge/db to whereever you put the databases
+# BAP_DB_DIR
+# - Must be set to the root directory of the CGE databases.
+# - If some databases are located elsewhere on your filesystem, and you don't
+#   want to keep two copies, simply 'mount them in' by adding to the docker
+#   run command below: '-v /my/path/to/foofinder:/databases/foofinder:ro'
+# - Default is the path used on the KCRI cluster.
 BAP_DB_DIR="${BAP_DB_DIR:-"/data/genomics/cge/db"}"
-# The BAP_IMAGE setting needs changing only if your image has a different tag,
-# for instance in a production environment where you use 'kcri-cge-bap:prod'
+#
+# BAP_IMAGE
+# - Needs changing only if (by default) you want to run a different tag
+# - Recommended to do in a mixed development & production environment:
+#   tag the stable release to e.g. 'kcri-cge-bap:prod' and set it here.
+# The default is the 'latest' (development) build on this machine.
 BAP_IMAGE="${BAP_IMAGE:-"kcri-cge-bap:latest"}"
 
 ### No changes needed beyond this point, but feel free to look ###

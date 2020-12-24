@@ -60,7 +60,7 @@ class PlasmidFinderExecution(PlasVirBaseExecution):
     def process_hit(self, hit):
 
         plasmid = hit['plasmid']
-        self.add_plasmid(plasmid)
+        self._blackboard.add_detected_plasmid(plasmid)
 
         return dict({
             'plasmid': plasmid

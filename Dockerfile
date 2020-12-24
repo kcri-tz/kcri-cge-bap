@@ -125,6 +125,11 @@ RUN cd ext/kma && \
     cp kma kma_index kma_shm /usr/local/bin/ && \
     cd .. && rm -rf kma
 
+# Install kma-retrieve
+RUN cd ext/odds-and-ends && \
+    mv kma-retrieve /usr/local/bin/ && \
+    cd .. && rm -rf odds-and-ends
+
 # Install the cgecore module
 RUN cd ext/cge_core_module && \
     python3 setup.py install && \

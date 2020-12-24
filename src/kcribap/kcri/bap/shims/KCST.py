@@ -105,9 +105,9 @@ class KCSTExecution(BAPServiceExecution):
             
             # Store MLST result and add species to global BAP findings
             self.store_results(typings)
-            self.add_species(species)
+            self._blackboard.add_detected_species(value)
 
         # Mark the job failed if output parsing fails
         except FileNotFoundError:
-            self.fail("backend job produced no output, check: %s", job.work_dir())
+            self.fail("backend job produced no output, check: %s", job.file_path(""))
 

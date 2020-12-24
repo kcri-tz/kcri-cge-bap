@@ -64,7 +64,7 @@ class SKESAShim:
 
 # Single execution of the service
 class SKESAExecution(BAPServiceExecution):
-    '''A single execution of the KCST service, returned by KCSTShim.execute().'''
+    '''A single execution of the service, returned by execute().'''
 
     _job = None
 

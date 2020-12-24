@@ -1,7 +1,12 @@
 from setuptools import find_packages, setup
 
+VERSION = '3.0.0'  # sensible default, but get from the kcri.bap module
+with open("kcri/bap/__init__.py", 'r') as f:
+    for l in f:
+        if l.startswith('__version__'):
+             VERSION = l.split('=')[1].strip().strip('"')
+
 NAME = 'kcribap'
-VERSION = '3.0.0'
 DESCRIPTION = 'KCRI CGI Bacterial Analysis Pipeline'
 URL = 'https://github.com/zwets/kcri-cge-bap'
 EMAIL = 'zwets@kcri.ac.tz'

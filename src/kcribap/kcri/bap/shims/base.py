@@ -114,8 +114,8 @@ class BAPServiceExecution(Execution):
 
         return new_state
 
-    # Getters and putters for the shared fields among services
-    # All of these raise an exception unless default is given
+    # Getters for the shared fields among services;
+    # all of these raise an exception unless default is given
 
     def is_verbose(self):
         '''Return True if the run was requested to be verbose.'''
@@ -197,16 +197,19 @@ class BAPServiceExecution(Execution):
                 ret = default
         return ret
 
-    def get_ref_genome_paths(self, default=None):
-        '''Return path(s) to FASTA with the reference sequence(s) for the sample being processed.'''
-        #TODO
-        #ret = self._blackboard.get_user_reference_paths([])
-        #ret.extend(self._blackboard.get_reference_genome_paths([]))
-        return default
+    def get_closest_reference(self, default=None):
+        '''Return dict with fields accession and name for the established closest reference.'''
+        ret = self._blackboard.get_closest_reference(default)
+        if ret is None:
+            raise UserException("no closest reference was determined")
+        return ret
 
-    def add_species(self, value):
-        '''Add a detected species to the blackboard.'''
-        self._blackboard.add_detected_species(value)
+    def get_reference_path(self, default=None):
+        '''Return path to FASTA with the user provided reference or else the established one, or else default.'''
+        ret = self._blackboard.get_user_reference_path(self._blackboard.get_closest_reference_path(default))
+        if ret is None:
+            raise UserException("no reference was specified or closest reference determined")
+        return ret
 
     def get_plasmids(self, default=None):
         '''Return the list of specified and detected plasmids, or else default or else fail if None.'''
@@ -219,13 +222,6 @@ class BAPServiceExecution(Execution):
                 ret = default
         return ret
 
-    def add_plasmid(self, value):
-        '''Add a detected plasmid to the blackboard.'''
-        self._blackboard.add_detected_plasmid(value)
-
-    def add_virulence_gene(self, value):
-        '''Add a detected virulence gene to the blackboard.'''
-        self._blackboard.add_detected_virulence_gene(value)
 
 ### class UnimplementedService
 #

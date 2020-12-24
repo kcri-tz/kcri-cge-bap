@@ -4,13 +4,14 @@ import sys, os, argparse, gzip, json, re, textwrap
 from cge.flow.workflow.logic import Workflow
 from cge.flow.workflow.executor import Executor
 from cge.flow.jobcontrol.subproc import SubprocessScheduler
-from kcri.bap.data import BAPBlackboard, SeqPlatform, SeqPairing
-from kcri.bap.services import SERVICES as BAP_SERVICES
-from kcri.bap.workflow import DEPENDENCIES as BAP_DEPENDENCIES
-from kcri.bap.workflow import UserTargets, Services, Params
+from .data import BAPBlackboard, SeqPlatform, SeqPairing
+from .services import SERVICES as BAP_SERVICES
+from .workflow import DEPENDENCIES as BAP_DEPENDENCIES
+from .workflow import UserTargets, Services, Params
+from . import __version__
 
 # Global variables and defaults
-service, version = "KCRI CGE BAP", "3.0.0"
+SERVICE, VERSION = "KCRI CGE BAP", __version__
 
 # Exit the BAP with error message and non-zero code
 def err_exit(msg, *args):
@@ -55,20 +56,22 @@ def main():
             """),
         epilog=textwrap.dedent("""\
             Instead of passing arguments on the command-line, you can put them in a
-            text file and pass this to the BAP using @FILENAME."""))
+            text file and pass this to the BAP using @FILENAME.
+            """))
 
     # General arguments
     group = parser.add_argument_group('General parameters')
-    group.add_argument('-t', '--targets', metavar='TARGET[,...]', default='DEFAULT', help="analyses to perform [DEFAULT]")
-    group.add_argument('-x', '--exclude', metavar='TARGET_OR_SERVICE[,...]', help="targets and/or services to exclude from running")
-    group.add_argument('-s', '--species', metavar='NAME[,...]', help="scientific name(s) of the bacterial species, if known")
-    group.add_argument('-p', '--plasmids',metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
-    group.add_argument('-i', '--id',      metavar='ID', help="identifier to use for the isolate in reports")
-    group.add_argument('-o', '--out-dir', metavar='PATH', default='.', help="directory to write output to, will be created (must be relative to PWD when dockerised)")
-    group.add_argument('--list-targets',  action='store_true', help="list the available targets")
-    group.add_argument('--list-services', action='store_true', help="list the available services")
-    group.add_argument('-d', '--db-root', metavar='PATH', default='/databases', help="base path to service databases (leave at default when dockerised)")
-    group.add_argument('-v', '--verbose', action='store_true', help="write verbose output to stderr")
+    group.add_argument('-t', '--targets',  metavar='TARGET[,...]', default='DEFAULT', help="analyses to perform [DEFAULT]")
+    group.add_argument('-x', '--exclude',  metavar='TARGET_OR_SERVICE[,...]', help="targets and/or services to exclude from running")
+    group.add_argument('-s', '--species',  metavar='NAME[,...]', help="scientific name(s) of the bacterial species, if known")
+    group.add_argument('-r', '--reference',metavar='FASTA', help="path to a reference genome")
+    group.add_argument('-p', '--plasmids', metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
+    group.add_argument('-i', '--id',       metavar='ID', help="identifier to use for the isolate in reports")
+    group.add_argument('-o', '--out-dir',  metavar='PATH', default='.', help="directory to write output to, will be created (must be relative to PWD when dockerised)")
+    group.add_argument('--list-targets',   action='store_true', help="list the available targets")
+    group.add_argument('--list-services',  action='store_true', help="list the available services")
+    group.add_argument('-d', '--db-root',  metavar='PATH', default='/databases', help="base path to service databases (leave at default when dockerised)")
+    group.add_argument('-v', '--verbose',  action='store_true', help="write verbose output to stderr")
     group.add_argument('files', metavar='FILE', nargs='*', default=[], help="input file(s) in optionally gzipped FASTA or fastq format")
 
     # Resource management arguments
@@ -155,6 +158,15 @@ def main():
         else:
             err_exit("file is neither FASTA not fastq: %s" % f)
 
+    # Parse the reference genome
+    reference = None
+    if args.reference:
+        if not os.path.isfile(args.reference):
+            err_exit('no such file: %s', reference)
+        if detect_filetype(f) != 'fasta':
+            err_exit('reference not a FASTA file: %s', args.reference)
+        reference = os.path.abspath(args.reference)
+
     # Parse the --list options
     if args.list_targets:
         print('targets:', ','.join(t.value for t in UserTargets))
@@ -209,7 +221,7 @@ def main():
 
     # Set up the Workflow execution
     blackboard = BAPBlackboard(args.verbose)
-    blackboard.start_bap_run(service, version, vars(args))
+    blackboard.start_bap_run(SERVICE, VERSION, vars(args))
     blackboard.put_db_root(db_root)
     blackboard.put_sample_id(sample_id)
 
@@ -245,6 +257,9 @@ def main():
         blackboard.put_fastq_paths(fastqs)
         blackboard.put_seq_platform(seq_platform)
         blackboard.put_seq_pairing(seq_pairing)
+    if reference:
+        params.append(Params.REFERENCE)
+        blackboard.put_user_reference(reference)
     if seq_platform == SeqPlatform.ILLUMINA:
         params.append(Params.ILLUMINA)   # is workflow param: SKESA requires them
     if args.species:
@@ -272,11 +287,12 @@ def main():
         d = dict({
             'sample_id': b.get_sample_id(),
             'bases_read': '' if b.get_fastq_paths([]) else b.get('services/Quast/results/metrics/total_read'),
-            'bases_assembled': b.get('services/Quast/results/metrics/total_len'),
-            'n_contigs': b.get('services/Quast/results/metrics/n_contigs'),
-            'largest_ctg':  b.get('services/Quast/results/metrics/max_contig_len'),
+            'bases_assembled': b.get('services/Quast/results/metrics/tot_len'),
+            'n_contigs': b.get('services/Quast/results/metrics/num_ctg'),
+            'largest_ctg':  b.get('services/Quast/results/metrics/max_ctg'),
             'n50':  b.get('services/Quast/results/metrics/n50'),
-            'depth': '',
+            'l50':  b.get('services/Quast/results/metrics/l50'),
+            'pct_cov': b.get('services/Quast/results/metrics/pct_cov',''),
             'species': commasep(b.get_detected_species([])),
             'mlst': commasep(b.get_mlsts()),
             'amr_classes': commasep(b.get_amr_classes()),

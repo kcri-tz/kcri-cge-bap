@@ -33,8 +33,9 @@ WORKDIR /usr/src/cge
 
 # KCRI BAP package
 #COPY src/kcribap/kcri/bap/BAP.py kcribap/kcri/bap/
-COPY src/kcribap/kcri/bap/workflow.py kcribap/kcri/bap/
+#COPY src/kcribap/kcri/bap/workflow.py kcribap/kcri/bap/
 #COPY src/kcribap/kcri/bap/shims/CholeraeFinder.py kcribap/kcri/bap/shims/
+COPY src/kcribap/kcri/bap/shims/KmerFinder.py kcribap/kcri/bap/shims/
 RUN cd kcribap && python3 setup.py install
 
 # Drop down to the original user and workdir

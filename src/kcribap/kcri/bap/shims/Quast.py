@@ -19,8 +19,6 @@ MAX_MEM = 12
 MAX_SPC = 1
 MAX_TIM = 20 * 60
 
-# Need to report this in stats: minimum contig length for Quast metrics
-MIN_CONTIG = 500
 
 class QuastShim:
     '''Service shim that executes the backend.'''
@@ -32,23 +30,27 @@ class QuastShim:
 
          # Get the execution parameters from the blackboard
         MAX_CPU = scheduler.max_cpu
-        min_ctg = execution.get_user_input('qc_t', MIN_CONTIG)
         try:
             # Set up Quast parameters (note there are many more)
             params = [
-                '--min-contig', min_ctg,
                 '--output-dir', '.',
                 '--threads', MAX_CPU,
-                '--fast',
-                '--silent',
+                '--no-sv',
+#                '--fast',
+#                '--silent',
 #                '--gene-finding',
 #                '--circos'
             ]
 
+            # Append the min-contig threshold for analysis
+            min_contig = execution.get_user_input('qc_t')
+            if min_contig:
+                params.extend(['--min-contig', min_contig])
+
             # Append the reference if we have it
-            refs = execution.get_ref_genome_paths([])
-            if refs:
-                params.extend(['-r', refs[0]])
+            ref = execution.get_reference_path()
+            if ref:
+                params.extend(['-r', os.path.abspath(ref)])
 
             # Append reads if we have them
             fastqs = execution.get_fastq_paths(list())
@@ -99,9 +101,11 @@ class QuastShim:
 
 translate = dict({
     'Assembly'                  : 'sample',
-    '# contigs'                 : 'n_contigs',
-    'Largest contig'            : 'max_ctg_len',
-    'Total length'              : 'total_len',
+    '# contigs'                 : 'num_ctg',
+    'Largest contig'            : 'max_ctg',
+    'Total length'              : 'tot_len',
+    'Reference length'          : 'ref_len',
+    'Reference GC (%)'          : 'ref_pct_gc',
     '# contigs (>= 0 bp)'       : 'ctg_min_0k',
     '# contigs (>= 1000 bp)'    : 'ctg_min_1k',
     '# contigs (>= 5000 bp)'    : 'ctg_min_5k',
@@ -116,10 +120,37 @@ translate = dict({
     'Total length (>= 50000 bp)': 'len_min_50k',
     'GC (%)'                    : 'pct_gc',
     'N50'                       : 'n50',
+    'NG50'                      : 'ng50',
     'N75'                       : 'n75',
+    'NG75'                      : 'ng75',
     'L50'                       : 'l50',
+    'LG50'                      : 'lg50',
     'L75'                       : 'l75',
-    '# N\'s per 100 kbp'        : 'n_per_100k',
+    'LG75'                      : 'lg75',
+    '# misassemblies'           : 'num_mis_asm',
+    '# misassembled contigs'    : 'ctg_mis_asm',
+    'Misassembled contigs length': 'len_mis_asm',
+    '# local misassemblies'     : 'lcl_mis_asm',
+    '# scaffold gap ext. mis.'  : 'gap_ext_mis',
+    '# scaffold gap loc. mis.'  : 'gap_loc_mis',
+    '# unaligned mis. contigs'  : 'ctg_unal_mis',
+    '# unaligned contigs'       : 'ctg_unal',
+    'Unaligned length'          : 'len_unal',
+    'Genome fraction (%)'       : 'pct_cov',
+    'Duplication ratio'         : 'dup_rat',
+    '# N\'s per 100 kbp'        : 'nbase_p_100k',
+    '# mismatches per 100 kbp'  : 'mismt_p_100k',
+    '# indels per 100 kbp'      : 'indel_p_100k',
+    'Largest alignment'         : 'max_aln',
+    'Total aligned length'      : 'tot_aln',
+    'NA50'                      : 'na50',
+    'NGA50'                     : 'nga50',
+    'NA75'                      : 'na75',
+    'NGA75'                     : 'nga75',
+    'LA50'                      : 'la50',
+    'LGA50'                     : 'lga50',
+    'LA75'                      : 'la75',
+    'LGA75'                     : 'lga75',
     })
 
 # Single execution of the service
@@ -146,6 +177,7 @@ class QuastExecution(BAPServiceExecution):
                     metrics[translate.get(row[0], row[0])] = row[1]
 
             self.store_results({
+                'contig_threshold': self.get_user_input('qc_t'),
                 'metrics': metrics,
                 'html_report': job.file_path('report.html')})
             
