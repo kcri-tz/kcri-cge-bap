@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 #
-# kcri.bap.shims.ResFinder - service shim to the ResFinder backend
+# kcri.bap.shims.PointFinder - service shim to the PointFinder backend
 #
 
 import os, json, logging
-from cge.flow.workflow.executor import Execution
-from cge.flow.jobcontrol.job import JobSpec, Job
-from kcri.bap.shims.base import BAPServiceExecution, UserException
+from pico.workflow.executor import Execution
+from pico.jobcontrol.job import JobSpec, Job
+from .base import BAPServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
-# Our service name and current backend version
-SERVICE, VERSION = "ResFinder", BACKEND_VERSIONS['resfinder']
+# Our service name and current backend version (note: is resfinder)
+SERVICE, VERSION = "PointFinder", BACKEND_VERSIONS['resfinder']
 
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
@@ -19,24 +19,28 @@ MAX_SPC = 1
 MAX_TIM = 10 * 60
 
 
-class ResFinderShim:
+class PointFinderShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Execution.'''
 
-        execution = ResFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = PointFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
          # Get the execution parameters from the blackboard
         try:
-            db_path = execution.get_db_path('resfinder')
+            db_path = execution.get_db_path('pointfinder')
             db_cfg = self.parse_config(os.path.join(db_path, 'config'))
+            species = execution.get_species()  # exception when none
+            if len(species) > 1:
+                execution.add_warning('only first species is analysed, ignoring %d species' % len(species) - 1)
             params = [
-                '--acquired',
-                '-db_res', db_path,
-                '-t', execution.get_user_input('rf_i'),
-                '-l', execution.get_user_input('rf_c'),
-                '-ao', execution.get_user_input('rf_o'),
+                '--point',
+                '-db_point', db_path,
+                '-db_res', execution.get_db_path('resfinder'), # required for AB classes, not found?
+                '-t_p', execution.get_user_input('pt_i'),
+                '-l_p', execution.get_user_input('pt_c'),
+                '-s', species[0],
                 '-o', '.' ]
 
             # Append files, backend has different args for fq and fa
@@ -46,15 +50,18 @@ class ResFinderShim:
             if not fq_files:
                 params.extend(['-ifa', execution.get_contigs_path()])
 
-            # Parse list of user specified phenotypes and check with DB
-            for p in filter(None, execution.get_user_input('rf_p',"").split(',')):
-                if p not in db_cfg:
-                    raise UserException("phenotype '%s' not in database, known are: %s", g, ', '.join(db_cfg.keys()))
-                params.extend(['-d', p])
+            # Parse list of user specified genes and check with DB
+            for g in filter(None, execution.get_user_input('pt_g',"").split(',')):
+                if g not in db_cfg:
+                    raise UserException("gene '%s' not in database, known are: %s", g, ', '.join(db_cfg.keys()))
+                params.extend(['-g', g])
+
+            if execution.get_user_input('pt_a'):
+                params.append('--unknown_mut')
 
             job_spec = JobSpec('run_resfinder.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
-            execution.start(job_spec, 'ResFinder')
+            execution.start(job_spec, 'PointFinder')
 
         # Failing inputs will throw UserException
         except UserException as e:
@@ -86,14 +93,14 @@ class ResFinderShim:
         return ret
 
 
-class ResFinderExecution(BAPServiceExecution):
+class PointFinderExecution(BAPServiceExecution):
     '''A single execution of the service, returned by the shim's execute().'''
 
     _job = None
 
     def start(self, job_spec, work_dir):
         if self.state == Execution.State.STARTED:
-            self._job = self._scheduler.schedule_job('resfinder', job_spec, work_dir)
+            self._job = self._scheduler.schedule_job('pointfinder', job_spec, work_dir)
 
     # Parse the output produced by the backend service, return list of hits
     def collect_output(self, job):
@@ -131,9 +138,9 @@ class ResFinderExecution(BAPServiceExecution):
             else:
                 res_out[k] = v
 
-        # Store the genes, classes and phenetypes in the summary
-        for g in res_out.get('genes', []):
-            self._blackboard.add_amr_gene(g.get('name','unknown'))
+        # Store the mutations, classes, and phenotypes in the summary
+        for m in res_out.get('seq_variations', []):
+            self._blackboard.add_amr_mutation('%s:%s' % (m.get('genes',['?'])[0], m.get('seq_var','?')))
         for p in filter(lambda d: d.get('resistant', False), res_out.get('phenotypes', [])):
             self._blackboard.add_amr_classes(p.get('classes',[]))
             self._blackboard.add_amr_phenotype(p.get('resistance',p.get('key','unknown')))

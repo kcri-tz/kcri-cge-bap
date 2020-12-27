@@ -6,9 +6,9 @@
 #   almost identically.  The PlasVirBaseExecution class herein captures this.
 
 import os, json, tempfile
-from cge.flow.workflow.executor import Execution
-from cge.flow.jobcontrol.job import JobSpec, Job
-from kcri.bap.shims.base import BAPServiceExecution, UserException
+from pico.workflow.executor import Execution
+from pico.jobcontrol.job import JobSpec, Job
+from .base import BAPServiceExecution, UserException
 
 # Backend resource parameters: cpu, memory, disk, run time
 MAX_CPU = 1

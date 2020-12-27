@@ -4,9 +4,9 @@
 #
 
 import os, json, logging, tempfile
-from cge.flow.workflow.executor import Execution
-from cge.flow.jobcontrol.job import JobSpec, Job
-from kcri.bap.shims.base import BAPServiceExecution, UserException
+from pico.workflow.executor import Execution
+from pico.jobcontrol.job import JobSpec, Job
+from .base import BAPServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version

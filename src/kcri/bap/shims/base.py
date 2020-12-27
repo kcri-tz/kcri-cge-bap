@@ -7,9 +7,9 @@
 
 import os
 from datetime import datetime
-from cge.flow.workflow.executor import Execution
-from cge.flow.jobcontrol.job import Job
-from kcri.bap.data import SeqPlatform, SeqPairing
+from pico.workflow.executor import Execution
+from pico.jobcontrol.job import Job
+from ..data import SeqPlatform, SeqPairing
 
 
 ### class UserException

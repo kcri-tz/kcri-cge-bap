@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
+#
+# BAP.py - main for the KCRI CGE Bacterial Analysis Pipeline
+#
 
 import sys, os, argparse, gzip, json, re, textwrap
-from cge.flow.workflow.logic import Workflow
-from cge.flow.workflow.executor import Executor
-from cge.flow.jobcontrol.subproc import SubprocessScheduler
+from pico.workflow.logic import Workflow
+from pico.workflow.executor import Executor
+from pico.jobcontrol.subproc import SubprocessScheduler
 from .data import BAPBlackboard, SeqPlatform, SeqPairing
 from .services import SERVICES as BAP_SERVICES
 from .workflow import DEPENDENCIES as BAP_DEPENDENCIES
@@ -67,10 +70,10 @@ def main():
     group.add_argument('-r', '--reference',metavar='FASTA', help="path to a reference genome")
     group.add_argument('-p', '--plasmids', metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
     group.add_argument('-i', '--id',       metavar='ID', help="identifier to use for the isolate in reports")
-    group.add_argument('-o', '--out-dir',  metavar='PATH', default='.', help="directory to write output to, will be created (must be relative to PWD when dockerised)")
+    group.add_argument('-o', '--out-dir',  metavar='PATH', default='.', help="directory to write output to, will be created (relative to PWD when dockerised)")
     group.add_argument('--list-targets',   action='store_true', help="list the available targets")
     group.add_argument('--list-services',  action='store_true', help="list the available services")
-    group.add_argument('-d', '--db-root',  metavar='PATH', default='/databases', help="base path to service databases (leave at default when dockerised)")
+    group.add_argument('-d', '--db-root',  metavar='PATH', default='/databases', help="base path to service databases (leave default when dockerised)")
     group.add_argument('-v', '--verbose',  action='store_true', help="write verbose output to stderr")
     group.add_argument('files', metavar='FILE', nargs='*', default=[], help="input file(s) in optionally gzipped FASTA or fastq format")
 

@@ -35,8 +35,11 @@ WORKDIR /usr/src/cge
 #COPY src/kcribap/kcri/bap/BAP.py kcribap/kcri/bap/
 #COPY src/kcribap/kcri/bap/workflow.py kcribap/kcri/bap/
 #COPY src/kcribap/kcri/bap/shims/CholeraeFinder.py kcribap/kcri/bap/shims/
-COPY src/kcribap/kcri/bap/shims/KmerFinder.py kcribap/kcri/bap/shims/
-RUN cd kcribap && python3 setup.py install
+COPY src/kcribap/kcri/bap/shims/base.py kcribap/kcri/bap/shims/
+COPY src/kcribap/kcri/bap/shims/Quast.py kcribap/kcri/bap/shims/
+COPY src/kcribap/kcri/bap/shims/SKESA.py kcribap/kcri/bap/shims/
+#COPY src ./
+#RUN python3 setup.py install
 
 # Drop down to the original user and workdir
 USER nobody:nogroup

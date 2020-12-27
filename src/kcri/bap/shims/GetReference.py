@@ -4,9 +4,9 @@
 #
 
 import os, logging
-from cge.flow.workflow.executor import Execution
-from cge.flow.jobcontrol.job import JobSpec, Job
-from kcri.bap.shims.base import BAPServiceExecution, UserException
+from pico.workflow.executor import Execution
+from pico.jobcontrol.job import JobSpec, Job
+from .base import BAPServiceExecution, UserException
 from .KmerFinder import find_db as find_kmer_db
 from .versions import BACKEND_VERSIONS
 

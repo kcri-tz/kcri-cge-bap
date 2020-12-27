@@ -1,34 +1,34 @@
 #!/usr/bin/env python3
 #
-# cge.flow.bap.workflow - Defines the BAP workflow logic.
+# kcri.bap.workflow - Defines the BAP workflow logic.
 #
 #   This module defines the DEPENDENCIES dict that captures the workflow logic
 #   of the current version of the BAP.  It defines this in term of the primitives
-#   offered by the cge.flow.workflow.logic module.
+#   offered by the pico.workflow.logic module in package picoline.
 #
 #   The workflow defined herein can be 'dry tested' by running the module from
 #   the command line:
 #
-#       # In directory src two levels up
-#       PYTHONPATH=cgeflow:kcribap python3 -m kcri.bap.workflow --help
+#       # Depends on picoline, which depends on psutil, so either install
+#       # those, or point the PYTHONPATH there, before running this:
+#       python3 -m kcri.bap.workflow --help
 #
-#   The sibling module bap.services defines the mapping from the Services enum
-#   defined below to the shims that wrap the actual backends.  The sibling module
-#   bap.blackboard defines the "blackboard" that gets passed between the services
-#   for collecting and exchanging data.
+#   Sibling module .services defines the mapping from the Services enum defined
+#   below to the shims that wrap the actual backends.  The sibling module .data
+#   defines the BAP-specific "blackboard" that gets passed between the services.
 #
 
-import cge.flow.workflow.logic
-from cge.flow.workflow.logic import ALL, ONE, OPT, OIF, SEQ
+import pico.workflow.logic
+from pico.workflow.logic import ALL, ONE, OPT, OIF, SEQ
 
 
 ### Target definitions
 #
 #   Define the Params.*, Checkpoints.*, Services.*, and UserTargets.* constants
 #   for the BAP.  The classes are subclassed from their synonymous counterparts
-#   in the cge.flow.workflow.logic module.
+#   in the pico.workflow.logic module.
 
-class Params(cge.flow.workflow.logic.Params):
+class Params(pico.workflow.logic.Params):
     '''Flags to signal to the Workflow that some input parameter was provided.'''
     READS = 'reads'         # Signals that user has provided fastq files
     CONTIGS = 'contigs'     # Signals that user has provided contigs
@@ -37,7 +37,7 @@ class Params(cge.flow.workflow.logic.Params):
     REFERENCE = 'reference' # Signals that user has specified a reference genome
     ILLUMINA = 'illumina'   # Signals that fastqs are Illumina reads
 
-class Checkpoints(cge.flow.workflow.logic.Checkpoints):
+class Checkpoints(pico.workflow.logic.Checkpoints):
     '''Internal targets for other targets to depend on.  Useful when a service
        takes an input that could come either from user or as a service output.'''
     CONTIGS = 'contigs'     # Contigs are available either as inputs or from assembly
@@ -45,7 +45,7 @@ class Checkpoints(cge.flow.workflow.logic.Checkpoints):
     PLASMIDS = 'plasmids'   # Plasmids are known, either from user input or a service
     REFERENCE = 'reference' # Reference is known, either from user input or a service
 
-class Services(cge.flow.workflow.logic.Services):
+class Services(pico.workflow.logic.Services):
     '''Enum that identifies the available services.  Each corresponds to a shim
        (defined in SERVICES below) that performs the input and output wrangling
        and invokes the actual backend.'''
@@ -66,7 +66,7 @@ class Services(cge.flow.workflow.logic.Services):
     CHOLERAEFINDER = 'CholeraeFinder'
     PROKKA = 'PROKKA'
 
-class UserTargets(cge.flow.workflow.logic.UserTargets):
+class UserTargets(pico.workflow.logic.UserTargets):
     '''Enum defining the targets that the user can request.'''
     METRICS = 'metrics'
     ASSEMBLY = 'assembly'
@@ -157,7 +157,7 @@ for t in [ Checkpoints, Services, UserTargets ]:
 if __name__ == '__main__':
 
     import sys, argparse, functools, operator
-    from cge.flow.workflow.logic import Workflow
+    from pico.workflow.logic import Workflow
 
     def UserTargetOrService(s):
         '''Translate string to either a UserTarget or Service, throw if neither'''

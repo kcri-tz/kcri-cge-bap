@@ -3,12 +3,12 @@
 # kcri.bap.services - Defines the services used by the BAP workflow
 #
 #   This module defines the SERVICES dict that maps each Service.* enum
-#   defined in kcri.bap.workflow to a class (called a 'shim') that
-#   implements the service.
+#   defined in .workflow to a class (called a 'shim') that implements
+#   the service.
 #
 
-# Import the BAP Services enum
-from kcri.bap.workflow import Services
+# Import the Services enum
+from .workflow import Services
 
 # Import the shim classes that implement each service
 from .shims.CholeraeFinder import CholeraeFinderShim

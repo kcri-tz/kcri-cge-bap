@@ -130,6 +130,11 @@ RUN cd ext/odds-and-ends && \
     mv kma-retrieve /usr/local/bin/ && \
     cd .. && rm -rf odds-and-ends
 
+# Install the picoline module
+RUN cd ext/picoline && \
+    python3 setup.py install && \
+    cd .. && rm -rf picoline
+
 # Install the cgecore module
 RUN cd ext/cge_core_module && \
     python3 setup.py install && \
@@ -172,13 +177,8 @@ ENV PATH $PATH""\
 # Copy contents of src into /usr/src/cge
 COPY src ./
 
-# Install the CGE Flow generic workflow code
-RUN cd cgeflow && \
-    python3 setup.py install
-
 # Install the KCRI BAP specific code
-RUN cd kcribap && \
-    python3 setup.py install
+RUN python3 setup.py install
 
 
 # Set up user and workdir

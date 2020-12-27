@@ -2,15 +2,12 @@
 #
 # kcri.bap.data
 #
-#   Defines the structure of the data produced by the BAP and its services, by
-#   implementing class BAPBlackboard which adds a semantic layer over the generic
-#   Blackboard.  This layer implements getters and putters that all services can
-#   rely on (rather than just grabbing 'untyped' data from a bag).
+#   Defines the data structures that are shared across the BAP services.
 #
 
 import os, enum
 from datetime import datetime
-from cge.flow.workflow.blackboard import Blackboard
+from pico.workflow.blackboard import Blackboard
 
 
 ### Enums
@@ -29,8 +26,9 @@ class SeqPairing(enum.Enum):
 
 ### BAPBlackboard class
 #
-#   Wraps the generic Blackboard with an API that adds getters and putters for data
-#   that is well-defined and needs to be exchanged between service implementations.
+#   Wraps the generic Blackboard with an API that adds getters and putters for
+#   data shared between BAP services, so they're not randomly grabbing around
+#   in bags of untyped data.
 
 class BAPBlackboard(Blackboard):
     '''Adds to the generic Blackboard getters and putters specific to the shared

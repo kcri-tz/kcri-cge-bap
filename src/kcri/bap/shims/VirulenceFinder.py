@@ -6,7 +6,7 @@
 #   This is captured in the shared PlasVirBaseExecution class.
 
 import logging
-from kcri.bap.shims.base import UserException
+from .base import UserException
 from .PlasVirBase import PlasVirBaseExecution
 from .versions import BACKEND_VERSIONS
 
