@@ -18,7 +18,7 @@ FROM continuumio/miniconda3:4.9.2
 
 # Debian packages
 # - gcc and libz-dev for kma
-# - g++ and libboost-iostreams for kcst
+# - g++ and gawk and libboost-iostreams for kcst
 # - g++ and the libboost packages for SKESA
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -53,9 +53,7 @@ RUN echo "unset HISTFILE" >>/etc/bash.bashrc && \
 # - Our jobcontrol module requires psutil
 # - Biopython and tabulate are used by all CGE services
 # - ResFinder requires python-dateutil and gitpython
-# - Quast requires joblib and simplejson (plus a patch, see below)
-# - Quast PDF output would require matplotlib, and for SV detection
-#   gridss and Java; however we currently do not use these.
+# - @TODO@ REMOVE joblib and simplejson (were for Quast)
 # - cgMLST requires ete3 in its make_nj_tree.py, which we don't use,
 #   and spuriously in cgMLST.py, where we comment it out (see patch).
 
@@ -104,14 +102,6 @@ RUN cd ext/skesa && \
     make clean && make -f Makefile.nongs && \
     mv skesa /usr/local/bin/ && \
     cd .. && rm -rf skesa
-
-# Install quast (and patch deprecated Python 3.7 dependency)
-RUN cd ext/quast && \
-    python3 setup.py install && \
-    cd .. && rm -rf quast && \
-    cd '/opt/conda/lib/python3.8/site-packages/quast-5.0.2-py3.8.egg' && \
-    sed -i -Ee 's@^import cgi@import html@;s@cgi.escape@html.escape@' \
-        'quast_libs/site_packages/jsontemplate/jsontemplate.py'
 
 # Make and install kcst
 RUN cd ext/kcst/src && \

@@ -32,14 +32,14 @@ WORKDIR /usr/src/cge
 #RUN cd src/cgeflow && python3 setup.py install
 
 # KCRI BAP package
-#COPY src/kcribap/kcri/bap/BAP.py kcribap/kcri/bap/
-#COPY src/kcribap/kcri/bap/workflow.py kcribap/kcri/bap/
-#COPY src/kcribap/kcri/bap/shims/CholeraeFinder.py kcribap/kcri/bap/shims/
-COPY src/kcribap/kcri/bap/shims/base.py kcribap/kcri/bap/shims/
-COPY src/kcribap/kcri/bap/shims/Quast.py kcribap/kcri/bap/shims/
-COPY src/kcribap/kcri/bap/shims/SKESA.py kcribap/kcri/bap/shims/
+COPY src/kcri/bap/BAP.py kcri/bap/
+#COPY src/kcri/bap/services.py kcri/bap/
+#COPY src/kcri/bap/shims/CholeraeFinder.py kcri/bap/shims/
+#COPY src/kcri/bap/shims/base.py kcri/bap/shims/
+COPY src/kcri/bap/shims/KCST.py kcri/bap/shims/
+#COPY src/kcri/bap/shims/SKESA.py kcri/bap/shims/
 #COPY src ./
-#RUN python3 setup.py install
+RUN python3 setup.py install
 
 # Drop down to the original user and workdir
 USER nobody:nogroup

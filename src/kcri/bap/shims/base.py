@@ -9,7 +9,6 @@ import os
 from datetime import datetime
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import Job
-from ..data import SeqPlatform, SeqPairing
 
 
 ### class UserException
@@ -141,22 +140,6 @@ class BAPServiceExecution(Execution):
         if ret is None:
             raise UserException("no fastq files were provided")
         return ret
-
-    def is_seq_platform(self, platform):
-        '''Return True if the SeqPlatform is value platform, False if not.
-           Fails if the platform is unknown (including when no reads there).'''
-        p = self._blackboard.get_seq_platform()
-        if p is None:
-            raise UserException("no sequencing platform was specified")
-        return SeqPlatform(p) == platform
-
-    def is_seq_pairing(self, pairing):
-        '''Return True if the SeqPairing is value pairing, False if not.
-           Fails if the pairing is unknown (including when no reads there).'''
-        p = self._blackboard.get_seq_pairing()
-        if p is None:
-            raise UserException("no read pairing was specified")
-        return SeqPairing(p) == pairing
 
     def get_user_contigs_path(self, default=None):
         '''Return the path to the user provided contigs, or fail if no default.'''

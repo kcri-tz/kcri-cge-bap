@@ -10,7 +10,6 @@ __all__ = [
     'PlasVirBase',
     'pMLST',
     'PointFinder',
-    'Quast',
     'ResFinder',
     'SKESA',
     'versions',

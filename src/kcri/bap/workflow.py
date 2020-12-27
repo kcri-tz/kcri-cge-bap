@@ -34,7 +34,6 @@ class Params(pico.workflow.logic.Params):
     CONTIGS = 'contigs'     # Signals that user has provided contigs
     SPECIES = 'species'     # Signals that user has specified the species
     PLASMIDS = 'plasmids'   # Signals that user has specified the plasmids
-    REFERENCE = 'reference' # Signals that user has specified a reference genome
     ILLUMINA = 'illumina'   # Signals that fastqs are Illumina reads
 
 class Checkpoints(pico.workflow.logic.Checkpoints):
@@ -43,16 +42,14 @@ class Checkpoints(pico.workflow.logic.Checkpoints):
     CONTIGS = 'contigs'     # Contigs are available either as inputs or from assembly
     SPECIES = 'species'     # Species is known, either from user input or a service
     PLASMIDS = 'plasmids'   # Plasmids are known, either from user input or a service
-    REFERENCE = 'reference' # Reference is known, either from user input or a service
 
 class Services(pico.workflow.logic.Services):
     '''Enum that identifies the available services.  Each corresponds to a shim
        (defined in SERVICES below) that performs the input and output wrangling
        and invokes the actual backend.'''
+    CONTIGSMETRICS = 'ContigsMetrics'
     READSMETRICS = 'ReadsMetrics'
-    QUAST = 'Quast'
     SKESA = 'SKESA'
-    SPADES = 'SPAdes'
     MLSTFINDER = 'MLSTFinder'
     KCST = 'KCST'
     KMERFINDER = 'KmerFinder'
@@ -64,12 +61,10 @@ class Services(pico.workflow.logic.Services):
     PMLSTFINDER = 'pMLSTFinder'
     CGMLSTFINDER = 'cgMLSTFinder'
     CHOLERAEFINDER = 'CholeraeFinder'
-    PROKKA = 'PROKKA'
 
 class UserTargets(pico.workflow.logic.UserTargets):
     '''Enum defining the targets that the user can request.'''
     METRICS = 'metrics'
-    ASSEMBLY = 'assembly'
     SPECIES = 'species'
     REFERENCE = 'reference'
     MLST = 'mlst'
@@ -79,7 +74,6 @@ class UserTargets(pico.workflow.logic.UserTargets):
     PMLST = 'pmlst'
     CGMLST = 'cgmlst'
     SPECIALISED = 'specialised'
-    ANNOTATION = 'annotation'
     DEFAULT = 'DEFAULT'
     FULL = 'FULL'
 
@@ -92,10 +86,9 @@ class UserTargets(pico.workflow.logic.UserTargets):
 
 DEPENDENCIES = {
     
-    UserTargets.METRICS:        ALL( OPT( Services.QUAST ), OPT( Services.READSMETRICS ) ),
-    UserTargets.ASSEMBLY:       ONE( Services.SKESA, Services.SPADES ),
+    UserTargets.METRICS:        ALL( OPT( Services.CONTIGSMETRICS ), OPT( Services.READSMETRICS ) ),
     UserTargets.SPECIES:        Checkpoints.SPECIES,
-    UserTargets.REFERENCE:      Checkpoints.REFERENCE,
+    UserTargets.REFERENCE:      Services.GETREFERENCE,
     UserTargets.MLST:           ONE( Services.MLSTFINDER, Services.KCST ),
     UserTargets.RESISTANCE:     ALL( OPT( Services.RESFINDER ), OPT( Services.POINTFINDER ) ),
     UserTargets.VIRULENCE:      Services.VIRULENCEFINDER,
@@ -103,19 +96,17 @@ DEPENDENCIES = {
     UserTargets.PMLST:	        SEQ( Checkpoints.PLASMIDS, Services.PMLSTFINDER ),
     UserTargets.CGMLST:         Services.CGMLSTFINDER,
     UserTargets.SPECIALISED:    OPT( Services.CHOLERAEFINDER ),
-    UserTargets.ANNOTATION:     Services.PROKKA,
     # The DEFAULT target depends on a list of standard targets.
     # All are optional so the pipeline runs till the end even if one fails.
     UserTargets.DEFAULT:        ALL( OPT(UserTargets.METRICS), OPT(UserTargets.SPECIES),
                                      OPT(UserTargets.MLST), OPT(UserTargets.RESISTANCE),
                                      OPT(UserTargets.VIRULENCE), OPT(UserTargets.PLASMIDS) ),
-    UserTargets.FULL:           ALL( UserTargets.DEFAULT, OPT(UserTargets.ASSEMBLY), 
+    UserTargets.FULL:           ALL( UserTargets.DEFAULT, OPT(Checkpoints.CONTIGS),
                                      OPT(UserTargets.CGMLST), OPT(UserTargets.SPECIALISED) ),
 
+    Services.CONTIGSMETRICS:    OIF( Checkpoints.CONTIGS ),
     Services.READSMETRICS:      OIF( Params.READS ),
-    Services.QUAST:             ALL( OIF( Checkpoints.CONTIGS ), OPT( Checkpoints.REFERENCE ) ),
     Services.SKESA:             ALL( Params.ILLUMINA, Params.READS ),
-    Services.SPADES:            ONE( Params.READS, ALL( Params.READS, Params.CONTIGS ) ),
     Services.KMERFINDER:        ONE( Params.READS, Checkpoints.CONTIGS ),
     Services.GETREFERENCE:      Services.KMERFINDER,  # Later: also work if species given and no KmerFinder
     Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
@@ -127,11 +118,9 @@ DEPENDENCIES = {
     Services.PMLSTFINDER:       ALL( Checkpoints.PLASMIDS, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.CGMLSTFINDER:      ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.CHOLERAEFINDER:    ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
-    Services.PROKKA:            ALL( Checkpoints.SPECIES, Checkpoints.CONTIGS, Checkpoints.REFERENCE ),
 
-    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA, Services.SPADES ),
+    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA ),
     Checkpoints.SPECIES:        ONE( Params.SPECIES, Services.KMERFINDER, Services.KCST ),
-    Checkpoints.REFERENCE:      ONE( Params.REFERENCE, Services.GETREFERENCE ),
     Checkpoints.PLASMIDS:       ONE( Params.PLASMIDS, Services.PLASMIDFINDER ),
 }    
 

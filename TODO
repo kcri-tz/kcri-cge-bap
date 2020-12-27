@@ -1,19 +1,17 @@
 TODO
 
-3.0.2
-- Add spaTyper & SCCmecFinder
 3.0.3
-- Quast with reference from KmerFinder?
-- ResFinder link pheno to genes and seqvars (see TODO)
-- Check ResFinder test runs and output
-- Add KmerResistance
+- Factor out workflow control
+- Remove Quast (goes to KCRI QAP)
+3.0.4
+- Reads Metrics (basic)
+- Contigs Metrics (basic)
 LATER
+- Add spaTyper & SCCmecFinder
+- ResFinder link pheno to genes and seqvars (see TODO)
+- Add KmerResistance
 - Add SPIFinder
 - Add FimTyper, CHTyper, PAst
-- Read Metrics
-- Add Trimmomatic (needed for SpaDES)
-- Add SpaDES/Unicycler
 - Conda variant
-- Add PROKKA?
 - HTCondor backend
 

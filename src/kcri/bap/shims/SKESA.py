@@ -6,7 +6,6 @@
 import os, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from ..data import SeqPlatform, SeqPairing
 from .base import BAPServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
@@ -35,8 +34,8 @@ class SKESAShim:
         MAX_CPU = scheduler.max_cpu
         MAX_MEM = int(scheduler.max_mem)
         try:
-            if not execution.is_seq_platform(SeqPlatform.ILLUMINA):
-                raise UserException("SKESA requires Illumina reads (seq_platform parameter)")
+            if len(execution.get_fastq_paths()) != 2:
+                raise UserException("SKESA backend only handles paired-end reads")
 
             params = [
                 '--cores', MAX_CPU,
@@ -44,8 +43,6 @@ class SKESAShim:
                 '--reads', ','.join(execution.get_fastq_paths()),
                 '--contigs_out', CONTIGS_OUT
             ]
-            if execution.is_seq_pairing(SeqPairing.PAIRED) and len(execution.get_fastq_paths()) == 1:
-                params.append('--use_paired_end')
 
             job_spec = JobSpec('skesa', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())

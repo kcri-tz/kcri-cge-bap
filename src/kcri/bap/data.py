@@ -10,20 +10,6 @@ from datetime import datetime
 from pico.workflow.blackboard import Blackboard
 
 
-### Enums
-#
-#   Define enums for supported sequencing platform, read pairing.
-
-class SeqPlatform(enum.Enum):
-    ILLUMINA = 'Illumina'
-    NANOPORE = 'Nanopore'
-    PACBIO = 'PacBio'
-
-class SeqPairing(enum.Enum):
-    PAIRED = 'paired'
-    UNPAIRED = 'unpaired'
-    MATE_PAIRED = 'mate-paired'
-
 ### BAPBlackboard class
 #
 #   Wraps the generic Blackboard with an API that adds getters and putters for
@@ -86,28 +72,6 @@ class BAPBlackboard(Blackboard):
     def get_sample_id(self):
         return self.get('bap/summary/sample_id', 'unknown')
 
-    # Sequencing specs
-
-    def put_seq_platform(self, platform):
-        '''Stores the sequencing platform as its own (pseudo) user input.'''
-        assert isinstance(platform, SeqPlatform)
-        self.put_user_input('seq_platform', platform.value)
-
-    def get_seq_platform(self, default=None):
-        '''Returns the stored platform as SeqPlatform enum value.'''
-        s = self.get_user_input('seq_platform')
-        return SeqPlatform(s) if s else default
-
-    def put_seq_pairing(self, pairing):
-        '''Stores the sequencing pairing as its own (pseudo) user input.'''
-        assert isinstance(pairing, SeqPairing)
-        self.put_user_input('seq_pairing', pairing.value)
-
-    def get_seq_pairing(self, default=None):
-        '''Returns the stored pairing as SeqPairing enum value.'''
-        s = self.get_user_input('seq_pairing')
-        return SeqPairing(s) if s else default
-
     # Contigs and reads
 
     def put_fastq_paths(self, paths):
@@ -147,13 +111,6 @@ class BAPBlackboard(Blackboard):
         return self.get('bap/summary/species', default)
 
     # Reference
-
-    def put_user_reference_path(self, path):
-        '''Stores the path to the user provided reference genome.'''
-        self.put_user_input('reference', path)
-
-    def get_user_reference_path(self, default=None):
-        return self.get_user_input('reference', default)
 
     def put_closest_reference(self, acc, desc):
         '''Stores the accession and description of closest reference.'''

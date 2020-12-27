@@ -3,11 +3,11 @@
 # BAP.py - main for the KCRI CGE Bacterial Analysis Pipeline
 #
 
-import sys, os, argparse, gzip, json, re, textwrap
+import sys, os, argparse, gzip, io, json, re, textwrap
 from pico.workflow.logic import Workflow
 from pico.workflow.executor import Executor
 from pico.jobcontrol.subproc import SubprocessScheduler
-from .data import BAPBlackboard, SeqPlatform, SeqPairing
+from .data import BAPBlackboard
 from .services import SERVICES as BAP_SERVICES
 from .workflow import DEPENDENCIES as BAP_DEPENDENCIES
 from .workflow import UserTargets, Services, Params
@@ -30,6 +30,14 @@ def detect_filetype(fname):
         c = chr(b[0]) if len(b) > 0 else '\x00'
     return 'fasta' if c == '>' else 'fastq' if c == '@' else 'other'
 
+# Helper to detect whether fastq file has Illumina reads
+def is_illumina_reads(fname):
+    pat = re.compile(r'^@[^:]+:\d+:[^:]+:\d+:\d+:\d+:\d+ [12]:[YN]:\d+:[^:]+$')
+    with open(fname, 'rb') as f:
+        b = f.peek(2)
+        buf = io.TextIOWrapper(gzip.GzipFile(fileobj=f) if b[:2] == b'\x1f\x8b' else f)
+        return re.match(pat, buf.readline())
+
 # Helper to parse string ts which may be UserTarget or Service
 def UserTargetOrService(s):
     try: return UserTargets(s)
@@ -47,8 +55,8 @@ def main():
 
             The analyses to be performed are specified using the -t/--targets option.
             The default target performs species detection, MLST, resistance, virulence,
-            and plasmid typing (but no assembly, cgMLST, or specialised services).
-            The FULL target runs every available service.
+            and plasmid typing (but no cgMLST, or specialised services).  The FULL
+            target runs all available services.
 
             Use -l/--list-targets to see the available targets.  Use -t/--targets to
             specify a custom set of targets, or combine with -x/--exclude to exclude
@@ -67,7 +75,6 @@ def main():
     group.add_argument('-t', '--targets',  metavar='TARGET[,...]', default='DEFAULT', help="analyses to perform [DEFAULT]")
     group.add_argument('-x', '--exclude',  metavar='TARGET_OR_SERVICE[,...]', help="targets and/or services to exclude from running")
     group.add_argument('-s', '--species',  metavar='NAME[,...]', help="scientific name(s) of the bacterial species, if known")
-    group.add_argument('-r', '--reference',metavar='FASTA', help="path to a reference genome")
     group.add_argument('-p', '--plasmids', metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
     group.add_argument('-i', '--id',       metavar='ID', help="identifier to use for the isolate in reports")
     group.add_argument('-o', '--out-dir',  metavar='PATH', default='.', help="directory to write output to, will be created (relative to PWD when dockerised)")
@@ -86,11 +93,6 @@ def main():
     group.add_argument('--poll', metavar='SEC', type=int, default=5, help="seconds between backend polls [5]")
 
     # Service specific arguments
-    group = parser.add_argument_group('Sequencing specs')
-    group.add_argument('--sq-p', metavar='PLATFORM', help='Sequencing platform (%s; default %s)' % (','.join(v.value for v in SeqPlatform), SeqPlatform.ILLUMINA.value))
-    group.add_argument('--sq-r', metavar='PAIRING', help='Pairing of reads (%s; default: %s when two fastqs are passed, unpaired when one)' % (', '.join(v.value for v in SeqPairing), SeqPairing.PAIRED.value))
-    group = parser.add_argument_group('Assembly parameters')
-    group.add_argument('--as-t', metavar='TRIM', default='auto', help="Trim reads (values: yes, no, auto; default: auto)")
     group = parser.add_argument_group('KmerFinder parameters')
     group.add_argument('--kf-s', metavar='SEARCH', default='bacteria', help="KmerFinder database to search [bacteria]")
     group = parser.add_argument_group('MLSTFinder parameters')
@@ -124,8 +126,6 @@ def main():
     group.add_argument('--ch-i', metavar='FRAC', default=0.90, help='CholeraeFinder identity threshold')
     group.add_argument('--ch-c', metavar='FRAC', default=0.60, help='CholeraeFinder minimum coverage')
     group.add_argument('--ch-o', metavar='NT', default=30, help='CholeraeFinder maximum overlapping nucleotides')
-    group = parser.add_argument_group('QC and Metrics parameters')
-    group.add_argument('--qc-t', metavar='LEN', default=500, help="Threshold contig length for Quast (500)")
 
     # Perform the parsing
     args = parser.parse_args()
@@ -161,15 +161,6 @@ def main():
         else:
             err_exit("file is neither FASTA not fastq: %s" % f)
 
-    # Parse the reference genome
-    reference = None
-    if args.reference:
-        if not os.path.isfile(args.reference):
-            err_exit('no such file: %s', reference)
-        if detect_filetype(f) != 'fasta':
-            err_exit('reference not a FASTA file: %s', args.reference)
-        reference = os.path.abspath(args.reference)
-
     # Parse the --list options
     if args.list_targets:
         print('targets:', ','.join(t.value for t in UserTargets))
@@ -188,8 +179,8 @@ def main():
         err_exit('no such directory for --db-root: %s', args.db_root)
     db_root = os.path.abspath(args.db_root)
 
-    # Now that all path handling has been done, and all file references
-    # been made, we can safely change the base working directory to out-dir.
+    # Now that path handling has been done, and all file references made,
+    # we can safely change the base working directory to out-dir.
     try:
         os.makedirs(args.out_dir, exist_ok=True)
         os.chdir(args.out_dir)
@@ -228,28 +219,8 @@ def main():
     blackboard.put_db_root(db_root)
     blackboard.put_sample_id(sample_id)
 
-    # Set platform and pairing defaults when fastqs are present - TODO autodetect?
-    seq_platform = None
-    seq_pairing = None
-
-    if fastqs:
-        if not args.sq_p:
-            seq_platform = SeqPlatform.ILLUMINA
-            blackboard.add_warning('assuming %s platform reads' % seq_platform.value)
-        else:
-            try: seq_platform = SeqPlatform(args.sq_p)
-            except: err_exit('invalid value for --sq-p (sequencing platform): %s', args.sq_p)
-
-        if not args.sq_r:
-            seq_pairing = SeqPairing.PAIRED if len(fastqs) == 2 else SeqPairing.UNPAIRED
-            blackboard.add_warning('assuming %s reads' % seq_pairing.value)
-        else:
-            try: seq_pairing = SeqPairing(args.sq_r)
-            except: err_exit('invalid value for --sq-r (read pairing): %s', args.sq_r)
-
-        if not args.as_t in ['yes','no','auto']:
-            err_exit('invalid value for --as-t (trim reads): %s', args.as_t)
-
+    # Check for two Illumina reads when fastqs are present
+    # because only then we may run the SKESA backend
     # Set the workflow params based on user inputs present
     params = list()
     if contigs:
@@ -258,13 +229,11 @@ def main():
     if fastqs:
         params.append(Params.READS)
         blackboard.put_fastq_paths(fastqs)
-        blackboard.put_seq_platform(seq_platform)
-        blackboard.put_seq_pairing(seq_pairing)
-    if reference:
-        params.append(Params.REFERENCE)
-        blackboard.put_user_reference(reference)
-    if seq_platform == SeqPlatform.ILLUMINA:
-        params.append(Params.ILLUMINA)   # is workflow param: SKESA requires them
+        if len(fastqs) == 2 and is_illumina_reads(fastqs[0]) and is_illumina_reads(fastqs[1]):
+            params.append(Params.ILLUMINA)  # is workflow param: SKESA requires them
+        else:
+            blackboard.add_warning('fastq files not detected to be paired Illumina reads')
+
     if args.species:
         params.append(Params.SPECIES)
         blackboard.put_user_species(list(filter(None, map(lambda x: x.strip(), args.species.split(',')))))
@@ -289,13 +258,13 @@ def main():
         b = blackboard
         d = dict({
             'sample_id': b.get_sample_id(),
-            'bases_read': '' if b.get_fastq_paths([]) else b.get('services/Quast/results/metrics/total_read'),
-            'bases_assembled': b.get('services/Quast/results/metrics/tot_len'),
-            'n_contigs': b.get('services/Quast/results/metrics/num_ctg'),
-            'largest_ctg':  b.get('services/Quast/results/metrics/max_ctg'),
-            'n50':  b.get('services/Quast/results/metrics/n50'),
-            'l50':  b.get('services/Quast/results/metrics/l50'),
-            'pct_cov': b.get('services/Quast/results/metrics/pct_cov',''),
+#            'bases_read': '' if b.get_fastq_paths([]) else b.get('services/Quast/results/metrics/total_read'),
+#            'bases_assembled': b.get('services/Quast/results/metrics/tot_len'),
+#            'n_contigs': b.get('services/Quast/results/metrics/num_ctg'),
+#            'largest_ctg':  b.get('services/Quast/results/metrics/max_ctg'),
+#            'n50':  b.get('services/Quast/results/metrics/n50'),
+#            'l50':  b.get('services/Quast/results/metrics/l50'),
+#            'pct_cov': b.get('services/Quast/results/metrics/pct_cov',''),
             'species': commasep(b.get_detected_species([])),
             'mlst': commasep(b.get_mlsts()),
             'amr_classes': commasep(b.get_amr_classes()),

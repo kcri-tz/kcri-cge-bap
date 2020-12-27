@@ -3,7 +3,7 @@
 # kcri.bap.shims.KCST - service shim to the KCST backend
 #
 
-import logging
+import os, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
 from .base import BAPServiceExecution, UserException
@@ -34,7 +34,7 @@ class KCSTShim:
                 '-d', execution.get_db_path('mlst'),
                 '-m', MAX_MEM,
                 '-c', int(round(100.0*float(min_cov))),  # kcst wants pct
-                execution.get_contigs_path()
+                os.path.abspath(execution.get_contigs_path())
             ]
             if execution.is_verbose():
                 params.insert(0, '-v')
@@ -105,7 +105,7 @@ class KCSTExecution(BAPServiceExecution):
             
             # Store MLST result and add species to global BAP findings
             self.store_results(typings)
-            self._blackboard.add_detected_species(value)
+            self._blackboard.add_detected_species(species)
 
         # Mark the job failed if output parsing fails
         except FileNotFoundError:
