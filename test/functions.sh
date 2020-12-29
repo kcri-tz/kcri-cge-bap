@@ -33,7 +33,7 @@ check_output() {
         printf "[OK] Run output matches expected output\n\n"
         return 0
     else
-        printf "\n[FAIL] Run output does not match expected output\n\n"
+        printf "\n[FAIL] Run output does not match expected output: $BASE_NAME\n\n"
         return 1
     fi
 }
