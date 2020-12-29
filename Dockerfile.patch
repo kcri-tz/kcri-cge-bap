@@ -10,7 +10,7 @@ FROM kcri-cge-bap:latest
 
 # Go back to the install root as root
 USER root:root
-WORKDIR /usr/src/cge
+WORKDIR /usr/src
 
 # Note: don't 'COPY ext ext': directory ext exists, and
 #       docker's intractable copy logic then nests them
@@ -23,13 +23,7 @@ WORKDIR /usr/src/cge
 
 # CGE Services
 #COPY ext/resfinder ext/
-#COPY ext/resfinder/cge/out/util/generator.py ext/resfinder/cge/out/util/
-#COPY ext/resfinder ext/
 #COPY ext/choleraefinder/choleraefinder.py ext/choleraefinder/
-
-# CGE Flow package
-#COPY src/cgeflow/workflow/executor.py src/cgeflow/workflow/
-#RUN cd src/cgeflow && python3 setup.py install
 
 # KCRI BAP package
 COPY src/kcri/bap/BAP.py kcri/bap/

@@ -22,13 +22,14 @@ from .shims.MLSTFinder import MLSTFinderShim
 from .shims.PlasmidFinder import PlasmidFinderShim
 from .shims.pMLST import pMLSTShim
 from .shims.PointFinder import PointFinderShim
+from .shims.ReadsMetrics import ReadsMetricsShim
 from .shims.ResFinder import ResFinderShim
 from .shims.SKESA import SKESAShim
 from .shims.VirulenceFinder import VirulenceFinderShim
 
 SERVICES = {
     Services.CONTIGSMETRICS:    ContigsMetricsShim(),
-    Services.READSMETRICS:      UnimplementedService(),
+    Services.READSMETRICS:      ReadsMetricsShim(),
     Services.SKESA:             SKESAShim(),
     Services.KCST:              KCSTShim(),
     Services.MLSTFINDER:        MLSTFinderShim(),

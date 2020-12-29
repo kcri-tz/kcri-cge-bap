@@ -84,21 +84,21 @@ RUN conda install \
 #----------------------------------------------------------------------
 
 # Installation root
-RUN mkdir -p /usr/src/cge
-WORKDIR /usr/src/cge
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
 
-# Copy the externals to /usr/src/cge/ext
+# Copy the externals to /usr/src/ext
 # Note the .dockerignore filters out a lot
 COPY ext ext
 
 # Install BLAST by putting its binaries on the PATH,
 # and prevent 2.11.0 phone home bug by opting out
 # https://github.com/ncbi/blast_plus_docs/issues/15
-ENV PATH=/usr/src/cge/ext/ncbi-blast/bin:$PATH \
+ENV PATH=/usr/src/ext/ncbi-blast/bin:$PATH \
     BLAST_USAGE_REPORT=false
 
 # Install uf-stats by putting it on the PATH.
-ENV PATH=/usr/src/cge/ext/unfasta:$PATH
+ENV PATH=/usr/src/ext/unfasta:$PATH
 
 # Make and install skesa
 RUN cd ext/skesa && \
@@ -120,13 +120,13 @@ RUN cd ext/kma && \
 
 # Install kma-retrieve
 RUN cd ext/odds-and-ends && \
-    mv kma-retrieve /usr/local/bin/ && \
+    cp kma-retrieve /usr/local/bin/ && \
     cd .. && rm -rf odds-and-ends
 
 # Install fastq-stats
 RUN cd ext/fastq-utils && \
     make clean && make fastq-stats && \
-    mv fastq-stats /usr/local/bin/ && \
+    cp fastq-stats /usr/local/bin/ && \
     cd .. && rm -rf fastq-utils
 
 # Install the picoline module
@@ -160,20 +160,20 @@ RUN python3 -m compileall \
 
 # Add service script directories to PATH
 ENV PATH $PATH""\
-":/usr/src/cge/ext/cgmlstfinder"\
-":/usr/src/cge/ext/choleraefinder"\
-":/usr/src/cge/ext/kmerfinder"\
-":/usr/src/cge/ext/mlst"\
-":/usr/src/cge/ext/plasmidfinder"\
-":/usr/src/cge/ext/pmlst"\
-":/usr/src/cge/ext/resfinder"\
-":/usr/src/cge/ext/virulencefinder"
+":/usr/src/ext/cgmlstfinder"\
+":/usr/src/ext/choleraefinder"\
+":/usr/src/ext/kmerfinder"\
+":/usr/src/ext/mlst"\
+":/usr/src/ext/plasmidfinder"\
+":/usr/src/ext/pmlst"\
+":/usr/src/ext/resfinder"\
+":/usr/src/ext/virulencefinder"
 
 
 # Install the BAP code
 #----------------------------------------------------------------------
 
-# Copy contents of src into /usr/src/cge
+# Copy contents of src into /usr/src
 COPY src ./
 
 # Install the KCRI BAP specific code

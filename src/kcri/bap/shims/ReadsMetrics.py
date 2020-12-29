@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# kcri.bap.shims.ContigsMetrics - service shim to the uf-stats backend
+# kcri.bap.shims.ReadsMetrics - service shim to the fastq-stats backend
 #
 
 import os, logging
@@ -10,31 +10,33 @@ from .base import BAPServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
-SERVICE, VERSION = "ContigsMetrics", BACKEND_VERSIONS['unfasta']
+SERVICE, VERSION = "ReadsMetrics", BACKEND_VERSIONS['fastq-utils']
 
 # Resource parameters: cpu, memory, disk, run time reqs
-MAX_CPU = 2
-MAX_MEM = 1
+MAX_CPU = 2 # all
+MAX_MEM = 1 # all
 MAX_SPC = 1
 MAX_TIM = 5 * 60
 
 
 # The Service class
-class ContigsMetricsShim:
+class ReadsMetricsShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Execution.'''
 
-        execution = ContigsMetricsExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = ReadsMetricsExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
          # Get the execution parameters from the blackboard
         try:
-            fn = os.path.abspath(execution.get_contigs_path())
+            fqs = execution.get_fastq_paths()
+            fn = "'%s'" % os.path.abspath(fqs[0])
+            if len(fqs) == 2: fn += " '%s'" % os.path.abspath(fqs[1])
             # Cater for either gzipped or plain input using shell succinctness
-            cmd = "(gzip -dc '%s' 2>/dev/null || cat '%s') | uf | uf-stats -t" % (fn,fn) 
+            cmd = "(gzip -dc %s 2>/dev/null || cat %s) | fastq-stats" % (fn,fn) 
             params = [
-                '-c', cmd, 'contigs-metrics'
+                '-c', cmd, 'reads-metrics'
             ]
 
             job_spec = JobSpec('sh', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
@@ -53,14 +55,14 @@ class ContigsMetricsShim:
         return execution
 
 # Single execution of the service
-class ContigsMetricsExecution(BAPServiceExecution):
+class ReadsMetricsExecution(BAPServiceExecution):
     '''A single execution of the service, returned by execute().'''
 
     _job = None
 
     def start(self, job_spec):
         if self.state == Execution.State.STARTED:
-            self._job = self._scheduler.schedule_job('ContigsMetrics', job_spec, 'ContigsMetrics')
+            self._job = self._scheduler.schedule_job('ReadsMetrics', job_spec, 'ReadsMetrics')
 
     def collect_output(self, job):
         '''Collect the job output and put on blackboard.
