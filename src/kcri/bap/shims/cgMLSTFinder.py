@@ -131,7 +131,7 @@ class cgMLSTExecution(BAPServiceExecution):
             # We may be running no jobs at all if no scheme applied
             if len(self._jobs) == 0:
 
-                self.warning("no cgMLST scheme was found for the species")
+                self.add_warning("no cgMLST scheme was found for the species")
                 self.store_results(list())
                 self.done()
 
