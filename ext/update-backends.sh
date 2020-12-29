@@ -6,7 +6,7 @@
 
 BASE_DIR="$(realpath -e "$(dirname "$0")")"
 CFG_FILE="$BASE_DIR/backend-versions.config"
-VERSIONS_PY="$(realpath "$BASE_DIR/../src/kcribap/kcri/bap/shims/versions.py")"
+VERSIONS_PY="$(realpath "$BASE_DIR/../src/kcri/bap/shims/versions.py")"
 VERSIONS_PY_TMP="$VERSIONS_PY.tmp"
 
 err_exit() {

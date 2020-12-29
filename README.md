@@ -11,8 +11,8 @@ Epidemiology (CGE) at the Technical University of Danmark (DTU).
 The BAP orchestrates a standard workflow that processes sequencing reads
 or contigs and produces the following:
 
- * Genome assembly (optional) (SKESA, SPAdes)
- * QC of reads and assembly (Quast)
+ * Genome assembly (optional) (SKESA)
+ * Basic QC metrics over reads a/o contigs (fastq-stats, uf-stats)
  * Species identification (KmerFinder, KCST)
  * MLST (KCST, MLSTFinder)
  * Resistance profiling (ResFinder, PointFinder)
@@ -41,14 +41,14 @@ Same but also produce the assembled genome:
 Note that when omitted, the `-t/--target` parameter has value `DEFAULT`,
 which implies species, resistance, plasmids, virulence, and metrics.
 
-Perform _only_ assembly (by omitting the DEFAULT target):
+Perform _only_ metrics (by omitting the DEFAULT target):
 
-    BAP -t assembly read_1.fq.gz read_2.fq.gz
+    BAP -t metrics read_1.fq.gz read_2.fq.gz assembly.fna
 
 See what targets (values for the `-t` parameter) are available:
 
     BAP --list-targets
-    -> metrics assembly species mlst resistance virulence plasmids ...
+    -> metrics species mlst resistance virulence plasmids ...
 
 > Note how the targets are 'logical' names for what the BAP must do.
 > The BAP will determine which services to involve, in what order, and
@@ -174,8 +174,8 @@ Run a terminal shell in the container:
 
 Run any of the services in the container directly:
 
-    bap-container-run skesa --help
     bap-container-run kmerfinder --help
+    bap-container-run kcst --help
 
 
 ## Development / Upgrades
