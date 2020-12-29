@@ -29,8 +29,8 @@ class KmerFinderShim:
 
          # Get the execution parameters from the blackboard
         try:
-            kf_search = execution.get_user_input('kf_s')
-            db_path, tax_file = find_db(execution.get_db_path('kmerfinder'), kf_search)
+            kf_scheme = execution.get_user_input('kf_s')
+            db_path, tax_file = find_db(execution.get_db_path('kmerfinder'), kf_scheme)
             params = [
                 '-q',
                 '-db', db_path,
@@ -41,7 +41,7 @@ class KmerFinderShim:
 
             job_spec = JobSpec('kmerfinder.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
-            execution.start(job_spec, 'KF_%s' % kf_search)
+            execution.start(job_spec, kf_scheme)
 
         # Failing inputs will throw UserException
         except UserException as e:
@@ -60,9 +60,9 @@ class KmerFinderExecution(BAPServiceExecution):
 
     _job = None
 
-    def start(self, job_spec, work_dir):
+    def start(self, job_spec, scheme):
         if self.state == Execution.State.STARTED:
-            self._job = self._scheduler.schedule_job('kmerfinder', job_spec, work_dir)
+            self._job = self._scheduler.schedule_job('kf_%s' % scheme, job_spec, os.path.join(SERVICE,scheme))
 
 
     # Parse the output produced by the backend service, return list of hits

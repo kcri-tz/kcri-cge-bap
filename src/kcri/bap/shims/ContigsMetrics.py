@@ -34,7 +34,7 @@ class ContigsMetricsShim:
             # Cater for either gzipped or plain input using shell succinctness
             cmd = "(gzip -dc '%s' 2>/dev/null || cat '%s') | uf | uf-stats -t" % (fn,fn) 
             params = [
-                '-c', cmd, 'contigs-metrics'
+                '-c', cmd, 'uf-stats'
             ]
 
             job_spec = JobSpec('sh', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
@@ -60,7 +60,7 @@ class ContigsMetricsExecution(BAPServiceExecution):
 
     def start(self, job_spec):
         if self.state == Execution.State.STARTED:
-            self._job = self._scheduler.schedule_job('ContigsMetrics', job_spec, 'ContigsMetrics')
+            self._job = self._scheduler.schedule_job('uf-stats', job_spec, 'ContigsMetrics')
 
     def collect_output(self, job):
         '''Collect the job output and put on blackboard.

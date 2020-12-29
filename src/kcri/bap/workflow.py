@@ -90,7 +90,7 @@ DEPENDENCIES = {
     UserTargets.METRICS:        ALL( OPT( Services.CONTIGSMETRICS ), OPT( Services.READSMETRICS ) ),
     UserTargets.ASSEMBLY:       Services.SKESA,
     UserTargets.SPECIES:        Checkpoints.SPECIES,
-    UserTargets.REFERENCE:      Services.GETREFERENCE,
+    UserTargets.REFERENCE:      ALL( Services.KMERFINDER, Services.GETREFERENCE ),
     UserTargets.MLST:           ONE( Services.MLSTFINDER, Services.KCST ),
     UserTargets.RESISTANCE:     ALL( OPT( Services.RESFINDER ), OPT( Services.POINTFINDER ) ),
     UserTargets.VIRULENCE:      Services.VIRULENCEFINDER,
@@ -102,15 +102,17 @@ DEPENDENCIES = {
     # All are optional so the pipeline runs till the end even if one fails.
     UserTargets.DEFAULT:        ALL( OPT(UserTargets.METRICS), OPT(UserTargets.SPECIES),
                                      OPT(UserTargets.MLST), OPT(UserTargets.RESISTANCE),
-                                     OPT(UserTargets.VIRULENCE), OPT(UserTargets.PLASMIDS) ),
+                                     OPT(UserTargets.VIRULENCE), OPT(UserTargets.PLASMIDS),
+                                     OPT(Services.GETREFERENCE) ),
     UserTargets.FULL:           ALL( UserTargets.DEFAULT, OPT(Checkpoints.CONTIGS),
-                                     OPT(UserTargets.CGMLST), OPT(UserTargets.SPECIALISED) ),
+                                     OPT(UserTargets.REFERENCE), OPT(UserTargets.CGMLST),
+                                     OPT(UserTargets.SPECIALISED) ),
 
     Services.CONTIGSMETRICS:    OIF( Checkpoints.CONTIGS ),
     Services.READSMETRICS:      OIF( Params.READS ),
     Services.SKESA:             ALL( Params.ILLUMINA, Params.READS ),
     Services.KMERFINDER:        ONE( Params.READS, Checkpoints.CONTIGS ),
-    Services.GETREFERENCE:      Services.KMERFINDER,  # Later: also work if species given and no KmerFinder
+    Services.GETREFERENCE:      OIF( Services.KMERFINDER ),  # Later: also work if species given and no KmerFinder
     Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
     Services.KCST:              Checkpoints.CONTIGS,
     Services.RESFINDER:         ONE( Params.READS, Checkpoints.CONTIGS ),

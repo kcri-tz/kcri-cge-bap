@@ -20,19 +20,22 @@ WORKDIR /usr/src
 #COPY ext ./
 #COPY ext/kma ext/
 #RUN cd ext/kma && make clean && make && mv kma kma_index kma_shm /usr/local/bin/ && cd .. && rm -rf kma
+RUN mkdir -p ext/picoline
+COPY ext/picoline ext/picoline
+RUN cd ext/picoline && python3 setup.py install && cd .. && rm -rf picoline
 
 # CGE Services
 #COPY ext/resfinder ext/
 #COPY ext/choleraefinder/choleraefinder.py ext/choleraefinder/
 
 # KCRI BAP package
-COPY src/kcri/bap/BAP.py kcri/bap/
+#COPY src/kcri/bap/__init__.py kcri/bap/
+#COPY src/kcri/bap/BAP.py kcri/bap/
 #COPY src/kcri/bap/services.py kcri/bap/
 #COPY src/kcri/bap/shims/CholeraeFinder.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/base.py kcri/bap/shims/
-COPY src/kcri/bap/shims/KCST.py kcri/bap/shims/
-#COPY src/kcri/bap/shims/SKESA.py kcri/bap/shims/
-#COPY src ./
+#COPY src/kcri/bap/shims/KCST.py kcri/bap/shims/
+COPY src ./
 RUN python3 setup.py install
 
 # Drop down to the original user and workdir

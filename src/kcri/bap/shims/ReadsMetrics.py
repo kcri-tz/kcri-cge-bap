@@ -36,7 +36,7 @@ class ReadsMetricsShim:
             # Cater for either gzipped or plain input using shell succinctness
             cmd = "(gzip -dc %s 2>/dev/null || cat %s) | fastq-stats" % (fn,fn) 
             params = [
-                '-c', cmd, 'reads-metrics'
+                '-c', cmd, 'fastq-stats'
             ]
 
             job_spec = JobSpec('sh', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
@@ -62,7 +62,7 @@ class ReadsMetricsExecution(BAPServiceExecution):
 
     def start(self, job_spec):
         if self.state == Execution.State.STARTED:
-            self._job = self._scheduler.schedule_job('ReadsMetrics', job_spec, 'ReadsMetrics')
+            self._job = self._scheduler.schedule_job('fastq-stats', job_spec, 'ReadsMetrics')
 
     def collect_output(self, job):
         '''Collect the job output and put on blackboard.

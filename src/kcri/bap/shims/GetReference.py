@@ -75,7 +75,7 @@ class GetReferenceExecution(BAPServiceExecution):
     def start(self, job_spec, out_file):
         if self.state == Execution.State.STARTED:
             self._out_file = out_file
-            self._job = self._scheduler.schedule_job('retrieve-ref', job_spec, 'Reference')
+            self._job = self._scheduler.schedule_job('kma-retrieve', job_spec, 'Reference')
 
     def collect_output(self, job):
 

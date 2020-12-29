@@ -1,11 +1,11 @@
 TODO
 
 LATER (3.1.x)
-- Add spaTyper & SCCmecFinder
+- Handle species-specific services (shim::can_process(blackboard)?)
 - ResFinder link pheno to genes and seqvars (see TODO)
+- Add spaTyper & SCCmecFinder
 - Add KmerResistance
 - Add SPIFinder
 - Add FimTyper, CHTyper, PAst
 - Conda variant
 - HTCondor backend
-
