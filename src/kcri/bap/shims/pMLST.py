@@ -137,7 +137,6 @@ class pMLSTExecution(BAPServiceExecution):
         '''Spawn pMLST for one scheme and corresponding loci list.'''
 
         # Create a command line for the job
-        name = 'pMLST_%s' % scheme
         tmpdir = tempfile.TemporaryDirectory()
         params = [
                 '-p', db_dir,
@@ -148,7 +147,7 @@ class pMLSTExecution(BAPServiceExecution):
 
         # Spawn the job and hold a record in the jobs table
         job_spec = JobSpec('pmlst.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
-        job = self._scheduler.schedule_job(name, job_spec, name)
+        job = self._scheduler.schedule_job('pmlst_%s' % scheme, job_spec, os.path.join(SERVICE,scheme))
         self._jobs.append((job, scheme, loci, tmpdir))
 
 
