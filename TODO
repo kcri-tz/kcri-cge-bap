@@ -3,10 +3,9 @@ TODO
 3.0.3
 - Factor out workflow control
 - Remove Quast (goes to KCRI QAP)
-3.0.4
-- Reads Metrics (basic)
 - Contigs Metrics (basic)
-LATER
+- Reads Metrics (basic)
+LATER (3.1.x)
 - Add spaTyper & SCCmecFinder
 - ResFinder link pheno to genes and seqvars (see TODO)
 - Add KmerResistance

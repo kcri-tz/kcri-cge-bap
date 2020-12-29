@@ -65,6 +65,7 @@ class Services(pico.workflow.logic.Services):
 class UserTargets(pico.workflow.logic.UserTargets):
     '''Enum defining the targets that the user can request.'''
     METRICS = 'metrics'
+    ASSEMBLY = 'assembly'
     SPECIES = 'species'
     REFERENCE = 'reference'
     MLST = 'mlst'
@@ -87,6 +88,7 @@ class UserTargets(pico.workflow.logic.UserTargets):
 DEPENDENCIES = {
     
     UserTargets.METRICS:        ALL( OPT( Services.CONTIGSMETRICS ), OPT( Services.READSMETRICS ) ),
+    UserTargets.ASSEMBLY:       Services.SKESA,
     UserTargets.SPECIES:        Checkpoints.SPECIES,
     UserTargets.REFERENCE:      Services.GETREFERENCE,
     UserTargets.MLST:           ONE( Services.MLSTFINDER, Services.KCST ),

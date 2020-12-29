@@ -257,24 +257,26 @@ def main():
         commasep = lambda l: '' if not l else ','.join(l)
         b = blackboard
         d = dict({
-            'sample_id': b.get_sample_id(),
-#            'bases_read': '' if b.get_fastq_paths([]) else b.get('services/Quast/results/metrics/total_read'),
-#            'bases_assembled': b.get('services/Quast/results/metrics/tot_len'),
-#            'n_contigs': b.get('services/Quast/results/metrics/num_ctg'),
-#            'largest_ctg':  b.get('services/Quast/results/metrics/max_ctg'),
-#            'n50':  b.get('services/Quast/results/metrics/n50'),
-#            'l50':  b.get('services/Quast/results/metrics/l50'),
-#            'pct_cov': b.get('services/Quast/results/metrics/pct_cov',''),
+            's_id': b.get_sample_id(),
+            'n_reads': b.get('services/ReadsMetrics/results/n_reads', 'NA'),
+            'nt_read': b.get('services/ReadsMetrics/results/n_bases', 'NA'),
+            'pct_q30': b.get('services/ReadsMetrics/results/pct_q30', 'NA'),
+            'n_ctgs': b.get('services/ContigsMetrics/results/n_seqs', 'NA'),
+            'nt_ctgs': b.get('services/ContigsMetrics/results/tot_len', 'NA'),
+            'n1':  b.get('services/ContigsMetrics/results/max_len', 'NA'),
+            'n50':  b.get('services/ContigsMetrics/results/n50', 'NA'),
+            'l50':  b.get('services/ContigsMetrics/results/l50', 'NA'),
+            'pct_gc':  b.get('services/ContigsMetrics/results/pct_gc', b.get('services/ReadsMetrics/results/pct_gc', 'NA')),
             'species': commasep(b.get_detected_species([])),
             'mlst': commasep(b.get_mlsts()),
-            'amr_classes': commasep(b.get_amr_classes()),
-            'amr_pheno': commasep(b.get_amr_phenotypes()),
-            'amr_genes': commasep(b.get_amr_genes()),
-            'virulence_genes': commasep(b.get_virulence_genes()),
-            'plasmids': commasep(b.get_detected_plasmids([])),
+            'amr_cls': commasep(b.get_amr_classes()),
+            'amr_phe': commasep(b.get_amr_phenotypes()),
+            'amr_gen': commasep(b.get_amr_genes()),
+            'vir_gen': commasep(b.get_virulence_genes()),
+            'plasmid': commasep(b.get_detected_plasmids([])),
             'pmlsts': commasep(b.get_pmlsts()),
             'cgst': commasep(b.get_cgmlsts()),
-            'amr_mutations': commasep(b.get_amr_mutations())
+            'amr_mut': commasep(b.get_amr_mutations())
             })
         print('\t'.join(d.keys()), file=f_tsv)
         print('\t'.join(map(lambda v: v if v else '', d.values())), file=f_tsv)

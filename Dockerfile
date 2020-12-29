@@ -97,6 +97,9 @@ COPY ext ext
 ENV PATH=/usr/src/cge/ext/ncbi-blast/bin:$PATH \
     BLAST_USAGE_REPORT=false
 
+# Install uf-stats by putting it on the PATH.
+ENV PATH=/usr/src/cge/ext/unfasta:$PATH
+
 # Make and install skesa
 RUN cd ext/skesa && \
     make clean && make -f Makefile.nongs && \
@@ -119,6 +122,12 @@ RUN cd ext/kma && \
 RUN cd ext/odds-and-ends && \
     mv kma-retrieve /usr/local/bin/ && \
     cd .. && rm -rf odds-and-ends
+
+# Install fastq-stats
+RUN cd ext/fastq-utils && \
+    make clean && make fastq-stats && \
+    mv fastq-stats /usr/local/bin/ && \
+    cd .. && rm -rf fastq-utils
 
 # Install the picoline module
 RUN cd ext/picoline && \

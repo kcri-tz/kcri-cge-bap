@@ -14,6 +14,7 @@ from .workflow import Services
 from .shims.base import UnimplementedService
 from .shims.cgMLSTFinder import cgMLSTFinderShim
 from .shims.CholeraeFinder import CholeraeFinderShim
+from .shims.ContigsMetrics import ContigsMetricsShim
 from .shims.GetReference import GetReferenceShim
 from .shims.KCST import KCSTShim
 from .shims.KmerFinder import KmerFinderShim
@@ -26,7 +27,7 @@ from .shims.SKESA import SKESAShim
 from .shims.VirulenceFinder import VirulenceFinderShim
 
 SERVICES = {
-    Services.CONTIGSMETRICS:    UnimplementedService(),
+    Services.CONTIGSMETRICS:    ContigsMetricsShim(),
     Services.READSMETRICS:      UnimplementedService(),
     Services.SKESA:             SKESAShim(),
     Services.KCST:              KCSTShim(),

@@ -2,6 +2,7 @@ __all__ = [
     'base',
     'cgMLSTFinder',
     'CholeraeFinder',
+    'ContigsMetrics',
     'GetReference',
     'KCST',
     'KmerFinder',
