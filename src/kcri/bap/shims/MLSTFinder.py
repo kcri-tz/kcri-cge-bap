@@ -27,15 +27,18 @@ class MLSTFinderShim:
 
         execution = MLSTFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-        # Get our parameters from the blackboard
+        # Check whether running is applicable, else throw to SKIP execution
+        genus_lst = list(filter(None, execution.get_user_input('ml_g', '').split(',')))
+        scheme_lst = list(filter(None, execution.get_user_input('ml_s', '').split(',')))
+        species_lst = execution.get_species([])
+        if not (genus_lst or scheme_lst or species_lst):
+            raise UserException("species must be known or a scheme or genus must be specified")
+
+        # From here run the execution, and FAIL it on exception
         try:
             db_dir = execution.get_db_path('mlst')
             db_cfg = os.path.join(db_dir, 'config')
             files = execution.get_fastqs_or_contigs_paths([])
-
-            genus_lst = list(filter(None, execution.get_user_input('ml_g', '').split(',')))
-            scheme_lst = list(filter(None, execution.get_user_input('ml_s', '').split(',')))
-            species_lst = execution.get_species([])
 
             # Determine schemes to run from lists of genus, schemes, species
             schemes = self.determine_schemes(db_cfg, genus_lst, scheme_lst, species_lst)
@@ -64,9 +67,6 @@ class MLSTFinderShim:
 
         if not os.path.exists(db_cfg):
             raise UserException("no database config file: %s" % db_cfg)
-
-        if not (genus_lst or scheme_lst or species_lst):
-            raise UserException("species must be known or a scheme or genus must be specified")
 
         with open(db_cfg, 'r') as f:
             for l in f:

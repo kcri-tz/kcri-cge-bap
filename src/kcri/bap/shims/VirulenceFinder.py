@@ -22,7 +22,7 @@ class VirulenceFinderShim:
 
         execution = VirulenceFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # Get the execution parameters from the blackboard
         try:
             db_path = execution.get_db_path('virulencefinder')
             min_ident = execution.get_user_input('vf_i')

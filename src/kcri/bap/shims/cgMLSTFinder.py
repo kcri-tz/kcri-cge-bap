@@ -27,7 +27,13 @@ class cgMLSTFinderShim:
 
         execution = cgMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # Check whether running is applicable, else throw to SKIP execution
+        scheme_lst = list(filter(None, execution.get_user_input('cq_s','').split(',')))
+        species_lst = execution.get_species([])
+        if not (scheme_lst or species_lst):
+            raise UserException("no species is known and no cgMLST scheme specified")
+
+        # From here run the execution, and FAIL it on exception
         try:
             db_dir = execution.get_db_path('cgmlstfinder')
             db_cfg = os.path.join(db_dir, 'config')
@@ -35,11 +41,7 @@ class cgMLSTFinderShim:
             # Note we do only one fq
             fname = execution.get_fastqs_or_contigs_paths([])[0]
 
-            scheme_lst = list(filter(None, execution.get_user_input('cq_s','').split(',')))
-            species_lst = execution.get_species([])
-
             schemes = self.determine_schemes(db_cfg, scheme_lst, species_lst)
-
             execution.start(schemes, fname, db_dir)
  
         # Failing inputs will throw UserException
@@ -53,6 +55,7 @@ class cgMLSTFinderShim:
 
         return execution
 
+
     def determine_schemes(self, db_cfg, scheme_lst, species_lst):
         '''Reads the database config to find out which schemes to run for the
            given scheme and species lists.  Returns a list of (scheme,loci)
@@ -63,9 +66,6 @@ class cgMLSTFinderShim:
 
         if not os.path.exists(db_cfg):
             raise UserException("no database config file: %s" % db_cfg)
-
-        if not (scheme_lst or species_lst):
-            raise UserException("species must be known or a scheme must be specified")
 
         with open(db_cfg, 'r') as f:
             for l in f:
@@ -88,6 +88,9 @@ class cgMLSTFinderShim:
             if db and not db in schemes:
                 schemes.append(db)
 
+        if not schemes:
+            raise UserException("no applicable cgMLST scheme")
+
         return schemes
 
 
@@ -106,7 +109,6 @@ class cgMLSTExecution(BAPServiceExecution):
         '''Spawn cgMLST for one scheme.'''
 
         # Create a command line for the job
-        name = 'cgMLST_%s' % scheme
         tmpdir = tempfile.TemporaryDirectory()
         params = [
                 '-db', db_dir,
@@ -117,7 +119,7 @@ class cgMLSTExecution(BAPServiceExecution):
 
         # Spawn the job and hold a record in the jobs table
         job_spec = JobSpec('cgMLST.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
-        job = self._scheduler.schedule_job(name, job_spec, name)
+        job = self._scheduler.schedule_job('cgmlst_%s' % scheme, job_spec, os.path.join(SERVICE,scheme))
         self._jobs.append((job, scheme, tmpdir))
  
 

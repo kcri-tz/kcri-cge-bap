@@ -30,7 +30,7 @@ class SKESAShim:
 
         execution = SKESAExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # Get the execution parameters from the blackboard
         MAX_CPU = scheduler.max_cpu
         MAX_MEM = int(scheduler.max_mem)
         try:

@@ -47,15 +47,19 @@ class pMLSTShim:
 
         execution = pMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-        # Get execution parameters from the blackboard
+        # Check whether running is applicable, else throw to SKIP execution
+        scheme_lst = list(filter(None, execution.get_user_input('pm_s','').split(',')))
+        plasmid_lst = execution.get_plasmids([])
+        if not (scheme_lst or plasmid_lst):
+            raise UserException('no plasmids were found and no pMLST shemes were specified')
+
+        # From here run the execution, and FAIL it on exception
         try:
             db_dir = execution.get_db_path('pmlst')
             db_cfg = os.path.join(db_dir, 'config')
             files = execution.get_fastqs_or_contigs_paths([])
 
             # Determine schemes to run pMLST for from user input and PF output
-            scheme_lst = list(filter(None, execution.get_user_input('pm_s', '').split(',')))
-            plasmid_lst = execution.get_plasmids()
             schemes, warnings = self.determine_schemes(db_cfg, scheme_lst, plasmid_lst)
 
             execution.add_warnings(warnings)
@@ -82,9 +86,6 @@ class pMLSTShim:
 
         if not os.path.exists(db_cfg):
             raise UserException('no database config file: %s', db_cfg)
-
-        if not (scheme_lst or plasmid_lst):
-            raise UserException('no plasmids were found and no pMLST shemes were specified')
 
         # Read the config into a map scheme -> [loci]
         with open(db_cfg, 'r') as f:

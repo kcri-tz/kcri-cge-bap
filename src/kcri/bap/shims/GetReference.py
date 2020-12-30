@@ -28,22 +28,21 @@ class GetReferenceShim:
 
         execution = GetReferenceExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-        # Get the execution parameters from the blackboard
-        try:
-            # Retrieve the accession
-            closest = execution.get_closest_reference()
-            accession = closest.get('accession')
-            if not accession:
-                raise UserException('no closest reference was found')
+        # Check whether running is applicable, else throw to SKIP execution
+        closest = execution.get_closest_reference()
+        accession = closest.get('accession')
+        if not accession:
+            raise UserException('no closest reference accession was found')
 
-            # Retrieve the KMA database to retrieve it from
+        # From here run the execution, and FAIL it on exception
+        try:
+            # Retrieve the KMA database to retrieve the sequence from
             kf_dbroot = execution.get_db_path('kmerfinder')
             kf_search = execution.get_user_input('kf_s')
             kma_db, _tax = find_kmer_db(kf_dbroot, kf_search)
 
             # Write to accession.fna (assuming it has no weird chars)
             out_file = accession + '.fna'
-
             params = [ 
                 '--out-file', out_file,
                 kma_db,
@@ -54,7 +53,7 @@ class GetReferenceShim:
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec, out_file)
 
-        # Failing inputs will throw UserException
+        # Failing inputs throw UserException and we mark it FAILED
         except UserException as e:
             execution.fail(str(e))
 

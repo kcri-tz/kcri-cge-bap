@@ -28,9 +28,11 @@ class ContigsMetricsShim:
 
         execution = ContigsMetricsExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # If we throw here, the execution will be SKIPPED
+        fn = os.path.abspath(execution.get_contigs_path())
+
+        # From here run the execution, and FAIL it on exception
         try:
-            fn = os.path.abspath(execution.get_contigs_path())
             # Cater for either gzipped or plain input using shell succinctness
             cmd = "(gzip -dc '%s' 2>/dev/null || cat '%s') | uf | uf-stats -t" % (fn,fn) 
             params = [

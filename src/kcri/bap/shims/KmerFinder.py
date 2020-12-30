@@ -27,7 +27,7 @@ class KmerFinderShim:
 
         execution = KmerFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # Get the execution parameters from the blackboard
         try:
             kf_scheme = execution.get_user_input('kf_s')
             db_path, tax_file = find_db(execution.get_db_path('kmerfinder'), kf_scheme)

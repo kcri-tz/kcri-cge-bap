@@ -27,13 +27,15 @@ class PointFinderShim:
 
         execution = PointFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # If this throws, we SKIP the execution (rather than fail)
+        species = execution.get_species()  # exception when none
+        if len(species) > 1:
+            execution.add_warning('only first species is analysed, ignoring %d species' % len(species) - 1)
+
+        # From here throwing is caught and FAILs the execution
         try:
             db_path = execution.get_db_path('pointfinder')
             db_cfg = self.parse_config(os.path.join(db_path, 'config'))
-            species = execution.get_species()  # exception when none
-            if len(species) > 1:
-                execution.add_warning('only first species is analysed, ignoring %d species' % len(species) - 1)
             params = [
                 '--point',
                 '-db_point', db_path,

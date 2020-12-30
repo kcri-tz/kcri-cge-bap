@@ -27,11 +27,13 @@ class CholeraeFinderShim:
 
         execution = CholeraeFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # Check whether running is applicable, else throw to SKIP execution
+        species = execution.get_species([])
+        if not any(filter(lambda s: s.startswith('Vibrio'), species)):
+            raise UserException("service not applicable for species")
+
+        # From here run the execution, and FAIL it on exception
         try:
-            species = execution.get_species([])
-            if not any(filter(lambda s: s.startswith('Vibrio'), species)):
-                raise UserException("service not applicable for species")
             db_path = execution.get_db_path('choleraefinder')
             params = [ '-q',
                 '-p', db_path,

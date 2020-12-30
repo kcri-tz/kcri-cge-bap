@@ -27,7 +27,7 @@ class KCSTShim:
 
         execution = KCSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # Get the execution parameters from the blackboard
         try:
             min_cov = execution.get_user_input('kc_c') # is fraction
             params = [
