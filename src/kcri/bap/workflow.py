@@ -90,7 +90,7 @@ DEPENDENCIES = {
     UserTargets.METRICS:        ALL( OPT( Services.CONTIGSMETRICS ), OPT( Services.READSMETRICS ) ),
     UserTargets.ASSEMBLY:       Services.SKESA,
     UserTargets.SPECIES:        Checkpoints.SPECIES,
-    UserTargets.REFERENCE:      ALL( Services.KMERFINDER, Services.GETREFERENCE ),
+    UserTargets.REFERENCE:      SEQ( Services.KMERFINDER, Services.GETREFERENCE ),
     UserTargets.MLST:           ONE( Services.MLSTFINDER, Services.KCST ),
     UserTargets.RESISTANCE:     ALL( OPT( Services.RESFINDER ), OPT( Services.POINTFINDER ) ),
     UserTargets.VIRULENCE:      Services.VIRULENCEFINDER,
