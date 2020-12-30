@@ -55,8 +55,8 @@ def main():
 
             The analyses to be performed are specified using the -t/--targets option.
             The default target performs species detection, MLST, resistance, virulence,
-            and plasmid typing (but no cgMLST, or specialised services).  The FULL
-            target runs all available services.
+            and plasmid typing (but no cgMLST).  The FULL target runs all available
+            services.
 
             Use -l/--list-targets to see the available targets.  Use -t/--targets to
             specify a custom set of targets, or combine with -x/--exclude to exclude

@@ -35,8 +35,8 @@ WORKDIR /usr/src
 #COPY src/kcri/bap/shims/CholeraeFinder.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/base.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/pMLST.py kcri/bap/shims/
-COPY src/kcri/bap/shims/cgMLSTFinder.py kcri/bap/shims/
-#COPY src ./
+#COPY src/kcri/bap/shims/cgMLSTFinder.py kcri/bap/shims/
+COPY src ./
 RUN python3 setup.py install
 
 # Drop down to the original user and workdir
