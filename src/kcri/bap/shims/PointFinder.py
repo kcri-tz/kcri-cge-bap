@@ -25,15 +25,18 @@ class PointFinderShim:
     def execute(self, ident, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Execution.'''
 
-        execution = PointFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
-
         # If this throws, we SKIP the execution (rather than fail)
-        species = execution.get_species()  # exception when none
-        if len(species) > 1:
-            execution.add_warning('only first species is analysed, ignoring %d species' % len(species) - 1)
+        species = blackboard.get_species()
+        if not species:
+            raise UserException("no species is known")
+
+        execution = PointFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
         # From here throwing is caught and FAILs the execution
         try:
+            if len(species) > 1:
+                execution.add_warning('only first species is analysed, ignoring %d species' % len(species) - 1)
+
             db_path = execution.get_db_path('pointfinder')
             db_cfg = self.parse_config(os.path.join(db_path, 'config'))
             params = [

@@ -25,13 +25,13 @@ class cgMLSTFinderShim:
     def execute(self, ident, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Execution.'''
 
-        execution = cgMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
-
         # Check whether running is applicable, else throw to SKIP execution
-        scheme_lst = list(filter(None, execution.get_user_input('cq_s','').split(',')))
-        species_lst = execution.get_species([])
+        scheme_lst = list(filter(None, blackboard.get_user_input('cq_s','').split(',')))
+        species_lst = blackboard.get_species(list())
         if not (scheme_lst or species_lst):
             raise UserException("no species is known and no cgMLST scheme specified")
+
+        execution = cgMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

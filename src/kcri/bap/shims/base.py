@@ -171,13 +171,9 @@ class BAPServiceExecution(Execution):
 
     def get_species(self, default=None):
         '''Return the list of specified and detected species, or else default or else fail if None.'''
-        ret = self._blackboard.get_user_species([])
-        ret.extend(self._blackboard.get_detected_species([]))
-        if not ret:
-            if default is None:
-                raise UserException("no species was specified or determined")
-            else:
-                ret = default
+        ret = self._blackboard.get_species(default)
+        if ret is None:
+            raise UserException("no species was specified or determined")
         return ret
 
     def get_closest_reference(self, default=None):
@@ -196,13 +192,9 @@ class BAPServiceExecution(Execution):
 
     def get_plasmids(self, default=None):
         '''Return the list of specified and detected plasmids, or else default or else fail if None.'''
-        ret = self._blackboard.get_user_plasmids([])
-        ret.extend(self._blackboard.get_detected_plasmids([]))
-        if not ret:
-            if default is None:
-                raise UserException("no plasmids were specified or determined")
-            else:
-                ret = default
+        ret = self._blackboard.get_plasmids(default)
+        if ret is None:
+            raise UserException("no plasmids were specified or determined")
         return ret
 
 

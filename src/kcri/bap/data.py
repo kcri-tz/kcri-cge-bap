@@ -110,6 +110,12 @@ class BAPBlackboard(Blackboard):
     def get_detected_species(self, default=None):
         return self.get('bap/summary/species', default)
 
+    def get_species(self, default=None):
+        ret = list()
+        ret.extend(self.get_user_species(list()))
+        ret.extend(self.get_detected_species(list()))
+        return ret if ret else default
+
     # Reference
 
     def put_closest_reference(self, acc, desc):
@@ -151,6 +157,12 @@ class BAPBlackboard(Blackboard):
 
     def get_detected_plasmids(self, default=None):
         return sorted(self.get('bap/summary/plasmids', default))
+
+    def get_plasmids(self, default=None):
+        ret = list()
+        ret.extend(self.get_user_plasmids(list()))
+        ret.extend(self.get_detected_plasmids(list()))
+        return ret if ret else default
 
     def add_pmlst(self, profile, st):
         str = "%s%s" % (profile, st)

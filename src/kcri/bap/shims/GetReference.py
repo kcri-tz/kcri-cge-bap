@@ -26,13 +26,13 @@ class GetReferenceShim:
     def execute(self, ident, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Execution.'''
 
-        execution = GetReferenceExecution(SERVICE, VERSION, ident, blackboard, scheduler)
-
         # Check whether running is applicable, else throw to SKIP execution
-        closest = execution.get_closest_reference()
+        closest = blackboard.get_closest_reference(dict())
         accession = closest.get('accession')
         if not accession:
             raise UserException('no closest reference accession was found')
+
+        execution = GetReferenceExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

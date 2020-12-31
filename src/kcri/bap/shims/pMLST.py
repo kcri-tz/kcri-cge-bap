@@ -45,13 +45,13 @@ class pMLSTShim:
     def execute(self, ident, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Execution.'''
 
-        execution = pMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
-
         # Check whether running is applicable, else throw to SKIP execution
-        scheme_lst = list(filter(None, execution.get_user_input('pm_s','').split(',')))
-        plasmid_lst = execution.get_plasmids([])
+        scheme_lst = list(filter(None, blackboard.get_user_input('pm_s','').split(',')))
+        plasmid_lst = blackboard.get_plasmids(list())
         if not (scheme_lst or plasmid_lst):
-            raise UserException('no plasmids were found and no pMLST shemes were specified')
+            raise UserException('no plasmids were found and no pMLST scheme specified')
+
+        execution = pMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

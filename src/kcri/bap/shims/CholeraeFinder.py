@@ -25,12 +25,12 @@ class CholeraeFinderShim:
     def execute(self, ident, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Execution.'''
 
-        execution = CholeraeFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
-
         # Check whether running is applicable, else throw to SKIP execution
-        species = execution.get_species([])
+        species = blackboard.get_species(list())
         if not any(filter(lambda s: s.startswith('Vibrio'), species)):
-            raise UserException("service not applicable for species")
+            raise UserException("service not applicable: not Vibrio")
+
+        execution = CholeraeFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

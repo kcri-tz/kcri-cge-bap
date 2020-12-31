@@ -28,11 +28,9 @@ class ReadsMetricsShim:
 
         execution = ReadsMetricsExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
-        # If we throw here, execution will be SKIPPED
-        fastqs = execution.get_fastq_paths()
-
         # From here we catch exception and execution will FAIL
         try:
+            fastqs = execution.get_fastq_paths()
             fn = "'%s'" % os.path.abspath(fastqs[0])
             if len(fastqs) == 2: fn += " '%s'" % os.path.abspath(fastqs[1])
             # Cater for either gzipped or plain input using shell succinctness
