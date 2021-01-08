@@ -6,7 +6,7 @@
 import os, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .KmerFinder import find_db as find_kmer_db
 from .versions import BACKEND_VERSIONS
 
@@ -65,7 +65,7 @@ class GetReferenceShim:
         return execution
 
 # Single execution of the service
-class GetReferenceExecution(BAPServiceExecution):
+class GetReferenceExecution(ServiceExecution):
     '''A single execution of the service.'''
 
     _job = None

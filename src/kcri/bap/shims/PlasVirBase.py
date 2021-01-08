@@ -8,7 +8,7 @@
 import os, json, tempfile
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 
 # Backend resource parameters: cpu, memory, disk, run time
 MAX_CPU = 1
@@ -17,7 +17,7 @@ MAX_SPC = 1
 MAX_TIM = 10 * 60
 
 # The shared base class of the VirulenceFinder and PlasmidFinder execution
-class PlasVirBaseExecution(BAPServiceExecution):
+class PlasVirBaseExecution(ServiceExecution):
     '''Base class for VirulenceFinderExecution and PlasmidFinderExecution.'''
 
     _service_name = None

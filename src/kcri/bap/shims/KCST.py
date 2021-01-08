@@ -6,7 +6,7 @@
 import os, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -55,7 +55,7 @@ class KCSTShim:
         return execution
 
 # Single execution of the service
-class KCSTExecution(BAPServiceExecution):
+class KCSTExecution(ServiceExecution):
     '''A single execution of the KCST service, returned by KCSTShim.execute().'''
 
     _job = None

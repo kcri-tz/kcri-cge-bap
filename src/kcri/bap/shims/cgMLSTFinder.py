@@ -6,7 +6,7 @@
 import os, json, tempfile, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -94,7 +94,7 @@ class cgMLSTFinderShim:
         return schemes
 
 
-class cgMLSTExecution(BAPServiceExecution):
+class cgMLSTExecution(ServiceExecution):
     '''A single execution of the service, returned by the shim's execute().'''
 
     _jobs = list()

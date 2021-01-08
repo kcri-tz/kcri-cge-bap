@@ -11,6 +11,7 @@ DESCRIPTION = 'KCRI CGE Bacterial Analysis Pipeline'
 URL = 'https://github.com/zwets/kcri-cge-bap'
 EMAIL = 'zwets@kcri.ac.tz'
 AUTHOR = 'Marco van Zwetselaar'
+PLATFORMS = [ 'Linux' ]
 REQUIRES_PYTHON = '>=3.8.0'
 REQUIRED = ['picoline' ]
 EXTRAS = { }
@@ -22,6 +23,7 @@ setup(
     version = VERSION,
     description = DESCRIPTION,
     long_description = DESCRIPTION,
+    platforms = PLATFORMS,
     author = AUTHOR,
     author_email = EMAIL,
     python_requires = REQUIRES_PYTHON,

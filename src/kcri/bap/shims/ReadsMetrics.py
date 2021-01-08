@@ -6,15 +6,15 @@
 import os, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
 SERVICE, VERSION = "ReadsMetrics", BACKEND_VERSIONS['fastq-utils']
 
 # Resource parameters: cpu, memory, disk, run time reqs
-MAX_CPU = 2 # all
-MAX_MEM = 1 # all
+MAX_CPU = 2
+MAX_MEM = 1
 MAX_SPC = 1
 MAX_TIM = 5 * 60
 
@@ -55,7 +55,7 @@ class ReadsMetricsShim:
         return execution
 
 # Single execution of the service
-class ReadsMetricsExecution(BAPServiceExecution):
+class ReadsMetricsExecution(ServiceExecution):
     '''A single execution of the service, returned by execute().'''
 
     _job = None

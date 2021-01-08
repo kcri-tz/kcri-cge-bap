@@ -6,7 +6,7 @@
 import os, tempfile, json, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -123,7 +123,7 @@ class pMLSTShim:
         return [ (s, scheme_loci[s]) for s in sorted(schemes) ], warnings
 
 
-class pMLSTExecution(BAPServiceExecution):
+class pMLSTExecution(ServiceExecution):
     '''A single execution of the service, returned by the shim's execute().'''
 
     _jobs = list()  # of (job, scheme, loci, tmpdir) tuple

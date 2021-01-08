@@ -6,7 +6,7 @@
 import os, json, logging, tempfile
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -57,7 +57,7 @@ class CholeraeFinderShim:
         return execution
 
 
-class CholeraeFinderExecution(BAPServiceExecution):
+class CholeraeFinderExecution(ServiceExecution):
     '''A single execution of the service, returned by the shim's execute().'''
 
     _tmp_dir = None

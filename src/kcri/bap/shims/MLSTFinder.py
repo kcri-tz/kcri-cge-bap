@@ -6,7 +6,7 @@
 import os, tempfile, json, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -109,7 +109,7 @@ class MLSTFinderShim:
         return [ (s, scheme_loci[s]) for s in sorted(schemes) ]
 
 
-class MLSTFinderExecution(BAPServiceExecution):
+class MLSTFinderExecution(ServiceExecution):
     '''A single execution of the MLSTFinder service, returned by MLSTFinder.execute().'''
 
     _jobs = list()

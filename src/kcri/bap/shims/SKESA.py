@@ -6,7 +6,7 @@
 import os, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
-from .base import BAPServiceExecution, UserException
+from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -60,7 +60,7 @@ class SKESAShim:
         return execution
 
 # Single execution of the service
-class SKESAExecution(BAPServiceExecution):
+class SKESAExecution(ServiceExecution):
     '''A single execution of the service, returned by execute().'''
 
     _job = None

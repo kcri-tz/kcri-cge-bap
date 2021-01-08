@@ -2,7 +2,7 @@
 #
 # kcri.bap.shims.base - base functionality across all service shims
 #
-#   This module defines BAPServiceExecution and UnimplementedService.
+#   This module defines ServiceExecution and UnimplementedService.
 #
 
 import os
@@ -21,12 +21,12 @@ class UserException(Exception):
         super().__init__(message % args)
 
 
-### class BAPServiceExecution
+### class ServiceExecution
 #
 #   Base class for the executions returned by all BAP Service shims.
 #   Implements functionality common across all BAP service executions.
 
-class BAPServiceExecution(Execution):
+class ServiceExecution(Execution):
     '''Implements a single BAP service execution, subclass for shims to build on.'''
 
     _blackboard = None
@@ -201,7 +201,7 @@ class BAPServiceExecution(Execution):
 ### class UnimplementedService
 #
 #   Shim for services in the SERVICES map that don't have a shim yet.
-#   The UnimplementedService returns a BAPServiceExecution that fails.
+#   The UnimplementedService returns a ServiceExecution that fails.
 
 class UnimplementedService():
     '''Base unimplemented class, starts but then fails on first report.'''
@@ -210,7 +210,7 @@ class UnimplementedService():
         return UnimplementedService.Execution( \
                 'unimplemented', '1.0.0', ident, blackboard, scheduler)
 
-    class Execution(BAPServiceExecution):
+    class Execution(ServiceExecution):
         def report(self):
             return self.fail("service %s is not implemented", self.ident)
 
