@@ -125,8 +125,8 @@ fi
 
 if [ -n "$REF_FILE" ]; then
     # Set F to absolute path unless beneath $PWD
-    F="$(realpath -e --relative-base="${BAP_WORK_DIR:-$PWD}" "$1" 2>/dev/null)" ||
-        err_exit "no such file: $1"
+    F="$(realpath -e --relative-base="${BAP_WORK_DIR:-$PWD}" "$REF_FILE" 2>/dev/null)" ||
+        err_exit "no such file: $REF_FILE"
 
     # Prefix it with /host unless it is a relative path
     [ -n "${F##/*}" ] || F="/host$F"
