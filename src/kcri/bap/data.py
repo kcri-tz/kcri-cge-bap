@@ -25,13 +25,13 @@ class BAPBlackboard(Blackboard):
 
     # BAP-level methods
 
-    def start_bap_run(self, service, version, user_inputs):
+    def start_run(self, service, version, user_inputs):
         self.put('bap/run_info/service', service)
         self.put('bap/run_info/version', version)
         self.put('bap/run_info/time/start', datetime.now().isoformat(timespec='seconds'))
         self.put('bap/user_inputs', user_inputs)
 
-    def end_bap_run(self, state):
+    def end_run(self, state):
         start_time = datetime.fromisoformat(self.get('bap/run_info/time/start'))
         end_time = datetime.now()
         self.put('bap/run_info/time/end', end_time.isoformat(timespec='seconds'))

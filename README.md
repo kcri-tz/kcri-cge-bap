@@ -92,6 +92,7 @@ Download the backend services
 
 Build the `kcri-cge-bap` Docker image
 
+    # Use the ./build.sh script or manually do:
     docker build -t kcri-cge-bap "." | tee build.log
 
 Smoke test the container

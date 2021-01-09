@@ -3,20 +3,20 @@
 # BAP.py - main for the KCRI CGE Bacterial Analysis Pipeline
 #
 
-import sys, os, argparse, gzip, io, json, re, textwrap
+import sys, os, argparse, gzip, io, json, re
 from pico.workflow.logic import Workflow
 from pico.workflow.executor import Executor
 from pico.jobcontrol.subproc import SubprocessScheduler
 from .data import BAPBlackboard
-from .services import SERVICES as BAP_SERVICES
-from .workflow import DEPENDENCIES as BAP_DEPENDENCIES
+from .services import SERVICES
+from .workflow import DEPENDENCIES
 from .workflow import UserTargets, Services, Params
 from . import __version__
 
 # Global variables and defaults
 SERVICE, VERSION = "KCRI CGE BAP", __version__
 
-# Exit the BAP with error message and non-zero code
+# Exit with error message and non-zero code
 def err_exit(msg, *args):
     print(('BAP: %s' % msg) % args, file=sys.stderr)
     sys.exit(1)
@@ -48,27 +48,30 @@ def main():
     '''BAP main program.'''
 
     parser = argparse.ArgumentParser(
-        description=textwrap.dedent("""\
-            The KCRI CGE Bacterial Analysis Pipeline (BAP) performs a configurable
-            smorgasbord of analyses on the sequencer reads and/or assembled contigs
-            of a bacterial isolate.
+        description="""\
+The KCRI CGE Bacterial Analysis Pipeline (BAP) performs a configurable
+smorgasbord of analyses on the sequencer reads and/or assembled contigs
+of a bacterial isolate.
 
-            The analyses to be performed are specified using the -t/--targets option.
-            The default target performs species detection, MLST, resistance, virulence,
-            and plasmid typing (but no cgMLST).  The FULL target runs all available
-            services.
+The analyses to be performed are specified using the -t/--targets option.
+The default target performs species detection, MLST, resistance, virulence,
+and plasmid typing (but no cgMLST).  The FULL target runs all available
+services.
 
-            Use -l/--list-targets to see the available targets.  Use -t/--targets to
-            specify a custom set of targets, or combine with -x/--exclude to exclude
-            certain targets or services.  Use -s/--list-services to see available services.
+Use -l/--list-targets to see the available targets.  Use -t/--targets to
+specify a custom set of targets, or combine with -x/--exclude to exclude
+certain targets or services.  Option -s/--list-services lists available
+services.
 
-            If a requested service depends on the output of another service, then the
-            dependency will be automatically added.
-            """),
-        epilog=textwrap.dedent("""\
-            Instead of passing arguments on the command-line, you can put them in a
-            text file and pass this to the BAP using @FILENAME.
-            """))
+If a requested service depends on the output of another service, then the
+dependency will be automatically added.
+""",
+        epilog="""\
+Instead of passing arguments on the command-line, you can put them, one
+per line, in a text file and pass this file with @FILENAME.
+""",
+        fromfile_prefix_chars='@',
+        formatter_class=argparse.RawDescriptionHelpFormatter)
 
     # General arguments
     group = parser.add_argument_group('General parameters')
@@ -130,14 +133,14 @@ def main():
     # Perform the parsing
     args = parser.parse_args()
 
-    # Parse targets and translate to BAP workflow arguments
+    # Parse targets and translate to workflow arguments
     targets = []
     try:
         targets = list(map(lambda t: UserTargets(t.strip()), args.targets.split(',') if args.targets else []))
     except ValueError as ve:
         err_exit('invalid target: %s (try --list-targets)', ve)
 
-    # Parse excludes and translate to BAP workflow arguments
+    # Parse excludes and translate to workflow arguments
     excludes = []
     try:
         excludes = list(map(lambda t_or_s: UserTargetOrService(t_or_s.strip()), args.exclude.split(',') if args.exclude else []))
@@ -215,12 +218,10 @@ def main():
 
     # Set up the Workflow execution
     blackboard = BAPBlackboard(args.verbose)
-    blackboard.start_bap_run(SERVICE, VERSION, vars(args))
+    blackboard.start_run(SERVICE, VERSION, vars(args))
     blackboard.put_db_root(db_root)
     blackboard.put_sample_id(sample_id)
 
-    # Check for two Illumina reads when fastqs are present
-    # because only then we may run the SKESA backend
     # Set the workflow params based on user inputs present
     params = list()
     if contigs:
@@ -229,11 +230,11 @@ def main():
     if fastqs:
         params.append(Params.READS)
         blackboard.put_fastq_paths(fastqs)
+        # Check for paired Illumina reads (SKESA backend dependency)
         if len(fastqs) == 2 and is_illumina_reads(fastqs[0]) and is_illumina_reads(fastqs[1]):
             params.append(Params.ILLUMINA)  # is workflow param: SKESA requires them
         else:
             blackboard.add_warning('fastq files not detected to be paired Illumina reads')
-
     if args.species:
         params.append(Params.SPECIES)
         blackboard.put_user_species(list(filter(None, map(lambda x: x.strip(), args.species.split(',')))))
@@ -242,19 +243,19 @@ def main():
         blackboard.put_user_plasmids(list(filter(None, map(lambda x: x.strip(), args.plasmids.split(',')))))
 
     # Pass the actual data via the blackboard
-    workflow = Workflow(BAP_DEPENDENCIES, params, targets, excludes)
+    workflow = Workflow(DEPENDENCIES, params, targets, excludes)
     scheduler = SubprocessScheduler(args.max_cpus, args.max_mem, args.max_disc, args.max_time, args.poll, not args.verbose)
-    executor = Executor(workflow, BAP_SERVICES, scheduler)
+    executor = Executor(workflow, SERVICES, scheduler)
     executor.execute(blackboard)
-    blackboard.end_bap_run(workflow.status.value)
+    blackboard.end_run(workflow.status.value)
 
-    # Write the results to bap-results.json
+    # Write the JSON results file
     with open('bap-results.json', 'w') as f_json:
         json.dump(blackboard.as_dict(args.verbose), f_json)
 
-    # Write the summary table to bap-summary.tsv
+    # Write the TSV summary results file
     with open('bap-summary.tsv', 'w') as f_tsv:
-        commasep = lambda l: '' if not l else ','.join(l)
+        commasep = lambda l: ','.join(l) if l else ''
         b = blackboard
         d = dict({
             's_id': b.get_sample_id(),
