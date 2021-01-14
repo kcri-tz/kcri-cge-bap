@@ -81,7 +81,7 @@ while [ $# -ge 1 ]; do
     -d|--db-root*)
         err_exit "set BAP_DB_DIR instead of parameter -d/--db-root when dockerised"
         ;;
-    --*=*|-h|--help|-v|--verbose|--list-*|--pt-a)  # The currently known no-arg flags
+    --*=*|-h|--help|-v|--verbose|-l|-s|--list-*|--pt-a)  # The currently known no-arg flags
         append_arg "$1"
         shift ;;
     -*)                                  # Assume all the rest come with arg
