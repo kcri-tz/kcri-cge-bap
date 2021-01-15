@@ -30,9 +30,11 @@ class SKESAShim:
 
         execution = SKESAExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
+        # Max out the CPU and MEM but within reasonability
+        MAX_CPU = min(scheduler.max_cpu, 12)
+        MAX_MEM = min(int(scheduler.max_mem), 32)
+
         # Get the execution parameters from the blackboard
-        MAX_CPU = scheduler.max_cpu
-        MAX_MEM = int(scheduler.max_mem)
         try:
             if len(execution.get_fastq_paths()) != 2:
                 raise UserException("SKESA backend only handles paired-end reads")
