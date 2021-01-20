@@ -54,14 +54,13 @@ smorgasbord of analyses on the sequencer reads and/or assembled contigs
 of a bacterial isolate.
 
 The analyses to be performed are specified using the -t/--targets option.
-The default target performs species detection, MLST, resistance, virulence,
+The DEFAULT target performs species detection, MLST, resistance, virulence,
 and plasmid typing (but no cgMLST).  The FULL target runs all available
 services.
 
-Use -l/--list-targets to see the available targets.  Use -t/--targets to
-specify a custom set of targets, or combine with -x/--exclude to exclude
-certain targets or services.  Option -s/--list-services lists available
-services.
+Use -l/--list-available to see the available targets and services.  Use
+-t/--targets to specify a custom set of targets, or combine -t DEFAULT
+with -x/--exclude to exclude certain targets or services.
 
 If a requested service depends on the output of another service, then the
 dependency will be automatically added.
@@ -81,8 +80,7 @@ per line, in a text file and pass this file with @FILENAME.
     group.add_argument('-p', '--plasmids', metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
     group.add_argument('-i', '--id',       metavar='ID', help="identifier to use for the isolate in reports")
     group.add_argument('-o', '--out-dir',  metavar='PATH', default='.', help="directory to write output to, will be created (relative to PWD when dockerised)")
-    group.add_argument('-l', '--list-targets',   action='store_true', help="list the available targets")
-    group.add_argument('-s', '--list-services',  action='store_true', help="list the available services")
+    group.add_argument('-l', '--list-available', action='store_true', help="list the available targets and services")
     group.add_argument('-d', '--db-root',  metavar='PATH', default='/databases', help="base path to service databases (leave default when dockerised)")
     group.add_argument('-v', '--verbose',  action='store_true', help="write verbose output to stderr")
     group.add_argument('files', metavar='FILE', nargs='*', default=[], help="input file(s) in optionally gzipped FASTA or fastq format")
@@ -138,14 +136,14 @@ per line, in a text file and pass this file with @FILENAME.
     try:
         targets = list(map(lambda t: UserTargets(t.strip()), args.targets.split(',') if args.targets else []))
     except ValueError as ve:
-        err_exit('invalid target: %s (try --list-targets)', ve)
+        err_exit('invalid target: %s (try --list-available)', ve)
 
     # Parse excludes and translate to workflow arguments
     excludes = []
     try:
         excludes = list(map(lambda t_or_s: UserTargetOrService(t_or_s.strip()), args.exclude.split(',') if args.exclude else []))
     except ValueError as ve:
-        err_exit('invalid exclude: %s (try --list-targets and --list-services)', ve)
+        err_exit('invalid exclude: %s (try --list-available)', ve)
 
     # Parse and validate files into contigs and fastqs list
     contigs = None
@@ -164,15 +162,14 @@ per line, in a text file and pass this file with @FILENAME.
         else:
             err_exit("file is neither FASTA not fastq: %s" % f)
 
-    # Parse the --list options
-    if args.list_targets:
+    # Parse the --list_available
+    if args.list_available:
         print('targets:', ','.join(t.value for t in UserTargets))
-    if args.list_services:
         print('services:', ','.join(s.value for s in Services))
 
     # Exit when no contigs and/or fastqs were provided
     if not contigs and not fastqs:
-        if not args.list_targets and not args.list_services:
+        if not args.list_available:
             err_exit('no input files were provided')
         else:
             sys.exit(0)

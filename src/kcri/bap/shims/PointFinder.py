@@ -3,7 +3,7 @@
 # kcri.bap.shims.PointFinder - service shim to the PointFinder backend
 #
 
-import os, json, logging
+import os, json, csv, logging
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
@@ -112,6 +112,36 @@ class PointFinderExecution(ServiceExecution):
         '''Collect the job output and put on blackboard.
            This method is called by super().report() once job is done.'''
 
+        res_out = dict()
+
+        # The provisional JSON we parse further down does not yet link sequence variations
+        # to phenotypes, so for now we parse PointFinder_results.txt:
+        #    Mutation        Nucleotide change       Amino acid change       Resistance      PMID
+        #    gyrA p.S83L     TCG -> TTG      S -> L  Nalidixic acid,Ciprofloxacin    8891148
+        #    gyrA p.D87N     GAC -> AAC      D -> N  Nalidixic acid,Nalidixic acid,Ciprofloxacin     12654733
+        #    parC p.S80I     AGC -> ATC      S -> I  Nalidixic acid,Ciprofloxacin    8851598
+        #    parE p.S458T    TCG -> ACG      S -> T  Nalidixic acid,Ciprofloxacin    14506034
+
+        tab_out = job.file_path('PointFinder_results.txt')
+        try:
+            res_out['findings'] = list()
+            with open(tab_out, newline='') as f:
+                reader = csv.DictReader(f, delimiter='\t')
+                for row in reader:
+                    # Append the mutation to the findings list
+                    res_out['findings'].append(dict({
+                        'mutation': row['Mutation'],
+                        'nt_change': row['Nucleotide change'],
+                        'aa_change': row['Amino acid change'],
+                        'resistance': sorted(list(set(row.get('Resistance','').split(',')))),
+                        'pmid': row.get('PMID')}))
+                    # Append the mutation to the summary info on the blackboard
+                    self._blackboard.add_amr_mutation(row['Mutation'])
+        except Exception as e:
+            logging.exception(e)
+            self.fail('failed to open or read file: %s' % tab_out)
+            return
+
         # ResFinder and PointFinder have provisional standardised output in 
         # 'std_format_under_development.json', which has top-level elements
         # 'genes', 'seq_variations', and 'phenotypes'.
@@ -123,32 +153,28 @@ class PointFinderExecution(ServiceExecution):
         # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
         # to create issues down the line as they contain JSON delimiters.
 
-        # NOTE: the provisional JSON does not link sequence variations to phenotypes
-        #       but this information IS present in the tables in this directory, so
-        # TODO: parse the tables rather than the JSON or fix the JSON
-
-        out_file = job.file_path('std_format_under_development.json')
+        json_out = job.file_path('std_format_under_development.json')
         try:
-            with open(out_file, 'r') as f: json_in = json.load(f)
+            with open(json_out, 'r') as f: json_in = json.load(f)
         except Exception as e:
             logging.exception(e)
-            self.fail('failed to open or load JSON from file: %s' % out_file)
+            self.fail('failed to open or load JSON from file: %s' % json_out)
             return
 
-        # Produce the result dictionary, converting as documented above.
-        res_out = dict()
+        # Append to the result dictionary, converting as documented above.
         for k, v in json_in.items():
             if k in ['genes','seq_variations','phenotypes']:
                 res_out[k] = [ o for o in v.values() ]
             else:
                 res_out[k] = v
 
-        # Store the mutations, classes, and phenotypes in the summary
-        for m in res_out.get('seq_variations', []):
-            self._blackboard.add_amr_mutation('%s:%s' % (m.get('genes',['?'])[0], m.get('seq_var','?')))
+        # Store the classes and phenotypes in the summary
         for p in filter(lambda d: d.get('resistant', False), res_out.get('phenotypes', [])):
             self._blackboard.add_amr_classes(p.get('classes',[]))
             self._blackboard.add_amr_phenotype(p.get('resistance',p.get('key','unknown')))
+        # We don't store the seq_variations until we know their phenotype (instead do above)
+        #for m in res_out.get('seq_variations', []):
+        #    self._blackboard.add_amr_mutation('%s:%s' % (m.get('genes',['?'])[0], m.get('seq_var','?')))
 
         # Store the results on the blackboard
         self.store_results(res_out)
