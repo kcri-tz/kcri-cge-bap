@@ -16,7 +16,7 @@ SERVICE, VERSION = "SKESA", BACKEND_VERSIONS['skesa']
 #MAX_CPU = -1 # all
 #MAX_MEM = 12 # all
 MAX_SPC = 1
-MAX_TIM = 10 * 60
+MAX_TIM = 30 * 60
 
 # Output file ex work dir
 CONTIGS_OUT = 'contigs.fna'
