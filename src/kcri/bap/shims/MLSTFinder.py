@@ -101,7 +101,7 @@ class MLSTFinderShim:
             if g == 'Shigella': g = 'Escherichia'   # Hack ...
             ss = genus_schemes.get(g)
             if not ss:
-                warnings.add("no scheme found for genus: %s" % g)
+                warnings.append("no scheme found for genus: %s" % g)
             else:
                 schemes.extend(filter(lambda s: s not in schemes, ss))
 
