@@ -53,7 +53,6 @@ RUN echo "unset HISTFILE" >>/etc/bash.bashrc && \
 # - Our jobcontrol module requires psutil
 # - Biopython and tabulate are used by all CGE services
 # - ResFinder requires python-dateutil and gitpython
-# - @TODO@ REMOVE joblib and simplejson (were for Quast)
 # - cgMLST requires ete3 in its make_nj_tree.py, which we don't use,
 #   and spuriously in cgMLST.py, where we comment it out (see patch).
 
@@ -61,8 +60,7 @@ RUN conda install \
         nomkl \
 	psutil \
 	biopython tabulate \
-	python-dateutil gitpython \
-	joblib simplejson && \
+	python-dateutil gitpython && \
     conda list && \
     conda clean -qy --tarballs
 

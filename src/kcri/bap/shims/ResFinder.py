@@ -111,9 +111,7 @@ class ResFinderExecution(ServiceExecution):
         # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
         # to create issues down the line as they contain JSON delimiters.
 
-        # NOTE: the provisional JSON does not link sequence variations to phenotypes
-        #       but this information IS present in the tables in this directory, so
-        # TODO: parse the tables rather than the JSON or fix the JSON
+        # TODO: the tables have more info than the JSON, extract or fix json?
 
         out_file = job.file_path('std_format_under_development.json')
         try:
@@ -135,8 +133,8 @@ class ResFinderExecution(ServiceExecution):
         for g in res_out.get('genes', []):
             self._blackboard.add_amr_gene(g.get('name','unknown'))
         for p in filter(lambda d: d.get('resistant', False), res_out.get('phenotypes', [])):
-            self._blackboard.add_amr_classes(p.get('classes',[]))
-            self._blackboard.add_amr_phenotype(p.get('resistance',p.get('key','unknown')))
+            self._blackboard.add_amr_classes(p.get('amr_classes',[]))
+            self._blackboard.add_amr_phenotype(p.get('resistance','unknown'))
 
         # Store the results on the blackboard
         self.store_results(res_out)

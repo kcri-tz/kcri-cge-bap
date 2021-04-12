@@ -75,7 +75,7 @@ for D in kmerfinder; do
     [ -f config ] && grep -Ev '^[[:space:]]*(#|$)' config | cut -f1 | while read N REST; do
         cd "$BASE_DIR/$D/$N" && 
         any_newer '*.fna' "$N.seq.b" &&
-        kma_index -i *.fna -o "$N" 2>&1 | grep -v '^#' ||
+        kma_index -i *.fna -o "$N" -Sparse - 2>&1 | grep -v '^#' ||
         true
     done
     printf 'OK\n'

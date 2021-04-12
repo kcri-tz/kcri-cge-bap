@@ -116,6 +116,7 @@ class PointFinderExecution(ServiceExecution):
 
         # The provisional JSON we parse further down does not yet link sequence variations
         # to phenotypes, so for now we parse PointFinder_results.txt:
+        # NOTE 2021-04-12: seems this data in now partly present, but without e.g. PMID
         #    Mutation        Nucleotide change       Amino acid change       Resistance      PMID
         #    gyrA p.S83L     TCG -> TTG      S -> L  Nalidixic acid,Ciprofloxacin    8891148
         #    gyrA p.D87N     GAC -> AAC      D -> N  Nalidixic acid,Nalidixic acid,Ciprofloxacin     12654733
@@ -170,8 +171,8 @@ class PointFinderExecution(ServiceExecution):
 
         # Store the classes and phenotypes in the summary
         for p in filter(lambda d: d.get('resistant', False), res_out.get('phenotypes', [])):
-            self._blackboard.add_amr_classes(p.get('classes',[]))
-            self._blackboard.add_amr_phenotype(p.get('resistance',p.get('key','unknown')))
+            self._blackboard.add_amr_classes(p.get('amr_classes',[]))
+            self._blackboard.add_amr_phenotype(p.get('resistance','unknown'))
         # We don't store the seq_variations until we know their phenotype (instead do above)
         #for m in res_out.get('seq_variations', []):
         #    self._blackboard.add_amr_mutation('%s:%s' % (m.get('genes',['?'])[0], m.get('seq_var','?')))

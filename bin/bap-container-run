@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# bap-docker-run - run the BAP docker image
+# bap-container-run - run the BAP docker image
 #
 #   Convenience wrapper for running the kcri-cge-bap docker container.
 #

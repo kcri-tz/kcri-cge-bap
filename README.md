@@ -88,12 +88,13 @@ Clone and enter this repository
 
 Download the backend services
 
-    scripts/update-backends.sh
+    ext/update-backends.sh
 
 Build the `kcri-cge-bap` Docker image
 
-    # Use the ./build.sh script or manually do:
-    docker build -t kcri-cge-bap "." | tee build.log
+    ./build.sh
+    # Or do what is in it: 
+    #docker build -t kcri-cge-bap "." | tee build.log
 
 Smoke test the container
 
@@ -107,7 +108,7 @@ Index the test databases
     # This uses the kma_index and kcst indexers in the freshly built
     # image to index test/databases/*:
 
-    scripts/index-databases test/databases
+    scripts/index-databases.sh test/databases
 
 Run on test data against the test databases:
 
@@ -117,8 +118,11 @@ Run on test data against the test databases:
     # Run BAP on a sample of paired-end reads
     test/test-02-fq.sh
 
-    # Same but additionally do assembly
-    test/test-03-asm.sh
+    # Compute metrics over FASTA and FASTQ
+    test/test-02-fq.sh
+
+    # Run BAP including assembly
+    test/test-04-asm.sh
 
 If the tests above all end with with `[OK]`, you are good to go.  (Note
 the test reads are just a small subset of a normal run, so the run output
@@ -185,10 +189,10 @@ Run any of the services in the container directly:
   `ext/backend-versions.config` and run `ext/update-backends.sh`.
 
 * To upgrade some backend to the latest on master (or some other branch),
-  set their requested version to `master`, then run `scripts/update-backends.sh`.
+  set their requested version to `master`, then run `ext/update-backends.sh`.
 
 * Before committing a release to production, for reproducibility, run
-  `scripts/pin-backend-versions.sh` to record the actual versions.
+  `ext/pin-backend-versions.sh` to record the actual versions.
 
 * Run tests after upgrading backends:
 
