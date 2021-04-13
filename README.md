@@ -93,7 +93,8 @@ Download the backend services
 Build the `kcri-cge-bap` Docker image
 
     ./build.sh
-    # Or do what is in it: 
+
+    # Or manually do what build.sh does:
     #docker build -t kcri-cge-bap "." | tee build.log
 
 Smoke test the container
@@ -119,7 +120,7 @@ Run on test data against the test databases:
     test/test-02-fq.sh
 
     # Compute metrics over FASTA and FASTQ
-    test/test-02-fq.sh
+    test/test-03-metrics.sh
 
     # Run BAP including assembly
     test/test-04-asm.sh
