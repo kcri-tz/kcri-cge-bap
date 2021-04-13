@@ -74,9 +74,12 @@ for D in kmerfinder; do
     printf 'Indexing %s ... ' $D
     cd "$BASE_DIR/$D"
     [ -f config ] && grep -Ev '^[[:space:]]*(#|$)' config | cut -f1 | while read N REST; do
-        cd "$BASE_DIR/$D/$N" && 
+        B="${N%.*}"
+        S="${N##*.}"
+        [ "$S" != "$B" ] || S='-'
+        cd "$BASE_DIR/$D/$B" &&
         any_newer '*.fna' "$N.seq.b" &&
-        kma_index -i *.fna -o "$N" -Sparse - 2>&1 | grep -v '^#' ||
+        kma_index -i *.fna -o "$N" -Sparse "$S" 2>&1 | grep -v '^#' ||
         true
     done
     printf 'OK\n'
