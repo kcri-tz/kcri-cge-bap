@@ -32,7 +32,7 @@ def detect_filetype(fname):
 
 # Helper to detect whether fastq file has Illumina reads
 def is_illumina_reads(fname):
-    pat = re.compile(r'^@[^:]+:\d+:[^:]+:\d+:\d+:\d+:\d+ [12]:[YN]:\d+:[^:]+$')
+    pat = re.compile(r'^@[^:]+:\d+:[^:]+:\d+:\d+:\d+:\d+ [12]:[YN]:\d+:[^: ]+( .*)?$')
     with open(fname, 'rb') as f:
         b = f.peek(2)
         buf = io.TextIOWrapper(gzip.GzipFile(fileobj=f) if b[:2] == b'\x1f\x8b' else f)
