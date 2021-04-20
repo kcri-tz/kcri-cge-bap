@@ -51,7 +51,7 @@ CMD_LINE='BAP'
 # Exit with message to stderr
 err_exit() { echo "$(basename "$0"): $*"; exit 1; }
 
-# Append escaped arg to CMD_LINE, , uses bash's builtin
+# Append escaped arg to CMD_LINE, could also use bash's builtin:
 #append_arg() { printf -v ARG '%q' "$1"; CMD_LINE="$CMD_LINE $ARG"; }
 append_arg() { CMD_LINE="$CMD_LINE '$1'"; }
 
@@ -62,25 +62,11 @@ append_arg() { CMD_LINE="$CMD_LINE '$1'"; }
 unset OUT_DIR REF_FILE
 while [ $# -ge 1 ]; do
     case "$1" in
-    --ref*=*)
-        REF_FILE="${1##--ref*=}"
-	shift
-        ;;
-    -r|--ref*)
-        REF_FILE="$2"
-        shift 2
-        ;;
-    --out-dir=*)
-        OUT_DIR="${1##--out-dir=}"
-	shift
-        ;;
-    -o|--out-dir)
-        OUT_DIR="$2"
-        shift 2
-        ;;
-    -d|--db-root*)
-        err_exit "set BAP_DB_DIR instead of parameter -d/--db-root when dockerised"
-        ;;
+    --ref*=*)      REF_FILE="${1##--ref*=}"; shift ;;
+    -r|--ref*)     REF_FILE="$2"; shift 2 ;;
+    --out-dir=*)   OUT_DIR="${1##--out-dir=}"; shift ;;
+    -o|--out-dir)  OUT_DIR="$2"; shift 2 ;;
+    -d|--db-root*) err_exit "set BAP_DB_DIR instead of parameter -d/--db-root when dockerised" ;;
     --*=*|-h|--help|-v|--verbose|-l|--list-*|--pt-a)  # The currently known no-arg flags
         append_arg "$1"
         shift ;;
@@ -124,6 +110,7 @@ fi
 # Handle the REF_FILE option
 
 if [ -n "$REF_FILE" ]; then
+
     # Set F to absolute path unless beneath $PWD
     F="$(realpath -e --relative-base="${BAP_WORK_DIR:-$PWD}" "$REF_FILE" 2>/dev/null)" ||
         err_exit "no such file: $REF_FILE"
@@ -155,4 +142,3 @@ done
 
 # Execute the collected command line, note we use eval to dequote the args
 eval exec "$(dirname "$(realpath -e "$0")")/bap-container-run" $CMD_LINE
-

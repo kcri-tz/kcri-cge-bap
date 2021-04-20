@@ -186,6 +186,8 @@ Run any of the services in the container directly:
 
 ## Development / Upgrades
 
+* After updating databases, rerun `scripts/index-databases.sh DB_DIR`.
+
 * To change the backend versions, set the requested versions in
   `ext/backend-versions.config` and run `ext/update-backends.sh`.
 
@@ -215,9 +217,9 @@ batch submission system.  It ran at KCRI for several years on a cluster of
 four 8 core, 32GB Dell Precision M4700 laptop workstations.
 
 As the BAP evolved, its workflow logic became unwieldy and was factored out
-into a simple generic mechanism.  That code is now in the `src/cgeflow`
-package, whereas all BAP-specifics (workflow definitions and service shims)
-are in the `src/kcribap` package.
+into a simple generic mechanism.  That code is now in <https://github.com/zwets/picoline>
+whereas all BAP-specifics (the workflow definitions and service shims) are
+in the `src/kcri/bap` package.
 
 The next generation BAP "2.0" is under development at CGE, and is based on
 the NextFlow workflow control engine.  We envisage migrating KCRI BAP to that
