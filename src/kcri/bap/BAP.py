@@ -276,7 +276,7 @@ per line, in a text file and pass this file with @FILENAME.
             'cgst': commasep(b.get_cgmlsts()),
             'amr_mut': commasep(b.get_amr_mutations())
             })
-        print('\t'.join(d.keys()), file=f_tsv)
+        print('#', '\t'.join(d.keys()), file=f_tsv)
         print('\t'.join(map(lambda v: v if v else '', d.values())), file=f_tsv)
 
     # Done done

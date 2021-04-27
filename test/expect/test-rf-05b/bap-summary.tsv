@@ -1,2 +1,2 @@
-s_id	n_reads	nt_read	pct_q30	n_ctgs	nt_ctgs	n1	n50	l50	pct_gc	species	mlst	amr_cls	amr_phe	amr_gen	vir_gen	plasmid	pmlsts	cgst	amr_mut
+# s_id	n_reads	nt_read	pct_q30	n_ctgs	nt_ctgs	n1	n50	l50	pct_gc	species	mlst	amr_cls	amr_phe	amr_gen	vir_gen	plasmid	pmlsts	cgst	amr_mut
 test_isolate_05	1110	166500	90.4	NA	NA	NA	NA	NA	53.1			fluoroquinolone	ciprofloxacin,nalidixic acid						gyrA p.S83A
