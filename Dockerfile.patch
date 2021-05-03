@@ -23,6 +23,8 @@ WORKDIR /usr/src
 #RUN mkdir -p ext/picoline
 #COPY ext/picoline ext/picoline
 #RUN cd ext/picoline && python3 setup.py install && cd .. && rm -rf picoline
+COPY ext/fastq-utils ext/fastq-utils
+RUN cd ext/fastq-utils && make clean && make fastq-stats && cp fastq-stats /usr/local/bin/ && cd .. && rm -rf fastq-utils
 
 # CGE Services
 #COPY ext/resfinder ext/
