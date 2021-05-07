@@ -254,17 +254,26 @@ per line, in a text file and pass this file with @FILENAME.
     with open('bap-summary.tsv', 'w') as f_tsv:
         commasep = lambda l: ','.join(l) if l else ''
         b = blackboard
+
+        # For computing cross-service metrics
+        nt_ctgs = int(b.get('services/ContigsMetrics/results/tot_len', 0))
+        nt_read = int(b.get('services/ReadsMetrics/results/n_bases', 0))
+        pct_q30 = float(b.get('services/ReadsMetrics/results/pct_q30', 0))
+
         d = dict({
             's_id': b.get_sample_id(),
             'n_reads': b.get('services/ReadsMetrics/results/n_reads', 'NA'),
-            'nt_read': b.get('services/ReadsMetrics/results/n_bases', 'NA'),
-            'pct_q30': b.get('services/ReadsMetrics/results/pct_q30', 'NA'),
+            'nt_read': nt_read if nt_read else 'NA',
+            'pct_q30': pct_q30 if pct_q30 else 'NA',
             'n_ctgs': b.get('services/ContigsMetrics/results/n_seqs', 'NA'),
-            'nt_ctgs': b.get('services/ContigsMetrics/results/tot_len', 'NA'),
-            'n1':  b.get('services/ContigsMetrics/results/max_len', 'NA'),
-            'n50':  b.get('services/ContigsMetrics/results/n50', 'NA'),
-            'l50':  b.get('services/ContigsMetrics/results/l50', 'NA'),
-            'pct_gc':  b.get('services/ContigsMetrics/results/pct_gc', b.get('services/ReadsMetrics/results/pct_gc', 'NA')),
+            'nt_ctgs': nt_ctgs if nt_ctgs else 'NA',
+            'n1': b.get('services/ContigsMetrics/results/max_len', 'NA'),
+            'n50': b.get('services/ContigsMetrics/results/n50', 'NA'),
+            'l50': b.get('services/ContigsMetrics/results/l50', 'NA'),
+            'avg_dp': int(0.5 + nt_read / nt_ctgs) if nt_ctgs and nt_read else 'NA',
+            'q30_dp': int(0.5 + pct_q30 / 100 * nt_read / nt_ctgs) if nt_ctgs and nt_read and pct_q30 else 'NA',
+            'ref_len': b.get_closest_reference_length('NA'),
+            'pct_gc': b.get('services/ContigsMetrics/results/pct_gc', b.get('services/ReadsMetrics/results/pct_gc', 'NA')),
             'species': commasep(b.get_detected_species([])),
             'mlst': commasep(b.get_mlsts()),
             'amr_cls': commasep(b.get_amr_classes()),
@@ -277,7 +286,7 @@ per line, in a text file and pass this file with @FILENAME.
             'amr_mut': commasep(b.get_amr_mutations())
             })
         print('#', '\t'.join(d.keys()), file=f_tsv)
-        print('\t'.join(map(lambda v: v if v else '', d.values())), file=f_tsv)
+        print('\t'.join(map(lambda v: str(v) if v else '', d.values())), file=f_tsv)
 
     # Done done
     return 0

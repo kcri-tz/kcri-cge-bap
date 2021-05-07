@@ -3,7 +3,7 @@
 # kcri.bap.shims.GetReference - service shim to the GetReference backend
 #
 
-import os, logging
+import os, logging, functools
 from pico.workflow.executor import Execution
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
@@ -81,8 +81,12 @@ class GetReferenceExecution(ServiceExecution):
         path = job.file_path(self._out_file)
 
         if os.path.isfile(path):
-            self.store_results({ 'fasta_file': path })
+            length = 0
+            with open(path, 'r') as f:
+                length = functools.reduce(lambda a, l: a if l.startswith('>') else a + len(l.strip()), f, 0)
+            self.store_results({ 'fasta_file': path, 'genome_length': length })
             self._blackboard.put_closest_reference_path(path)
+            self._blackboard.put_closest_reference_length(length)
         else:
             self.fail("backend job produced no output, check: %s", job.file_path(""))
 

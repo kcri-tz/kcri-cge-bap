@@ -187,7 +187,14 @@ class ServiceExecution(Execution):
         '''Return path to FASTA with the user provided reference or else the established one, or else default.'''
         ret = self._blackboard.get_user_reference_path(self._blackboard.get_closest_reference_path(default))
         if ret is None:
-            raise UserException("no reference was specified or closest reference determined")
+            raise UserException("no reference genome was specified or found")
+        return ret
+
+    def get_reference_length(self, default=None):
+        '''Return length of FASTA with the user provided reference or else the established one, or else default.'''
+        ret = self._blackboard.get_user_reference_length(self._blackboard.get_closest_reference_length(default))
+        if ret is None:
+            raise UserException("no reference length available: no reference was specified or found")
         return ret
 
     def get_plasmids(self, default=None):

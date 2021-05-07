@@ -127,12 +127,19 @@ class BAPBlackboard(Blackboard):
         '''Stores the path to the closest reference genome.'''
         self.put('bap/summary/closest/path', path)
 
+    def put_closest_reference_length(self, length):
+        '''Stores the length of the closest reference genome.'''
+        self.put('bap/summary/closest/length', length)
+
     def get_closest_reference(self, default=None):
-        '''Returns dict with fields accession, name, path, or the default.'''
+        '''Returns dict with fields accession, name, path, length, or the default.'''
         return self.get('bap/summary/closest', default)
 
     def get_closest_reference_path(self, default=None):
-        return self.get_closest_reference().get('path', default)
+        return self.get_closest_reference({}).get('path', default)
+
+    def get_closest_reference_length(self, default=None):
+        return self.get_closest_reference({}).get('length', default)
 
     # MLST
 
