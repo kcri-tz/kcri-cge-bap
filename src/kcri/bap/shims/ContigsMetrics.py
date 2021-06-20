@@ -32,7 +32,7 @@ class ContigsMetricsShim:
         try:
             # Cater for either gzipped or plain input using shell succinctness
             fn = os.path.abspath(execution.get_contigs_path())
-            cmd = "(gzip -dc '%s' 2>/dev/null || cat '%s') | uf | uf-stats -t" % (fn,fn) 
+            cmd = "uf '%s' | uf-stats -t" % fn
             params = [
                 '-c', cmd, 'uf-stats'
             ]

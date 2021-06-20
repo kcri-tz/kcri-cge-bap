@@ -142,7 +142,7 @@ come with this repository.  In this step we install the real databases.
 Pick a location for the databases:
 
     # Remember to set this BAP_DB_DIR in bin/bap-container-run
-    BAP_DB_DIR=/data/genomics/cge/db   # KCRI path, replace by yours
+    BAP_DB_DIR=/hpc/data/genomics/cge/db   # KCRI path, replace by yours
 
 Clone the CGE database repositories:
 
