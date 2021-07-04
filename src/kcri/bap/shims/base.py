@@ -62,15 +62,15 @@ class ServiceExecution(Execution):
     # Low level update routines for subclasses
 
     def get_run_info(self, path):
-        return self._blackboard.get('services/%s/run_info/%s' % (self._ident, path))
+        return self._blackboard.get('services/%s/run_info/%s' % (self.ident, path))
 
     def put_run_info(self, path, value):
         '''Update the run_info for this execution to have value at path.'''
-        self._blackboard.put('services/%s/run_info/%s' % (self._ident, path), value)
+        self._blackboard.put('services/%s/run_info/%s' % (self.ident, path), value)
 
     def add_warning(self, warning):
         '''Add warning to the list of warnings of the execution.'''
-        self._blackboard.append_to('services/%s/%s' % (self._ident, 'warnings'), warning)
+        self._blackboard.append_to('services/%s/%s' % (self.ident, 'warnings'), warning)
 
     def add_warnings(self, warnings):
         '''Add list of warnings if not empty to the list of warnings of the execution.'''
@@ -78,7 +78,7 @@ class ServiceExecution(Execution):
 
     def add_error(self, errmsg):
         '''Add errmsg to the list of errors of the service.'''
-        self._blackboard.append_to('services/%s/%s' % (self._ident, 'errors'), errmsg)
+        self._blackboard.append_to('services/%s/%s' % (self.ident, 'errors'), errmsg)
 
     def store_job_spec(self, jobspec):
         '''Store the service parameters on the blackboard.'''
@@ -86,7 +86,7 @@ class ServiceExecution(Execution):
 
     def store_results(self, result):
         '''Store the service results on the blackboard.'''
-        self._blackboard.put('services/%s/results' % self._ident, result)
+        self._blackboard.put('services/%s/results' % self.ident, result)
 
     # Override Execution._transition() to add timestamps and status on blackboard.
 

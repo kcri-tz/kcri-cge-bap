@@ -14,8 +14,7 @@
 #       python3 -m kcri.bap.workflow --help
 #
 #   Sibling module .services defines the mapping from the Services enum defined
-#   below to the shims that wrap the actual backends.  The sibling module .data
-#   defines the BAP-specific "blackboard" that gets passed between the services.
+#   below to the shims that wrap the actual backends.
 #
 
 import pico.workflow.logic
@@ -82,8 +81,12 @@ class UserTargets(pico.workflow.logic.UserTargets):
 ### Dependency definitions
 #
 #   This section defines DEPENDENCIES, a dict that maps each target defined above
-#   to its dependencies.  See the WorkflowLogic module for the definition of the
-#   ALL, ONE, SEQ, OPT, OIF connectors.
+#   to its dependencies.  The connectors are defined by picoline as follows:
+#   - ALL: succeeds iff all its clauses succeed (in any order), fails as soon as one fails
+#   - SEQ: succeeds iff all its clauses succeed in the specified order, fails as soon as first fails
+#   - ONE: succeeds if any of its clauses has succeeded, else starts from left
+#   - OPT: triggers execution of its clause, but succeeds even if the clause fails
+#   - OIF: succeeds iff its clause succeeds, but does not trigger clause execution
 
 DEPENDENCIES = {
     
