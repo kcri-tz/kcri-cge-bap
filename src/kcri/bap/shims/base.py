@@ -7,7 +7,7 @@
 
 import os
 from datetime import datetime
-from pico.workflow.executor import Execution
+from pico.workflow.executor import Task
 from pico.jobcontrol.job import Job
 
 
@@ -26,7 +26,7 @@ class UserException(Exception):
 #   Base class for the executions returned by all BAP Service shims.
 #   Implements functionality common across all BAP service executions.
 
-class ServiceExecution(Execution):
+class ServiceExecution(Task):
     '''Implements a single BAP service execution, subclass for shims to build on.'''
 
     _blackboard = None
@@ -40,19 +40,19 @@ class ServiceExecution(Execution):
         self._scheduler = scheduler
         self.put_run_info('service', svc_name)
         self.put_run_info('version', svc_version)
-        self._transition(Execution.State.STARTED)
+        self._transition(Task.State.STARTED)
 
     # Implementable interface of the execution, to be implemented in subclasses
 
     def report(self):
-        '''Default implentation of Execution.report, should work for most executions.
+        '''Default implentation of Task.report, should work for most executions.
            Checks the job and calls collect_output() to put job output on blackboard.'''
 
         # If our outward state is STARTED check the job
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
             if self._job.state == Job.State.COMPLETED:
                 self.collect_output(self._job)
-                if self.state != Execution.State.FAILED:
+                if self.state != Task.State.FAILED:
                     self.done()
             elif self._job.state == Job.State.FAILED:
                 self.fail(self._job.error)
@@ -88,7 +88,7 @@ class ServiceExecution(Execution):
         '''Store the service results on the blackboard.'''
         self._blackboard.put('services/%s/results' % self.ident, result)
 
-    # Override Execution._transition() to add timestamps and status on blackboard.
+    # Override Task._transition() to add timestamps and status on blackboard.
 
     def _transition(self, new_state, error = None):
         '''Extends the superclass _transition to update the blackboard with status,
@@ -99,7 +99,7 @@ class ServiceExecution(Execution):
 
         # Set the run_info timestamps
         now_time = datetime.now()
-        if new_state == Execution.State.STARTED:
+        if new_state == Task.State.STARTED:
             self.put_run_info('time/start', now_time.isoformat(timespec='seconds'))
         else:
             start_time = datetime.fromisoformat(self.get_run_info('time/start'))
@@ -108,7 +108,7 @@ class ServiceExecution(Execution):
 
         # Set the run_info status field and error list
         self.put_run_info('status', new_state.value)
-        if new_state == Execution.State.FAILED:
+        if new_state == Task.State.FAILED:
             self.add_error(self.error)
 
         return new_state
@@ -214,11 +214,10 @@ class UnimplementedService():
     '''Base unimplemented class, starts but then fails on first report.'''
 
     def execute(self, ident, blackboard, scheduler):
-        return UnimplementedService.Execution( \
+        return UnimplementedService.UnimplementedTask( \
                 'unimplemented', '1.0.0', ident, blackboard, scheduler)
 
-    class Execution(ServiceExecution):
+    class UnimplementedTask(ServiceExecution):
         def report(self):
             return self.fail("service %s is not implemented", self.ident)
-
 

@@ -6,7 +6,7 @@
 #   almost identically.  The PlasVirBaseExecution class herein captures this.
 
 import os, json, tempfile
-from pico.workflow.executor import Execution
+from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
 
@@ -40,7 +40,7 @@ class PlasVirBaseExecution(ServiceExecution):
         job_spec = JobSpec(exe_name, params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
         self.store_job_spec(job_spec.as_dict())
 
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
             self._tmp_dir = tempfile.TemporaryDirectory()
             job_spec.args.extend(['--tmp_dir', self._tmp_dir.name])
             self._job = self._scheduler.schedule_job(job_name, job_spec, work_dir)

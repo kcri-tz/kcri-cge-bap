@@ -4,7 +4,7 @@
 #
 
 import os, json, tempfile, logging
-from pico.workflow.executor import Execution
+from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
@@ -23,7 +23,7 @@ class cgMLSTFinderShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
-        '''Invoked by the executor.  Creates, starts and returns the Execution.'''
+        '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
         scheme_lst = list(filter(None, blackboard.get_user_input('cq_s','').split(',')))
@@ -101,7 +101,7 @@ class cgMLSTExecution(ServiceExecution):
 
     def start(self, schemes, fname, db_dir):
         # Schedule a backend job for every scheme if all is good
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
             for scheme in schemes:
                 self.run_scheme(scheme, fname, db_dir)
 
@@ -124,11 +124,11 @@ class cgMLSTExecution(ServiceExecution):
  
 
     def report(self):
-        '''Implements WorkflowService.Execution.report(), update blackboard
+        '''Implements WorkflowService.Task.report(), update blackboard
            if we are done and return our current state.'''
 
         # If our outward state is STARTED check the jobs
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
 
             # We may be running no jobs at all if no scheme applied
             if len(self._jobs) == 0:

@@ -4,7 +4,7 @@
 #
 
 import os, logging, functools
-from pico.workflow.executor import Execution
+from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
 from .KmerFinder import find_db as find_kmer_db
@@ -24,7 +24,7 @@ class GetReferenceShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
-        '''Invoked by the executor.  Creates, starts and returns the Execution.'''
+        '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
         closest = blackboard.get_closest_reference(dict())
@@ -72,7 +72,7 @@ class GetReferenceExecution(ServiceExecution):
     _out_file = None
 
     def start(self, job_spec, out_file):
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
             self._out_file = out_file
             self._job = self._scheduler.schedule_job('kma-retrieve', job_spec, 'Reference')
 

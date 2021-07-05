@@ -4,7 +4,7 @@
 #
 
 import os, json, logging
-from pico.workflow.executor import Execution
+from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
@@ -23,7 +23,7 @@ class ResFinderShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
-        '''Invoked by the executor.  Creates, starts and returns the Execution.'''
+        '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         execution = ResFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 
@@ -92,7 +92,7 @@ class ResFinderExecution(ServiceExecution):
     _job = None
 
     def start(self, job_spec, work_dir):
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
             self._job = self._scheduler.schedule_job('resfinder', job_spec, work_dir)
 
     # Parse the output produced by the backend service, return list of hits

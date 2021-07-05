@@ -18,7 +18,7 @@ class VirulenceFinderShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
-        '''Invoked by the executor.  Creates, starts and returns the Execution.'''
+        '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         execution = VirulenceFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
 

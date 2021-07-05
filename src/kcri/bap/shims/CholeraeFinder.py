@@ -4,7 +4,7 @@
 #
 
 import os, json, logging, tempfile
-from pico.workflow.executor import Execution
+from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
@@ -23,7 +23,7 @@ class CholeraeFinderShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
-        '''Invoked by the executor.  Creates, starts and returns the Execution.'''
+        '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
         species = blackboard.get_species(list())
@@ -65,7 +65,7 @@ class CholeraeFinderExecution(ServiceExecution):
 
     # Start the execution on the scheduler
     def start(self, job_spec, work_dir):
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
             self.store_job_spec(job_spec.as_dict())
             self._tmp_dir = tempfile.TemporaryDirectory()
             job_spec.args.extend(['--tmp_dir', self._tmp_dir.name])

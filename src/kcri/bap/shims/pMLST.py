@@ -4,7 +4,7 @@
 #
 
 import os, tempfile, json, logging
-from pico.workflow.executor import Execution
+from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
@@ -43,7 +43,7 @@ class pMLSTShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, ident, blackboard, scheduler):
-        '''Invoked by the executor.  Creates, starts and returns the Execution.'''
+        '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
         scheme_lst = list(filter(None, blackboard.get_user_input('pm_s','').split(',')))
@@ -130,7 +130,7 @@ class pMLSTExecution(ServiceExecution):
 
     def start(self, schemes, files, db_dir):
         # Schedule a backend job for every scheme if all is good
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
             for scheme,loci in schemes:
                 self.run_scheme(scheme, loci, files, db_dir)
 
@@ -153,11 +153,11 @@ class pMLSTExecution(ServiceExecution):
 
 
     def report(self):
-        '''Implements WorkflowService.Execution.report(), update blackboard
+        '''Implements WorkflowService.Task.report(), update blackboard
            if we are done and return our current state.'''
 
         # If our outward state is STARTED check the jobs
-        if self.state == Execution.State.STARTED:
+        if self.state == Task.State.STARTED:
 
             # We report only once all our jobs are done
             if all(j[0].state in [ Job.State.COMPLETED, Job.State.FAILED ] for j in self._jobs):
