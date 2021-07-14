@@ -23,10 +23,10 @@ MAX_TIM = 5 * 60
 class ReadsMetricsShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = ReadsMetricsExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = ReadsMetricsExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here we catch exception and execution will FAIL
         try:

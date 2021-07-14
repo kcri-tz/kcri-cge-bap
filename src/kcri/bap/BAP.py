@@ -240,10 +240,10 @@ per line, in a text file and pass this file with @FILENAME.
         blackboard.put_user_plasmids(list(filter(None, map(lambda x: x.strip(), args.plasmids.split(',')))))
 
     # Pass the actual data via the blackboard
-    workflow = Workflow(DEPENDENCIES, params, targets, excludes)
     scheduler = SubprocessScheduler(args.max_cpus, args.max_mem, args.max_disc, args.max_time, args.poll, not args.verbose)
-    executor = Executor(workflow, SERVICES, scheduler)
-    executor.execute(blackboard)
+    executor = Executor(SERVICES, scheduler)
+    workflow = Workflow(DEPENDENCIES, params, targets, excludes)
+    executor.execute(workflow, blackboard)
     blackboard.end_run(workflow.status.value)
 
     # Write the JSON results file

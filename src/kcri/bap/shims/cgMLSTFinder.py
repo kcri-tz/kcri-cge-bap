@@ -22,7 +22,7 @@ MAX_TIM = 10 * 60
 class cgMLSTFinderShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
@@ -31,7 +31,7 @@ class cgMLSTFinderShim:
         if not (scheme_lst or species_lst):
             raise UserException("no species is known and no cgMLST scheme specified")
 
-        execution = cgMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = cgMLSTExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

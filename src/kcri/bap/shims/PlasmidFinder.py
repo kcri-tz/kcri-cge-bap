@@ -16,10 +16,10 @@ SERVICE, VERSION = "PlasmidFinder", BACKEND_VERSIONS['plasmidfinder']
 class PlasmidFinderShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = PlasmidFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = PlasmidFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
          # Get the execution parameters from the blackboard
         try:

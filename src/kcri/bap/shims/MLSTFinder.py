@@ -22,7 +22,7 @@ class MLSTFinderShim:
     '''Service shim that executes CGE MLST backend.
        We call it MLSTFinder to avoid confusion with the term MLST.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
@@ -32,7 +32,7 @@ class MLSTFinderShim:
         if not (genus_lst or scheme_lst or species_lst):
             raise UserException("species must be known or a scheme or genus must be specified")
 
-        execution = MLSTFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = MLSTFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

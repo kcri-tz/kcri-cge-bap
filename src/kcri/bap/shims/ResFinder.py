@@ -22,10 +22,10 @@ MAX_TIM = 10 * 60
 class ResFinderShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = ResFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = ResFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
          # Get the execution parameters from the blackboard
         try:

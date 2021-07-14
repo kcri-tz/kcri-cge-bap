@@ -25,10 +25,10 @@ CONTIGS_OUT = 'contigs.fna'
 class SKESAShim:
     '''Service shim that executes the SKESA backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = SKESAExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = SKESAExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # Max out the CPU and MEM but within reasonability
         MAX_CPU = min(scheduler.max_cpu, 12)

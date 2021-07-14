@@ -32,14 +32,17 @@ class ServiceExecution(Task):
     _blackboard = None
     _scheduler = None
 
-    def __init__(self, svc_name, svc_version, ident, blackboard, scheduler):
-        '''Construct execution rwith identity, blackboard and scheduler, registering
-        wraps blackboard in BAPBlackboard, passes rest on to super().'''
-        super().__init__(ident)
+    def __init__(self, svc_shim, svc_version, sid, xid, blackboard, scheduler):
+        '''Construct execution of service sid for workflow execution xid (will be None)
+           writing to blackboard and using the scheduler.'''
+        super().__init__(sid, xid)
         self._blackboard = blackboard
         self._scheduler = scheduler
-        self.put_run_info('service', svc_name)
+        #self.put_run_info('id', self.id)		is (sid,xid) and here always (sid,None)
+        #self.put_run_info('execution', xid)	always None
+        self.put_run_info('shim', svc_shim)
         self.put_run_info('version', svc_version)
+        self.put_run_info('service', sid)
         self._transition(Task.State.STARTED)
 
     # Implementable interface of the execution, to be implemented in subclasses
@@ -62,15 +65,15 @@ class ServiceExecution(Task):
     # Low level update routines for subclasses
 
     def get_run_info(self, path):
-        return self._blackboard.get('services/%s/run_info/%s' % (self.ident, path))
+        return self._blackboard.get('services/%s/run_info/%s' % (self.sid, path))
 
     def put_run_info(self, path, value):
         '''Update the run_info for this execution to have value at path.'''
-        self._blackboard.put('services/%s/run_info/%s' % (self.ident, path), value)
+        self._blackboard.put('services/%s/run_info/%s' % (self.sid, path), value)
 
     def add_warning(self, warning):
         '''Add warning to the list of warnings of the execution.'''
-        self._blackboard.append_to('services/%s/%s' % (self.ident, 'warnings'), warning)
+        self._blackboard.append_to('services/%s/%s' % (self.sid, 'warnings'), warning)
 
     def add_warnings(self, warnings):
         '''Add list of warnings if not empty to the list of warnings of the execution.'''
@@ -78,7 +81,7 @@ class ServiceExecution(Task):
 
     def add_error(self, errmsg):
         '''Add errmsg to the list of errors of the service.'''
-        self._blackboard.append_to('services/%s/%s' % (self.ident, 'errors'), errmsg)
+        self._blackboard.append_to('services/%s/%s' % (self.sid, 'errors'), errmsg)
 
     def store_job_spec(self, jobspec):
         '''Store the service parameters on the blackboard.'''
@@ -86,7 +89,7 @@ class ServiceExecution(Task):
 
     def store_results(self, result):
         '''Store the service results on the blackboard.'''
-        self._blackboard.put('services/%s/results' % self.ident, result)
+        self._blackboard.put('services/%s/results' % self.sid, result)
 
     # Override Task._transition() to add timestamps and status on blackboard.
 
@@ -213,11 +216,11 @@ class ServiceExecution(Task):
 class UnimplementedService():
     '''Base unimplemented class, starts but then fails on first report.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         return UnimplementedService.UnimplementedTask( \
-                'unimplemented', '1.0.0', ident, blackboard, scheduler)
+                'unimplemented', '1.0.0', sid, blackboard, scheduler)
 
     class UnimplementedTask(ServiceExecution):
         def report(self):
-            return self.fail("service %s is not implemented", self.ident)
+            return self.fail("service %s is not implemented", self.sid)
 

@@ -23,7 +23,7 @@ MAX_TIM = 1 * 60
 class GetReferenceShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
@@ -32,7 +32,7 @@ class GetReferenceShim:
         if not accession:
             raise UserException('no closest reference accession was found')
 
-        execution = GetReferenceExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = GetReferenceExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

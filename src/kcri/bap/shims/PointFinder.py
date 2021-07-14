@@ -22,7 +22,7 @@ MAX_TIM = 10 * 60
 class PointFinderShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # If this throws, we SKIP the execution (rather than fail)
@@ -30,7 +30,7 @@ class PointFinderShim:
         if not species:
             raise UserException("no species is known")
 
-        execution = PointFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = PointFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here throwing is caught and FAILs the execution
         try:

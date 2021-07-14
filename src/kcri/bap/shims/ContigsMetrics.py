@@ -23,10 +23,10 @@ MAX_TIM = 5 * 60
 class ContigsMetricsShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = ContigsMetricsExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = ContigsMetricsExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

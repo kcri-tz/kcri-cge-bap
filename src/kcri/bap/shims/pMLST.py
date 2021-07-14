@@ -42,7 +42,7 @@ for k, l in pmlst_schemes.items():
 class pMLSTShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
@@ -51,7 +51,7 @@ class pMLSTShim:
         if not (scheme_lst or plasmid_lst):
             raise UserException('no plasmids were found and no pMLST scheme specified')
 
-        execution = pMLSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = pMLSTExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here run the execution, and FAIL it on exception
         try:

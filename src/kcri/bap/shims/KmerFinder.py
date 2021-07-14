@@ -22,10 +22,10 @@ MAX_TIM = 10 * 60
 class KmerFinderShim:
     '''Service shim that executes the backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = KmerFinderExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = KmerFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # Get the execution parameters from the blackboard
         try:

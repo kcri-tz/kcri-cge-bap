@@ -22,10 +22,10 @@ MAX_TIM = 5 * 60
 class KCSTShim:
     '''Service shim that executes the KCST backend.'''
 
-    def execute(self, ident, blackboard, scheduler):
+    def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = KCSTExecution(SERVICE, VERSION, ident, blackboard, scheduler)
+        execution = KCSTExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # Get the execution parameters from the blackboard
         try:
