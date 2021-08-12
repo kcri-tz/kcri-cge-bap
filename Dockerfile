@@ -9,8 +9,8 @@
 # Load base Docker image
 # ----------------------------------------------------------------------
 
-# Use miniconda3 4.10.3 with Python 3.9 (channel 'defaults' only)
-FROM continuumio/miniconda3:4.10.3
+# Use miniconda3 (Python 3.9, channel 'defaults' only)
+FROM continuumio/miniconda3:4.10.3p0
 
 
 # System dependencies
@@ -98,10 +98,10 @@ ENV PATH=/usr/src/ext/ncbi-blast/bin:$PATH \
 # Install uf-stats by putting it on the PATH.
 ENV PATH=/usr/src/ext/unfasta:$PATH
 
-# Make and install skesa
+# Make and install skesa (and gfa_connector, saute
 RUN cd ext/skesa && \
     make clean && make -f Makefile.nongs && \
-    mv skesa /usr/local/bin/ && \
+    mv skesa gfa_connector /usr/local/bin/ && \
     cd .. && rm -rf skesa
 
 # Make and install kcst

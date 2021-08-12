@@ -16,6 +16,7 @@ from .shims.cgMLSTFinder import cgMLSTFinderShim
 from .shims.CholeraeFinder import CholeraeFinderShim
 from .shims.ContigsMetrics import ContigsMetricsShim
 from .shims.GetReference import GetReferenceShim
+from .shims.GFAConnector import GFAConnectorShim
 from .shims.KCST import KCSTShim
 from .shims.KmerFinder import KmerFinderShim
 from .shims.MLSTFinder import MLSTFinderShim
@@ -31,6 +32,7 @@ SERVICES = {
     Services.CONTIGSMETRICS:    ContigsMetricsShim(),
     Services.READSMETRICS:      ReadsMetricsShim(),
     Services.SKESA:             SKESAShim(),
+    Services.GFACONNECTOR:      GFAConnectorShim(),
     Services.KCST:              KCSTShim(),
     Services.MLSTFINDER:        MLSTFinderShim(),
     Services.KMERFINDER:        KmerFinderShim(),

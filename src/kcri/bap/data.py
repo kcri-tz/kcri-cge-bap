@@ -95,6 +95,13 @@ class BAPBlackboard(Blackboard):
     def get_assembled_contigs_path(self, default=None):
         return self.get('bap/summary/contigs', default)
 
+    def put_graph_path(self, path):
+        '''Stores the path to the GFA file.'''
+        self.put('bap/summary/graph', path)
+
+    def get_graph_path(self, default=None):
+        return self.get('bap/summary/graph', default)
+
     # Species
 
     def put_user_species(self, lst):

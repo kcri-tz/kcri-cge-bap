@@ -49,6 +49,7 @@ class Services(pico.workflow.logic.Services):
     CONTIGSMETRICS = 'ContigsMetrics'
     READSMETRICS = 'ReadsMetrics'
     SKESA = 'SKESA'
+    GFACONNECTOR = 'GFAConnector'
     MLSTFINDER = 'MLSTFinder'
     KCST = 'KCST'
     KMERFINDER = 'KmerFinder'
@@ -65,6 +66,7 @@ class UserTargets(pico.workflow.logic.UserTargets):
     '''Enum defining the targets that the user can request.'''
     METRICS = 'metrics'
     ASSEMBLY = 'assembly'
+    GRAPH = 'graph'
     SPECIES = 'species'
     REFERENCE = 'reference'
     MLST = 'mlst'
@@ -92,6 +94,7 @@ DEPENDENCIES = {
     
     UserTargets.METRICS:        ALL( OPT( Services.CONTIGSMETRICS ), OPT( Services.READSMETRICS ) ),
     UserTargets.ASSEMBLY:       Services.SKESA,
+    UserTargets.GRAPH:          Services.GFACONNECTOR,
     UserTargets.SPECIES:        Checkpoints.SPECIES,
     # Need the Services.GETREFERENCE to be OPT as it is OIF KmerFinder below
     UserTargets.REFERENCE:      SEQ( Services.KMERFINDER, OPT( Services.GETREFERENCE ) ),
@@ -114,6 +117,7 @@ DEPENDENCIES = {
     Services.CONTIGSMETRICS:    OIF( Checkpoints.CONTIGS ),
     Services.READSMETRICS:      OIF( Params.READS ),
     Services.SKESA:             ALL( Params.ILLUMINA, Params.READS ),
+    Services.GFACONNECTOR:      ALL( Params.READS, Checkpoints.CONTIGS ),
     Services.KMERFINDER:        ONE( Params.READS, Checkpoints.CONTIGS ),
     Services.GETREFERENCE:      OIF( Services.KMERFINDER ),  # Later: also work if species given and no KmerFinder
     Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
