@@ -9,8 +9,8 @@
 # Load base Docker image
 # ----------------------------------------------------------------------
 
-# Use miniconda3:4.9.2 (Python 3.8, channel 'defaults' only)
-FROM continuumio/miniconda3:4.9.2
+# Use miniconda3 4.10.3 with Python 3.9 (channel 'defaults' only)
+FROM continuumio/miniconda3:4.10.3
 
 
 # System dependencies
