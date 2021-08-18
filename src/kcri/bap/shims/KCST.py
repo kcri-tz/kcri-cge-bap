@@ -15,7 +15,7 @@ SERVICE, VERSION = "KCST", BACKEND_VERSIONS['kcst']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 12
-MAX_SPC = 1
+MAX_SPC = 0.001
 MAX_TIM = 5 * 60
 
 # The Service class

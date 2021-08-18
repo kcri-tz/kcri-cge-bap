@@ -15,7 +15,7 @@ SERVICE, VERSION = "GFAConnector", BACKEND_VERSIONS['skesa']
 # Resource parameters: cpu, memory, disk, run time reqs
 #MAX_CPU = -1 # all
 #MAX_MEM = 12 # all
-MAX_SPC = 1
+MAX_SPC = 0.01
 MAX_TIM = 30 * 60
 
 # Output file ex work dir

@@ -15,7 +15,7 @@ SERVICE, VERSION = "ContigsMetrics", BACKEND_VERSIONS['unfasta']
 # Resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 2
 MAX_MEM = 1
-MAX_SPC = 1
+MAX_SPC = 0.001
 MAX_TIM = 5 * 60
 
 

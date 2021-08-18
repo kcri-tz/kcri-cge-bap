@@ -15,7 +15,7 @@ SERVICE, VERSION = "cgMLSTFinder", BACKEND_VERSIONS['cgmlstfinder']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 1
+MAX_SPC = 0.01
 MAX_TIM = 10 * 60
 
 
