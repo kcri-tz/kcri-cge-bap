@@ -30,9 +30,9 @@ class ContigsMetricsShim:
 
         # From here run the execution, and FAIL it on exception
         try:
-            # Cater for either gzipped or plain input using shell succinctness
+            min_len = blackboard.get_user_input('cm_l')
             fn = os.path.abspath(execution.get_contigs_path())
-            cmd = "uf '%s' | uf-stats -t" % fn
+            cmd = "uf '%s' | uf-stats -m %d -t" % (fn,min_len)
             params = [
                 '-c', cmd, 'uf-stats'
             ]

@@ -94,6 +94,8 @@ per line, in a text file and pass this file with @FILENAME.
     group.add_argument('--poll', metavar='SEC', type=int, default=5, help="seconds between backend polls [5]")
 
     # Service specific arguments
+    group = parser.add_argument_group('ContigMetrics parameters')
+    group.add_argument('--cm-l', metavar='NT', type=int, default=200, help="Minimum contig length to include in counts [200]")
     group = parser.add_argument_group('KmerFinder parameters')
     group.add_argument('--kf-s', metavar='SEARCH', default='bacteria', help="KmerFinder database to search [bacteria]")
     group = parser.add_argument_group('MLSTFinder parameters')
