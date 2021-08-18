@@ -16,7 +16,6 @@ SERVICE, VERSION = "GetReference", BACKEND_VERSIONS['odds-and-ends']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 0.01
 MAX_TIM = 1 * 60
 
 # The Service class
@@ -49,7 +48,7 @@ class GetReferenceShim:
                 accession
             ]
 
-            job_spec = JobSpec('kma-retrieve', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('kma-retrieve', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec, out_file)
 

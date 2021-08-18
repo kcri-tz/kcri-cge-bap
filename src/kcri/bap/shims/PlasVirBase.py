@@ -13,7 +13,6 @@ from .base import ServiceExecution, UserException
 # Backend resource parameters: cpu, memory, disk, run time
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 0.01
 MAX_TIM = 10 * 60
 
 # The shared base class of the VirulenceFinder and PlasmidFinder execution
@@ -37,7 +36,7 @@ class PlasVirBaseExecution(ServiceExecution):
         cfg_dict = parse_config(db_path)
         self._search_dict = find_databases(cfg_dict, search_list)
 
-        job_spec = JobSpec(exe_name, params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+        job_spec = JobSpec(exe_name, params, MAX_CPU, MAX_MEM, MAX_TIM)
         self.store_job_spec(job_spec.as_dict())
 
         if self.state == Task.State.STARTED:

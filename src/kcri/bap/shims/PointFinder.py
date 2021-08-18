@@ -15,7 +15,6 @@ SERVICE, VERSION = "PointFinder", BACKEND_VERSIONS['resfinder']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 0.02
 MAX_TIM = 10 * 60
 
 
@@ -64,7 +63,7 @@ class PointFinderShim:
             if execution.get_user_input('pt_a'):
                 params.append('--unknown_mut')
 
-            job_spec = JobSpec('run_resfinder.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('run_resfinder.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec, 'PointFinder')
 

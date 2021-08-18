@@ -15,7 +15,6 @@ SERVICE, VERSION = "GFAConnector", BACKEND_VERSIONS['skesa']
 # Resource parameters: cpu, memory, disk, run time reqs
 #MAX_CPU = -1 # all
 #MAX_MEM = 12 # all
-MAX_SPC = 0.01
 MAX_TIM = 30 * 60
 
 # Output file ex work dir
@@ -48,7 +47,7 @@ class GFAConnectorShim:
                 '--csv', CSV_OUT   # optional
             ]
 
-            job_spec = JobSpec('gfa_connector', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('gfa_connector', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec)
 

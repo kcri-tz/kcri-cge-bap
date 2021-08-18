@@ -15,7 +15,6 @@ SERVICE, VERSION = "CholeraeFinder", BACKEND_VERSIONS['choleraefinder']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 0.01
 MAX_TIM = 10 * 60
 
 
@@ -42,7 +41,7 @@ class CholeraeFinderShim:
                 '-ao', execution.get_user_input('ch_o'),
                 '-i' ] + execution.get_fastqs_or_contigs_paths()
 
-            job_spec = JobSpec('choleraefinder.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('choleraefinder.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.start(job_spec, 'CholeraeFinder')
 
         # Failing inputs will throw UserException

@@ -15,7 +15,6 @@ SERVICE, VERSION = "ResFinder", BACKEND_VERSIONS['resfinder']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 0.01
 MAX_TIM = 10 * 60
 
 
@@ -52,7 +51,7 @@ class ResFinderShim:
                     raise UserException("phenotype '%s' not in database, known are: %s", g, ', '.join(db_cfg.keys()))
                 params.extend(['-d', p])
 
-            job_spec = JobSpec('run_resfinder.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('run_resfinder.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec, 'ResFinder')
 

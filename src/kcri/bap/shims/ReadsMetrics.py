@@ -15,7 +15,6 @@ SERVICE, VERSION = "ReadsMetrics", BACKEND_VERSIONS['fastq-utils']
 # Resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 2
 MAX_MEM = 1
-MAX_SPC = 0.001
 MAX_TIM = 5 * 60
 
 
@@ -39,7 +38,7 @@ class ReadsMetricsShim:
                 '-c', cmd, 'fastq-stats'
             ]
 
-            job_spec = JobSpec('sh', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('sh', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec)
 

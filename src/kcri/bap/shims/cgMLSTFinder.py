@@ -15,7 +15,6 @@ SERVICE, VERSION = "cgMLSTFinder", BACKEND_VERSIONS['cgmlstfinder']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 0.01
 MAX_TIM = 10 * 60
 
 
@@ -118,7 +117,7 @@ class cgMLSTExecution(ServiceExecution):
                 fname ]
 
         # Spawn the job and hold a record in the jobs table
-        job_spec = JobSpec('cgMLST.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+        job_spec = JobSpec('cgMLST.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
         job = self._scheduler.schedule_job('cgmlst_%s' % scheme, job_spec, os.path.join(SERVICE,scheme))
         self._jobs.append((job, scheme, tmpdir))
  

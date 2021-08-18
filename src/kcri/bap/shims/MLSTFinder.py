@@ -15,7 +15,6 @@ SERVICE, VERSION = "MLSTFinder", BACKEND_VERSIONS['mlst']
 # MLST backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1     # @TODO@ measure: time --verbose
 MAX_MEM = 1
-MAX_SPC = 0.001
 MAX_TIM = 12 * 60
 
 class MLSTFinderShim:
@@ -133,7 +132,7 @@ class MLSTFinderExecution(ServiceExecution):
                 '-i' ] + files
 
         # Spawn the job and hold a record in the jobs table
-        job_spec = JobSpec('mlst.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+        job_spec = JobSpec('mlst.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
         job = self._scheduler.schedule_job('mlst_%s' % scheme, job_spec, os.path.join(SERVICE,scheme))
         self._jobs.append((job, scheme, loci, tmpdir))
 

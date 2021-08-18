@@ -15,7 +15,6 @@ SERVICE, VERSION = "KCST", BACKEND_VERSIONS['kcst']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 12
-MAX_SPC = 0.001
 MAX_TIM = 5 * 60
 
 # The Service class
@@ -39,7 +38,7 @@ class KCSTShim:
             if execution.is_verbose():
                 params.insert(0, '-v')
 
-            job_spec = JobSpec('kcst', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('kcst', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec)
 

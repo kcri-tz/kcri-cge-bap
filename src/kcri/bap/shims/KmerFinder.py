@@ -15,7 +15,6 @@ SERVICE, VERSION = "KmerFinder", BACKEND_VERSIONS['kmerfinder']
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
 MAX_MEM = 1
-MAX_SPC = 0.02
 MAX_TIM = 10 * 60
 
 
@@ -39,7 +38,7 @@ class KmerFinderShim:
             if tax_file:
                 params.extend(['-tax', tax_file])
 
-            job_spec = JobSpec('kmerfinder.py', params, MAX_CPU, MAX_MEM, MAX_SPC, MAX_TIM)
+            job_spec = JobSpec('kmerfinder.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec, kf_scheme)
 
