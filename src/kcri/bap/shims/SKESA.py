@@ -15,7 +15,7 @@ SERVICE, VERSION = "SKESA", BACKEND_VERSIONS['skesa']
 # SKESA resource parameters: cpu, memory, disk, run time reqs
 #MAX_CPU = -1 # all
 #MAX_MEM = 12 # all
-MAX_TIM = 30 * 60
+MAX_TIM = 0  # unlimited
 
 # Output file ex work dir
 CONTIGS_OUT = 'contigs.fna'
