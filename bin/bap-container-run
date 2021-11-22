@@ -38,7 +38,7 @@
 #   want to keep two copies, simply 'mount them in' by adding to the docker
 #   run command below: '-v /my/path/to/foofinder:/databases/foofinder:ro'
 # - Default is the path used on the KCRI cluster.
-BAP_DB_DIR="${BAP_DB_DIR:-"/hpc/data/genomics/cge/db"}"
+BAP_DB_DIR="${BAP_DB_DIR:-"/data/genomics/cge/db"}"
 #
 # BAP_IMAGE
 # - Needs changing only if (by default) you want to run a different tag
