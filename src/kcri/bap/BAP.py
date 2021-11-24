@@ -80,6 +80,7 @@ per line, in a text file and pass this file with @FILENAME.
     group.add_argument('-p', '--plasmids', metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
     group.add_argument('-i', '--id',       metavar='ID', help="identifier to use for the isolate in reports")
     group.add_argument('-o', '--out-dir',  metavar='PATH', default='.', help="directory to write output to, will be created (relative to PWD when dockerised)")
+    group.add_argument('-n', '--nanopore', action='store_true', help="data are nanopore reads")
     group.add_argument('-l', '--list-available', action='store_true', help="list the available targets and services")
     group.add_argument('-d', '--db-root',  metavar='PATH', default='/databases', help="base path to service databases (leave default when dockerised)")
     group.add_argument('-v', '--verbose',  action='store_true', help="write verbose output to stderr")
@@ -239,6 +240,8 @@ per line, in a text file and pass this file with @FILENAME.
     if args.plasmids:
         params.append(Params.PLASMIDS)
         blackboard.put_user_plasmids(list(filter(None, map(lambda x: x.strip(), args.plasmids.split(',')))))
+    if args.nanopore:
+        params.append(Params.NANOPORE)
 
     # Pass the actual data via the blackboard
     scheduler = SubprocessScheduler(args.max_cpus, args.max_mem, args.max_time, args.poll, not args.verbose)

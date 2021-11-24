@@ -34,6 +34,7 @@ class Params(pico.workflow.logic.Params):
     SPECIES = 'species'     # Signals that user has specified the species
     PLASMIDS = 'plasmids'   # Signals that user has specified the plasmids
     ILLUMINA = 'illumina'   # Signals that fastqs are Illumina reads
+    NANOPORE = 'nanopore'   # Signals that fastqs are Nanopore reads
 
 class Checkpoints(pico.workflow.logic.Checkpoints):
     '''Internal targets for other targets to depend on.  Useful when a service

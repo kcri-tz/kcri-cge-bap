@@ -27,7 +27,7 @@ WORKDIR /usr/src
 #RUN cd ext/fastq-utils && make clean && make fastq-stats && cp fastq-stats /usr/local/bin/ && cd .. && rm -rf fastq-utils
 
 # CGE Services
-#COPY ext/resfinder ext/
+COPY ext/resfinder ext/
 #COPY ext/choleraefinder/choleraefinder.py ext/choleraefinder/
 
 # KCRI BAP package
@@ -41,8 +41,8 @@ WORKDIR /usr/src
 #COPY src/kcri/bap/shims/base.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/pMLST.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/cgMLSTFinder.py kcri/bap/shims/
-COPY src ./
-RUN python3 setup.py install
+#COPY src ./
+#RUN python3 setup.py install
 
 # Drop down to the original user and workdir
 USER nobody:nogroup

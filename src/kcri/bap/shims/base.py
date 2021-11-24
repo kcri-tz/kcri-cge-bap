@@ -123,6 +123,10 @@ class ServiceExecution(Task):
         '''Return True if the run was requested to be verbose.'''
         return self.get_user_input('verbose', False)
 
+    def is_nanopore(self):
+        '''Return True if the nanopore option was given.'''
+        return self.get_user_input('nanopore', False)
+
     def get_db_path(self, db_name, default=None):
         '''Return the path to db_name under db_root, fail if not a dir.'''
         db_path = os.path.join(self._blackboard.get_db_root(), db_name)
