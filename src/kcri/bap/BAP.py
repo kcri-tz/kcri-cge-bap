@@ -241,6 +241,9 @@ per line, in a text file and pass this file with @FILENAME.
         params.append(Params.PLASMIDS)
         blackboard.put_user_plasmids(list(filter(None, map(lambda x: x.strip(), args.plasmids.split(',')))))
     if args.nanopore:
+        # Error out on Nanopore for now, kma is not yet ready (see nano-kma branch),
+        # though ResFinder appears to be ready for it
+        err_exit('--nanopore option is not yet supported')  # TODO
         params.append(Params.NANOPORE)
 
     # Pass the actual data via the blackboard
