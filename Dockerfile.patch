@@ -18,8 +18,8 @@ WORKDIR /usr/src
 
 # Externals
 #COPY ext ./
-#COPY ext/kma ext/
-#RUN cd ext/kma && make clean && make && mv kma kma_index kma_shm /usr/local/bin/ && cd .. && rm -rf kma
+COPY ext/kma ext/kma
+RUN cd ext/kma && make clean && make && mv kma kma_index kma_shm /usr/local/bin/ && cd .. && rm -rf kma
 #RUN mkdir -p ext/picoline
 #COPY ext/picoline ext/picoline
 #RUN cd ext/picoline && python3 setup.py install && cd .. && rm -rf picoline
@@ -27,7 +27,7 @@ WORKDIR /usr/src
 #RUN cd ext/fastq-utils && make clean && make fastq-stats && cp fastq-stats /usr/local/bin/ && cd .. && rm -rf fastq-utils
 
 # CGE Services
-COPY ext/resfinder ext/
+#COPY ext/resfinder ext/
 #COPY ext/choleraefinder/choleraefinder.py ext/choleraefinder/
 
 # KCRI BAP package
