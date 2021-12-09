@@ -274,7 +274,7 @@ per line, in a text file and pass this file with @FILENAME.
             'pct_q30': pct_q30 if pct_q30 else 'NA',
             'n_ctgs': b.get('services/ContigsMetrics/results/n_seqs', 'NA'),
             'nt_ctgs': nt_ctgs if nt_ctgs else 'NA',
-            'n1': b.get('services/ContigsMetrics/results/max_len', 'NA'),
+            'n1': b.get('services/ContigsMetrics/results/n1', 'NA'),
             'n50': b.get('services/ContigsMetrics/results/n50', 'NA'),
             'l50': b.get('services/ContigsMetrics/results/l50', 'NA'),
             'avg_dp': int(0.5 + nt_read / nt_ctgs) if nt_ctgs and nt_read else 'NA',

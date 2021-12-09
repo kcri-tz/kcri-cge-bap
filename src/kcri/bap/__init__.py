@@ -1,2 +1,2 @@
 __all__ = [ 'BAP', 'data', 'services', 'shims', 'workflow' ]
-__version__ = "3.2.6"
+__version__ = "3.2.7_SNAPSHOT"
