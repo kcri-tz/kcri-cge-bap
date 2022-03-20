@@ -64,8 +64,11 @@ grep -E '^ *[^#]' "$CFG_FILE" | while read NAME VER URL REST; do
 
         GIT_OLD="$(git describe --dirty --broken --tags --abbrev=1 --always)"
 
+        # Cater for projects not naming their master branch (sigh)
+        git checkout -q main 2>/dev/null ||
+        git checkout -q $NAME 2>/dev/null ||
         git checkout -q master && git pull -q --ff-only --tags ||
-            err_exit "failed to pull master for: $NAME"
+            err_exit "failed to pull master branch for $NAME"
 
         GIT_MASTER="$(git describe --dirty --broken --tags --abbrev=1 --always)"
        
