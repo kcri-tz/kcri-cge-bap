@@ -11,6 +11,7 @@ __pycache__
 /ext/*/test*
 !/ext/kcst/data/make-kcst-db.sh
 /ext/cgmlstfinder/make_nj_tree.py
+/ext/flye
 /ext/ncbi-blast
 !/ext/ncbi-blast/bin/blastn
 !/ext/ncbi-blast/bin/makeblastdb
