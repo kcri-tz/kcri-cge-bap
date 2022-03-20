@@ -10,7 +10,7 @@
 # ----------------------------------------------------------------------
 
 # Use miniconda3 (Python 3.9, channel 'defaults' only)
-FROM continuumio/miniconda3:4.10.3p0
+FROM continuumio/miniconda3:4.10.3p1
 
 
 # System dependencies
