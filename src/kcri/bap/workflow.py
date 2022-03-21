@@ -29,11 +29,11 @@ from pico.workflow.logic import ALL, ONE, OPT, OIF, SEQ
 
 class Params(pico.workflow.logic.Params):
     '''Flags to signal to the Workflow that some input parameter was provided.'''
-    READS = 'reads'         # Signals that user has provided fastq files
+    ILLUREADS = 'illureads'         # Signals that user has provided fastq files
+    NANOREADS = 'nanoreads'         # Signals that user has provided fastq files
     CONTIGS = 'contigs'     # Signals that user has provided contigs
     SPECIES = 'species'     # Signals that user has specified the species
     PLASMIDS = 'plasmids'   # Signals that user has specified the plasmids
-    ILLUMINA = 'illumina'   # Signals that fastqs are Illumina reads
     NANOPORE = 'nanopore'   # Signals that fastqs are Nanopore reads
 
 class Checkpoints(pico.workflow.logic.Checkpoints):
@@ -50,6 +50,8 @@ class Services(pico.workflow.logic.Services):
     CONTIGSMETRICS = 'ContigsMetrics'
     READSMETRICS = 'ReadsMetrics'
     SKESA = 'SKESA'
+    FLYE = 'Flye'
+    POLYPOLISH = 'PolyPolish'
     GFACONNECTOR = 'GFAConnector'
     MLSTFINDER = 'MLSTFinder'
     KCST = 'KCST'
@@ -94,8 +96,8 @@ class UserTargets(pico.workflow.logic.UserTargets):
 DEPENDENCIES = {
     
     UserTargets.METRICS:        ALL( OPT( Services.CONTIGSMETRICS ), OPT( Services.READSMETRICS ) ),
-    UserTargets.ASSEMBLY:       Services.SKESA,
-    UserTargets.GRAPH:          Services.GFACONNECTOR,
+    UserTargets.ASSEMBLY:       ONE( Services.POLYPOLISH, Services.SKESA, Services.FLYE ),
+    UserTargets.GRAPH:          ONE( Services.FLYE, Services.GFACONNECTOR ),
     UserTargets.SPECIES:        Checkpoints.SPECIES,
     # Need the Services.GETREFERENCE to be OPT as it is OIF KmerFinder below
     UserTargets.REFERENCE:      SEQ( Services.KMERFINDER, OPT( Services.GETREFERENCE ) ),
@@ -116,25 +118,27 @@ DEPENDENCIES = {
                                      OPT(UserTargets.REFERENCE), OPT(UserTargets.CGMLST) ),
 
     Services.CONTIGSMETRICS:    OIF( Checkpoints.CONTIGS ),
-    Services.READSMETRICS:      OIF( Params.READS ),
-    Services.SKESA:             ALL( Params.ILLUMINA, Params.READS ),
-    Services.GFACONNECTOR:      ALL( Params.READS, Checkpoints.CONTIGS ),
-    Services.KMERFINDER:        ONE( Params.READS, Checkpoints.CONTIGS ),
+    Services.READSMETRICS:      OIF( ONE( Params.ILLUREADS, Params.NANOREADS ) ),
+    Services.SKESA:             Params.ILLUREADS,
+    Services.FLYE:              Params.NANOREADS,
+    Services.POLYPOLISH:        ALL( Params.NANOREADS, Params.ILLUREADS ),
+    Services.GFACONNECTOR:      ALL( Params.ILLUREADS, Checkpoints.CONTIGS ),
+    Services.KMERFINDER:        ONE( Params.ILLUREADS, Checkpoints.CONTIGS ),
     Services.GETREFERENCE:      OIF( Services.KMERFINDER ),  # Later: also work if species given and no KmerFinder
-    Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
+    Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.KCST:              Checkpoints.CONTIGS,
-    Services.RESFINDER:         ONE( Params.READS, Checkpoints.CONTIGS ),
-    Services.POINTFINDER:       ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
-    Services.VIRULENCEFINDER:   ALL( OPT( UserTargets.SPECIES ), ONE( Params.READS, Checkpoints.CONTIGS ) ),
-    Services.PLASMIDFINDER:     ONE( Params.READS, Checkpoints.CONTIGS ),
-    Services.PMLSTFINDER:       ALL( Checkpoints.PLASMIDS, ONE( Params.READS, Checkpoints.CONTIGS ) ),
-    Services.CGMLSTFINDER:      ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
-    Services.CHOLERAEFINDER:    ALL( Checkpoints.SPECIES, ONE( Params.READS, Checkpoints.CONTIGS ) ),
+    Services.RESFINDER:         ONE( Params.ILLUREADS, Params.NANOREADS, Checkpoints.CONTIGS ),
+    Services.POINTFINDER:       ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
+    Services.VIRULENCEFINDER:   ALL( OPT( UserTargets.SPECIES ), ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
+    Services.PLASMIDFINDER:     ONE( Params.ILLUREADS, Checkpoints.CONTIGS ),
+    Services.PMLSTFINDER:       ALL( Checkpoints.PLASMIDS, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
+    Services.CGMLSTFINDER:      ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
+    Services.CHOLERAEFINDER:    ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
 
-    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA ),
+    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA, Services.FLYE ),
     Checkpoints.SPECIES:        ONE( Params.SPECIES, Services.KMERFINDER, Services.KCST ),
     Checkpoints.PLASMIDS:       ONE( Params.PLASMIDS, Services.PLASMIDFINDER ),
-}    
+}
 
 # Consistency check on the DEPENDENCIES definitions
 

@@ -102,13 +102,15 @@ grep -E '^ *[^#]' "$CFG_FILE" | while read NAME VER URL REST; do
             TMP_DIR="$(mktemp -d)"
             tar -C "$TMP_DIR" -xzf "$TGZ_FILE" || err_exit "failed to unpack: $TGZ_FILE"
 
-            # We trust they use standard packaging, so all there is is a single directory:
+            # Try standard packaging, with everything inside a single directory:
             SRC_DIR="$TMP_DIR/$(ls "$TMP_DIR")"
-            [ -d "$SRC_DIR" ] || err_exit "bad tarball: does not unpack as single directory: $(basename "$TGZ_FILE")"
+            # Or else assume non-standard, with the files flat in TMP_DIR
+            [ -d "$SRC_DIR" ] || SRC_DIR="$TMP_DIR"
 
             # Move the unpacked directory (with arbitrary name) to plain NAME
             rm -rf "$DIR" || true
             mv -T "$SRC_DIR" "$DIR" || err_exit "failed to move directory to $NAME: $SRC_DIR"
+            chmod 0755 "$DIR" || true
 
             # Leave our version crumb, so we remember what it is
             echo "$VER" >"$DIR/.bap_version_crumb"

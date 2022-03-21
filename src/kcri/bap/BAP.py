@@ -30,13 +30,22 @@ def detect_filetype(fname):
         c = chr(b[0]) if len(b) > 0 else '\x00'
     return 'fasta' if c == '>' else 'fastq' if c == '@' else 'other'
 
-# Helper to detect whether fastq file has Illumina reads
-def is_illumina_reads(fname):
-    pat = re.compile(r'^@[^:]+:\d+:[^:]+:\d+:\d+:\d+:\d+ [12]:[YN]:\d+:[^: ]+( .*)?$')
+# Helper to test first line against re patter
+def first_line_matches(fname, regex):
+    pat = re.compile(regex)
     with open(fname, 'rb') as f:
         b = f.peek(2)
         buf = io.TextIOWrapper(gzip.GzipFile(fileobj=f) if b[:2] == b'\x1f\x8b' else f)
         return re.match(pat, buf.readline())
+
+# Helper to detect whether fastq file has Illumina reads
+def is_illumina_reads(fname):
+    return first_line_matches(fname, r'^@[^:]+:\d+:[^:]+:\d+:\d+:\d+:\d+ [12]:[YN]:\d+:[^: ]+( .*)?$')
+
+# Helper to detect whether fastq file has Illumina reads
+def is_nanopore_reads(fname):
+    #@3ea0b1a6-309d-4fa6-acf7-81318583eea3 runid=e78b393cae8ec468269f5fcfa954c3ff8bbb1344 sampleid=C2020 read=39660 ch=389 start_time=2021-03-10T21:50:19Z barcode=barcode01
+    return first_line_matches(fname, r'^@[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*$')
 
 # Helper to parse string ts which may be UserTarget or Service
 def UserTargetOrService(s):
@@ -51,16 +60,15 @@ def main():
         description="""\
 The KCRI CGE Bacterial Analysis Pipeline (BAP) performs a configurable
 smorgasbord of analyses on the sequencer reads and/or assembled contigs
-of a bacterial isolate.
+of a single bacterial isolate.
 
 The analyses to be performed are specified using the -t/--targets option.
 The DEFAULT target performs species detection, MLST, resistance, virulence,
-and plasmid typing (but no cgMLST).  The FULL target runs all available
-services.
+and plasmid typing (but no assembly or cgMLST).
 
 Use -l/--list-available to see the available targets and services.  Use
--t/--targets to specify a custom set of targets, or combine -t DEFAULT
-with -x/--exclude to exclude certain targets or services.
+-t/--targets to specify a comma-separated custom set of targets, or combine
+-t DEFAULT with -x/--exclude to exclude certain targets or services.
 
 If a requested service depends on the output of another service, then the
 dependency will be automatically added.
@@ -80,7 +88,6 @@ per line, in a text file and pass this file with @FILENAME.
     group.add_argument('-p', '--plasmids', metavar='NAME[,...]', help="name(s) of plasmids present in the data, if known")
     group.add_argument('-i', '--id',       metavar='ID', help="identifier to use for the isolate in reports")
     group.add_argument('-o', '--out-dir',  metavar='PATH', default='.', help="directory to write output to, will be created (relative to PWD when dockerised)")
-    group.add_argument('-n', '--nanopore', action='store_true', help="data are nanopore reads")
     group.add_argument('-l', '--list-available', action='store_true', help="list the available targets and services")
     group.add_argument('-d', '--db-root',  metavar='PATH', default='/databases', help="base path to service databases (leave default when dockerised)")
     group.add_argument('-v', '--verbose',  action='store_true', help="write verbose output to stderr")
@@ -149,7 +156,8 @@ per line, in a text file and pass this file with @FILENAME.
 
     # Parse and validate files into contigs and fastqs list
     contigs = None
-    fastqs = list()
+    illufqs = list()
+    nanofq = None
     for f in args.files:
         if not os.path.isfile(f):
             err_exit('no such file: %s', f)
@@ -158,9 +166,17 @@ per line, in a text file and pass this file with @FILENAME.
                 err_exit('more than one FASTA file passed: %s', f)
             contigs = os.path.abspath(f)
         elif detect_filetype(f) == 'fastq':
-            if len(fastqs) == 2:
-                err_exit('more than two fastq files passed: %s', f)
-            fastqs.append(os.path.abspath(f))
+            if is_illumina_reads(f):
+                if len(illufqs) == 2:
+                    err_exit('more than two Illumina fastq files passed: %s', f)
+                illufqs.append(os.path.abspath(f))
+            elif is_nanopore_reads(f):
+                if nanofq:
+                    err_exit('more than one Nanopore fastq file passed: %s', f)
+                nanofq = os.path.abspath(f)
+            else:
+                err_exit('cannot detect whether file has Illumina or Nanopore reads: %s', f)
+            fi
         else:
             err_exit("file is neither FASTA not fastq: %s" % f)
 
@@ -170,7 +186,7 @@ per line, in a text file and pass this file with @FILENAME.
         print('services:', ','.join(s.value for s in Services))
 
     # Exit when no contigs and/or fastqs were provided
-    if not contigs and not fastqs:
+    if not contigs and not illufqs and not nanofq:
         if not args.list_available:
             err_exit('no input files were provided')
         else:
@@ -192,26 +208,31 @@ per line, in a text file and pass this file with @FILENAME.
     # Generate sample id if not given
     sample_id = args.id
     if not sample_id:
-        if contigs and not fastqs:
+        if contigs:
             _, fname = os.path.split(contigs)
             sample_id, ext = os.path.splitext(fname)
             if ext == '.gz':
                 sample_id, _ = os.path.splitext(sample_id)
-        elif fastqs:
-            # Try if it is Illumina
+        elif illufqs:
+            # Try if it is pure Illumina
             pat = re.compile('^(.*)_S[0-9]+_L[0-9]+_R[12]_[0-9]+\.fastq\.gz$')
-            _, fname = os.path.split(fastqs[0])
+            _, fname = os.path.split(illufqs[0])
             mat = pat.fullmatch(fname)
             if mat:
                 sample_id = mat.group(1)
             else: # no illumina, try to fudge something from common part
-                common = os.path.commonprefix(fastqs)
+                common = os.path.commonprefix(illufqs)
                 _, sample_id = os.path.split(common)
                 # sample_id now is the common part, chop any _ or _R
                 if sample_id[-2:] == "_R" or sample_id[-2:] == "_r":
                     sample_id = sample_id[:-2]
                 elif sample_id[-1] == "_":
                     sample_id = sample_id[:-1]
+        elif nanofq:
+            _, fname = os.path.split(nanofq)
+            sample_id, ext = os.path.splitext(nanofq)
+            if ext == '.gz':
+                sample_id, _ = os.path.splitext(sample_id)
         if not sample_id:
             sample_id = "SAMPLE"
 
@@ -226,25 +247,18 @@ per line, in a text file and pass this file with @FILENAME.
     if contigs:
         params.append(Params.CONTIGS)
         blackboard.put_user_contigs_path(contigs)
-    if fastqs:
-        params.append(Params.READS)
-        blackboard.put_fastq_paths(fastqs)
-        # Check for paired Illumina reads (SKESA backend dependency)
-        if len(fastqs) == 2 and is_illumina_reads(fastqs[0]) and is_illumina_reads(fastqs[1]):
-            params.append(Params.ILLUMINA)  # is workflow param: SKESA requires them
-        else:
-            blackboard.add_warning('fastq files not detected to be paired Illumina reads')
+    if illufqs:
+        params.append(Params.ILLUREADS)
+        blackboard.put_illufq_paths(illufqs)
+    if nanofq:
+        params.append(Params.NANOREAD)
+        blackboard.put_nanofq_path(nanofq)
     if args.species:
         params.append(Params.SPECIES)
         blackboard.put_user_species(list(filter(None, map(lambda x: x.strip(), args.species.split(',')))))
     if args.plasmids:
         params.append(Params.PLASMIDS)
         blackboard.put_user_plasmids(list(filter(None, map(lambda x: x.strip(), args.plasmids.split(',')))))
-    if args.nanopore:
-        # Error out on Nanopore for now, kma is not yet ready (see nano-kma branch),
-        # though ResFinder appears to be ready for it
-        err_exit('--nanopore option is not yet supported')  # TODO
-        params.append(Params.NANOPORE)
 
     # Pass the actual data via the blackboard
     scheduler = SubprocessScheduler(args.max_cpus, args.max_mem, args.max_time, args.poll, not args.verbose)

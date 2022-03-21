@@ -20,6 +20,7 @@ FROM continuumio/miniconda3:4.10.3p1
 # - gcc and libz-dev for kma
 # - g++ and gawk and libboost-iostreams for kcst
 # - g++ and the libboost packages for SKESA
+# - bwa for Polypolish
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -qq update --fix-missing && \
@@ -34,6 +35,7 @@ RUN apt-get -qq update --fix-missing && \
         libboost-timer-dev \
         libboost-chrono-dev \
         libboost-system-dev \
+        bwa \
     && \
     apt-get -qq clean && \
     rm -rf /var/lib/apt/lists/*
@@ -100,19 +102,24 @@ ENV PATH=/usr/src/ext/unfasta:$PATH
 
 # Make and install skesa (and gfa_connector, saute
 RUN cd ext/skesa && \
-    make clean && make -f Makefile.nongs && \
+    make clean && make -j 6 -f Makefile.nongs && \
     mv skesa gfa_connector /usr/local/bin/ && \
     cd .. && rm -rf skesa
 
+# Make and install skesa (and gfa_connector, saute
+RUN cd ext/flye && \
+    python3 setup.py install && \
+    cd .. && rm -rf flye
+
 # Make and install kcst
 RUN cd ext/kcst/src && \
-    make clean && make && \
+    make clean && make -j 6 && \
     mv khc ../bin/kcst ../data/make-kcst-db.sh /usr/local/bin/ && \
     cd ../.. && rm -rf kcst
 
 # Make and install kma
 RUN cd ext/kma && \
-    make clean && make && \
+    make clean && make -j 6 && \
     cp kma kma_index kma_shm /usr/local/bin/ && \
     cd .. && rm -rf kma
 
@@ -136,6 +143,9 @@ RUN cd ext/picoline && \
 RUN cd ext/cge_core_module && \
     python3 setup.py install && \
     cd .. && rm -rf cge_core_module
+
+# Install polypolish by adding to PATH
+ENV PATH=/usr/src/ext/polypolish:$PATH
 
 
 # Install CGE Services

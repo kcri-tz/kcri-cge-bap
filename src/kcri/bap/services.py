@@ -17,12 +17,14 @@ from .shims.CholeraeFinder import CholeraeFinderShim
 from .shims.ContigsMetrics import ContigsMetricsShim
 from .shims.GetReference import GetReferenceShim
 from .shims.GFAConnector import GFAConnectorShim
+from .shims.Flye import FlyeShim
 from .shims.KCST import KCSTShim
 from .shims.KmerFinder import KmerFinderShim
 from .shims.MLSTFinder import MLSTFinderShim
 from .shims.PlasmidFinder import PlasmidFinderShim
 from .shims.pMLST import pMLSTShim
 from .shims.PointFinder import PointFinderShim
+from .shims.Polypolish import PolypolishShim
 from .shims.ReadsMetrics import ReadsMetricsShim
 from .shims.ResFinder import ResFinderShim
 from .shims.SKESA import SKESAShim
@@ -32,6 +34,7 @@ SERVICES = {
     Services.CONTIGSMETRICS:    ContigsMetricsShim(),
     Services.READSMETRICS:      ReadsMetricsShim(),
     Services.SKESA:             SKESAShim(),
+    Services.FLYE:              FlyeShim(),
     Services.GFACONNECTOR:      GFAConnectorShim(),
     Services.KCST:              KCSTShim(),
     Services.MLSTFINDER:        MLSTFinderShim(),
@@ -42,6 +45,7 @@ SERVICES = {
     Services.VIRULENCEFINDER:   VirulenceFinderShim(),
     Services.PLASMIDFINDER:     PlasmidFinderShim(),
     Services.PMLSTFINDER:       pMLSTShim(),
+    Services.POLYPOLISH:        PolypolishShim(),
     Services.CGMLSTFINDER:      cgMLSTFinderShim(),
     Services.CHOLERAEFINDER:    CholeraeFinderShim(),
 }

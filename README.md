@@ -9,22 +9,36 @@ pipeline for bacterial genomics at Kilimanjaro Clinical Research Institute
 Epidemiology (CGE) at the Technical University of Danmark (DTU).
 
 The BAP orchestrates a standard workflow that processes sequencing reads
-or contigs and produces the following:
+and/or contigs, and produces the following:
 
- * Genome assembly (optional) (SKESA)
+ * Genome assembly (optional) (SKESA, Flye, Polypolish)
  * Basic QC metrics over reads a/o contigs (fastq-stats, uf-stats)
  * Species identification (KmerFinder, KCST)
  * MLST (KCST, MLSTFinder)
  * Resistance profiling (ResFinder, PointFinder)
- * Virulence gene finding (VirulenceFinder)
  * Plasmid detection and typing (PlasmidFinder, pMLST)
+ * Virulence gene finding (VirulenceFinder)
  * Core genome MLST (optional) (cgMLST)
 
 The BAP comes with sensible default settings and a standard workflow, but
 can be adjusted with command line parameters.
 
+#### Supported Inputs
 
-#### Examples
+Since release 3.3.0, the BAP can process Illumina reads, Nanopore reads,
+and/or assembled contigs, either alone or in combination.  All files should
+pertain to the same isolate.
+
+ * A single FASTA file with assembled contigs of the isolate
+ * A pair of Illumina paired-end reads files _or_ a single Illumina reads file
+ * A single Nanopore reads file
+ * A combination of the above
+
+Most tools in the BAP prefer reads over contigs, so assembly is not performed
+by default (force using `--force-assembly`).
+
+
+## Usage
 
 Default run on a genome assembly:
 
@@ -38,21 +52,35 @@ Same but also produce the assembled genome:
 
     BAP -t DEFAULT,assembly read_1.fq.gz read_2.fq.gz
 
-Note that when omitted, the `-t/--target` parameter has value `DEFAULT`,
-which implies species, resistance, plasmids, virulence, and metrics.
+#### Targets
 
-Perform _only_ metrics (by omitting the DEFAULT target):
+The `-t/--target` parameter specifies the analyses the BAP must do.
+When omitted, it has value `DEFAULT`, which implies these targets:
+`species`, `resistance`, `plasmids`, `virulence`, `metrics`, but
+not `assembly`.
 
-    BAP -t metrics read_1.fq.gz read_2.fq.gz assembly.fna
+> Note how targets are 'logical' names for the tasks the BAP must do.
+> The BAP will determine which services to involve, in what order,
+> and what alternatives to try if a service fails.
 
-See what targets (values for the `-t` parameter) are available:
+See available targets:
 
     BAP --list-targets
     -> metrics species mlst resistance virulence plasmids ...
 
-> Note how the targets are 'logical' names for what the BAP must do.
-> The BAP will determine which services to involve, in what order, and
-> what alternatives to try if a service fails.
+Perform _only_ assembly (by omitting the DEFAULT target)
+
+    BAP -t assembly read_1.fq.gz read_2.fq.gz
+
+Compute metrics only:
+
+    BAP -t metrics read_1.fq.gz read_2.fq.gz assembly.fna
+
+Do defaults but _exclude_ metrics:
+
+    BAP -x metrics read_1.fq.gz read_2.fq.gz
+
+#### Service parameters
 
 Service parameters can be passed to individual services in the pipeline.
 For instance, to change ResFinder's identity and coverage thresholds:
@@ -62,6 +90,17 @@ For instance, to change ResFinder's identity and coverage thresholds:
 For an overview of all available parameters, use `--help`:
 
     BAP --help
+
+#### Advanced Usage
+
+Run a service in the container directly:
+
+    bap-container-run kmerfinder --help
+    bap-container-run kcst --help
+
+Run a terminal shell in the container:
+
+    bap-container-run
 
 
 ## Installation
@@ -73,8 +112,7 @@ in a Docker container, but could also be set up in a Conda environment.
 The installation has two major steps: building the Docker image, and
 downloading the databases.
 
-
-### Installation - Docker Image
+#### Installation - Docker Image
 
 Test that Docker is installed
 
@@ -129,8 +167,7 @@ If the tests above all end with with `[OK]`, you are good to go.  (Note
 the test reads are just a small subset of a normal run, so the run output
 for tests 02 and 03 is not representative.)
 
-
-### Installation - CGE Databases
+#### Installation - CGE Databases
 
 In the previous step we tested against the miniature test databases that
 come with this repository.  In this step we install the real databases.
@@ -162,31 +199,21 @@ output" as there may have been additions to the CGE databases):
     test/test-04-fa-live.sh
     test/test-05-fq-live.sh
 
+#### Installation - Final Touches
 
-## Usage
+If the tests succeeded, set `BAP_DB_DIR` in `bin/bap-container-run` to point
+at the installed databases.
 
-If the tests succeeded you set `BAP_DB_DIR` in `bin/bap-container-run`, you
-are good to go.  
+For convenience, add the `bin` directory to your `PATH` (edit your `~/.profile`),
+or copy or symlink the `bin/BAP` script in `~/.local/bin` or `~/bin`.
 
-For convenience, add the `bin` directory to your `PATH` in `~/.profile`, or
-copy or link the `bin/BAP` script from `~/.local/bin` or `~/bin`, so that
-this works:
-
-    BAP --help
-
-Run a terminal shell in the container:
-
-    bap-container-run
-
-Run any of the services in the container directly:
-
-    bap-container-run kmerfinder --help
-    bap-container-run kcst --help
+Once this is done (you may need to logout and login), `BAP --help` should work.
 
 
 ## Development / Upgrades
 
-* After updating databases, rerun `scripts/index-databases.sh DB_DIR`.
+* After updating databases, rerun `scripts/index-databases.sh DB_DIR` (note the
+  `INSTALL.sh` script in the CGE databases may have already done this)
 
 * To change the backend versions, set the requested versions in
   `ext/backend-versions.config` and run `ext/update-backends.sh`.
