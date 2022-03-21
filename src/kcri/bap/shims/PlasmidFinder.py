@@ -6,9 +6,10 @@
 #   This is captured in the shared PlasVirBaseExecution class.
 
 import logging
+import os.path
+from .base import UserException
 from .PlasVirBase import PlasVirBaseExecution
 from .versions import BACKEND_VERSIONS
-from .base import UserException
 
 # Our service name and current backend version
 SERVICE, VERSION = "PlasmidFinder", BACKEND_VERSIONS['plasmidfinder']
@@ -29,7 +30,7 @@ class PlasmidFinderShim:
             min_cov = execution.get_user_input('pf_c')
             search_list = list(filter(None, execution.get_user_input('pf_s', '').split(',')))
             # Note: errors out if only Nanopore reads available (which we can't handle yet)
-            inputs = execution.get_illufq_or_contigs_paths()
+            inputs = list(map(os.path.abspath, execution.get_illufq_or_contigs_paths()))
 
             params = [
                 '-q',

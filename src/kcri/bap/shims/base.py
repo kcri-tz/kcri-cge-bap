@@ -177,19 +177,17 @@ class ServiceExecution(Task):
         return ret
 
     def get_illufq_or_contigs_paths(self, default=None):
-        '''Return the Illumina fastqs or else the contigs in a list, or else default or fail.'''
-        ret = self._blackboard.get_illufq_paths(self._blackboard.get_user_contigs_path(default))
-        if ret is None:
+        '''Return the Illumina fastqs or else the assembled or user provided contigs in a list.'''
+        ret = self._blackboard.get_illufq_paths(self.get_contigs_path([]))
+        if not ret and default is None:
             raise UserException("no Illumina reads or contigs files were provided")
         return ret if isinstance(ret,list) else [ret]
 
     def get_fastq_or_contigs_paths(self, default=None):
         '''Return the Illumina fastqs, or else the Nanopore fastq, or else contigs, in a list, or else default or fail.'''
-        ret = self._blackboard.get_illufq_paths(self._blackboard.get_user_contigs_path(default))
-        if ret is None:
-            ret = self._blackboard.get_nanofq_path()
-            if not ret:
-                raise UserException("no reads files or contigs files were provided")
+        ret = self._blackboard.get_illufq_paths(self._blackboard.get_nanofq_path(self.get_contigs_path("")))
+        if not ret and default is None:
+            raise UserException("no reads files or contigs files were provided")
         return ret if isinstance(ret,list) else [ret]
 
     def get_species(self, default=None):
