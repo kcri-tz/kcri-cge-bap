@@ -35,15 +35,15 @@ class PolypolishShim:
 
         # Get the execution parameters from the blackboard
         try:
-            if len(execution.get_fastq_paths()) != 2:
-                raise UserException("Polypolish backend only handles paired-end reads")
+            # Will prefer assembly over user provided contigs, errors if none
+            contigs = execution.get_contigs()
+            # The Illumina reads to polish with, errors if none
+            illufqs = execution.get_illufq_paths()
 
             params = [
-                '--cores', MAX_CPU,
-                '--memory', MAX_MEM,
-                '--reads', ','.join(execution.get_fastq_paths()),
-                '--contigs_out', CONTIGS_OUT
             ]
+
+            raise UserException("Polypolish needs implementation")
 
             job_spec = JobSpec('polypolish', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())

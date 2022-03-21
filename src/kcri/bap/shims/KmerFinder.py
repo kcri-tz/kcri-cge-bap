@@ -34,7 +34,7 @@ class KmerFinderShim:
                 '-q',
                 '-db', db_path,
                 '-o', '.',
-                '-i' ] + execution.get_fastqs_or_contigs_paths()
+                '-i' ] + execution.get_fastq_or_contigs_paths()
             if tax_file:
                 params.extend(['-tax', tax_file])
 

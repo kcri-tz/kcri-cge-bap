@@ -38,15 +38,14 @@ class ResFinderShim:
                 '-ao', execution.get_user_input('rf_o'),
                 '-o', '.' ]
 
-            # Append nanopore flag
-            if execution.is_nanopore():
-                params.append('-nano')
-
             # Append files, backend has different args for fq and fa
-            fq_files = execution.get_fastq_paths(list())
-            for f in fq_files:
-                params.extend(['-ifq', f])
-            if not fq_files:
+            illufqs = execution.get_illufq_paths(list())
+            if illufqs:
+                for f in illufqs:
+                    params.extend(['-ifq', f])
+            elif execution.get_nanofq_path(""):
+                params.extend(['-nano', '-ifq', execution.get_nanofq_path()])
+            else:
                 params.extend(['-ifa', execution.get_contigs_path()])
 
             # Parse list of user specified phenotypes and check with DB

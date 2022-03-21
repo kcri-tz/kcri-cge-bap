@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# kcri.bap.shims.PlasmidFinder - service shim to the PlasmidFinder backend
+# kcri.bap.shims.pMLSTShim - service shim to the pMLST backend
 #
 
 import os, tempfile, json, logging
@@ -56,13 +56,13 @@ class pMLSTShim:
         try:
             db_dir = execution.get_db_path('pmlst')
             db_cfg = os.path.join(db_dir, 'config')
-            files = execution.get_fastqs_or_contigs_paths([])
+            inputs = execution.get_illufq_or_contigs_paths()
 
             # Determine schemes to run pMLST for from user input and PF output
             schemes, warnings = self.determine_schemes(db_cfg, scheme_lst, plasmid_lst)
 
             execution.add_warnings(warnings)
-            execution.start(schemes, files, db_dir)
+            execution.start(schemes, inputs, db_dir)
 
         # Failing inputs will throw UserException
         except UserException as e:

@@ -13,12 +13,11 @@ from .versions import BACKEND_VERSIONS
 SERVICE, VERSION = "Flye", BACKEND_VERSIONS['flye']
 
 # Flye resource parameters: cpu, memory, disk, run time reqs
-#MAX_CPU = -1 # all
-#MAX_MEM = 12 # all
 MAX_TIM = 0  # unlimited
 
 # Output file ex work dir
-CONTIGS_OUT = 'contigs.fna'
+CONTIGS_OUT = 'assembly.fasta'
+GFA_OUT = 'assembly_graph.gfa'
 
 # The Service class
 class FlyeShim:
@@ -35,14 +34,13 @@ class FlyeShim:
 
         # Get the execution parameters from the blackboard
         try:
-            if len(execution.get_fastq_paths()) != 2:
-                raise UserException("Flye backend only handles paired-end reads")
+            reads = execution.get_nanofq_path()
 
             params = [
-                '--cores', MAX_CPU,
-                '--memory', MAX_MEM,
-                '--reads', ','.join(execution.get_fastq_paths()),
-                '--contigs_out', CONTIGS_OUT
+                '--threads', MAX_CPU,
+                '--out-dir', '.',
+                # Note: use 'nano-raw' for pre-Guppy5 reads, says Flye
+                '--nano-hq', reads
             ]
 
             job_spec = JobSpec('flye', params, MAX_CPU, MAX_MEM, MAX_TIM)
@@ -75,10 +73,15 @@ class FlyeExecution(ServiceExecution):
            This method is called by super().report() once job is done.'''
 
         contigs_file = job.file_path(CONTIGS_OUT)
+        gfa_file = job.file_path(GFA_OUT)
 
         if os.path.isfile(contigs_file):
-            self.store_results({ 'contigs_file': contigs_file })
             self._blackboard.put_assembled_contigs_path(contigs_file)
+            res = dict({ 'contigs_file': contigs_file })
+            if os.path.isfile(gfa_file):
+                self._blackboard.put_graph_path(gfa_file)
+                res['gfa_file'] = gfa_file
+            self.store_results(res)
         else:
-            self.fail("backend job produced no output, check: %s", job.file_path(""))
+            self.fail("backend job produced no assembly, check: %s", job.file_path(""))
 

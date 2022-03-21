@@ -28,12 +28,15 @@ class VirulenceFinderShim:
             min_ident = execution.get_user_input('vf_i')
             min_cov = execution.get_user_input('vf_c')
             search_list = list(filter(None, execution.get_user_input('vf_s', '').split(',')))
+            # Note: errors out if only Nanopore reads available (which we can't handle yet)
+            inputs = execution.get_illufq_or_contigs_paths()
+
             params = [ #'--lineage = --speciesinfo_jsonx',
                 '-q',
                 '-p', db_path,
                 '-t', min_ident,
                 '-l', min_cov,
-                '-i' ] + execution.get_fastqs_or_contigs_paths()
+                '-i' ] + inputs
             if search_list:
                 params.extend(['-d', ','.join(search_list)])
 

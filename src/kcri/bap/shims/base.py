@@ -141,11 +141,18 @@ class ServiceExecution(Task):
             raise UserException("required user input is missing: %s" % param)
         return ret
 
-    def get_fastq_paths(self, default=None):
+    def get_illufq_paths(self, default=None):
         '''Return the list of fastq paths, or fail if no default provided.'''
-        ret = self._blackboard.get_fastq_paths(default)
+        ret = self._blackboard.get_illufq_paths(default)
         if ret is None:
-            raise UserException("no fastq files were provided")
+            raise UserException("no Illumina fastq files were provided")
+        return ret
+
+    def get_nanofq_path(self, default=None):
+        '''Return the fastq path, or fail if no default provided.'''
+        ret = self._blackboard.get_nanofq_path(default)
+        if ret is None:
+            raise UserException("no Nanopore fastq files were provided")
         return ret
 
     def get_user_contigs_path(self, default=None):
@@ -169,11 +176,20 @@ class ServiceExecution(Task):
             raise UserException("no contigs file was provided or produced")
         return ret
 
-    def get_fastqs_or_contigs_paths(self, default=None):
-        '''Return the fastqs or else the contigs in a list, or else default or fail.'''
-        ret = self._blackboard.get_fastq_paths(self._blackboard.get_user_contigs_path(default))
+    def get_illufq_or_contigs_paths(self, default=None):
+        '''Return the Illumina fastqs or else the contigs in a list, or else default or fail.'''
+        ret = self._blackboard.get_illufq_paths(self._blackboard.get_user_contigs_path(default))
         if ret is None:
-            raise UserException("no fastq or contigs files were provided")
+            raise UserException("no Illumina reads or contigs files were provided")
+        return ret if isinstance(ret,list) else [ret]
+
+    def get_fastq_or_contigs_paths(self, default=None):
+        '''Return the Illumina fastqs, or else the Nanopore fastq, or else contigs, in a list, or else default or fail.'''
+        ret = self._blackboard.get_illufq_paths(self._blackboard.get_user_contigs_path(default))
+        if ret is None:
+            ret = self._blackboard.get_nanofq_path()
+            if not ret:
+                raise UserException("no reads files or contigs files were provided")
         return ret if isinstance(ret,list) else [ret]
 
     def get_species(self, default=None):

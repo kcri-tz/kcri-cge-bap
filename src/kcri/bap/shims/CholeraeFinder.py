@@ -34,12 +34,15 @@ class CholeraeFinderShim:
         # From here run the execution, and FAIL it on exception
         try:
             db_path = execution.get_db_path('choleraefinder')
+            # Note: errors out if only Nanopore reads available (which we can't handle yet)
+            inputs = execution.get_illufq_or_contigs_paths()
+
             params = [ '-q',
                 '-p', db_path,
                 '-t', execution.get_user_input('ch_i'),
                 '-l', execution.get_user_input('ch_c'),
                 '-ao', execution.get_user_input('ch_o'),
-                '-i' ] + execution.get_fastqs_or_contigs_paths()
+                '-i' ] + inputs
 
             job_spec = JobSpec('choleraefinder.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.start(job_spec, 'CholeraeFinder')

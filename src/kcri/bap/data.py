@@ -74,12 +74,19 @@ class BAPBlackboard(Blackboard):
 
     # Contigs and reads
 
-    def put_fastq_paths(self, paths):
-        '''Stores the fastqs path as its own (pseudo) user input.'''
-        self.put_user_input('fastqs', paths)
+    def put_illufq_paths(self, paths):
+        '''Stores the illumina paths as its own (pseudo) user input.'''
+        self.put_user_input('illumina_fqs', paths)
 
-    def get_fastq_paths(self, default=None):
-        return self.get_user_input('fastqs', default)
+    def get_illufq_paths(self, default=None):
+        return self.get_user_input('illumina_fqs', default)
+
+    def put_nanofq_path(self, path):
+        '''Stores the Nanopore fastq path as its own (pseudo) user input.'''
+        self.put_user_input('nano_fq', path)
+
+    def get_nanofq_path(self, default=None):
+        return self.get_user_input('nano_fq', default)
 
     def put_user_contigs_path(self, path):
         '''Stores the contigs path as its own (pseudo) user input.'''

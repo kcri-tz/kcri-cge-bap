@@ -34,7 +34,6 @@ class Params(pico.workflow.logic.Params):
     CONTIGS = 'contigs'     # Signals that user has provided contigs
     SPECIES = 'species'     # Signals that user has specified the species
     PLASMIDS = 'plasmids'   # Signals that user has specified the plasmids
-    NANOPORE = 'nanopore'   # Signals that fastqs are Nanopore reads
 
 class Checkpoints(pico.workflow.logic.Checkpoints):
     '''Internal targets for other targets to depend on.  Useful when a service
@@ -51,7 +50,7 @@ class Services(pico.workflow.logic.Services):
     READSMETRICS = 'ReadsMetrics'
     SKESA = 'SKESA'
     FLYE = 'Flye'
-    POLYPOLISH = 'PolyPolish'
+    POLYPOLISH = 'Polypolish'
     GFACONNECTOR = 'GFAConnector'
     MLSTFINDER = 'MLSTFinder'
     KCST = 'KCST'
@@ -121,9 +120,9 @@ DEPENDENCIES = {
     Services.READSMETRICS:      OIF( ONE( Params.ILLUREADS, Params.NANOREADS ) ),
     Services.SKESA:             Params.ILLUREADS,
     Services.FLYE:              Params.NANOREADS,
-    Services.POLYPOLISH:        ALL( Params.NANOREADS, Params.ILLUREADS ),
+    Services.POLYPOLISH:        ALL( Params.ILLUREADS, Services.FLYE ),
     Services.GFACONNECTOR:      ALL( Params.ILLUREADS, Checkpoints.CONTIGS ),
-    Services.KMERFINDER:        ONE( Params.ILLUREADS, Checkpoints.CONTIGS ),
+    Services.KMERFINDER:        ONE( Params.ILLUREADS, Params.NANOREADS, Checkpoints.CONTIGS ),
     Services.GETREFERENCE:      OIF( Services.KMERFINDER ),  # Later: also work if species given and no KmerFinder
     Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.KCST:              Checkpoints.CONTIGS,
@@ -135,7 +134,7 @@ DEPENDENCIES = {
     Services.CGMLSTFINDER:      ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.CHOLERAEFINDER:    ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
 
-    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA, Services.FLYE ),
+    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.POLYPOLISH, Services.SKESA, Services.FLYE ),
     Checkpoints.SPECIES:        ONE( Params.SPECIES, Services.KMERFINDER, Services.KCST ),
     Checkpoints.PLASMIDS:       ONE( Params.PLASMIDS, Services.PLASMIDFINDER ),
 }

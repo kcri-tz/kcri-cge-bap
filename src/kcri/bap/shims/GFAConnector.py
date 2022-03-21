@@ -36,12 +36,13 @@ class GFAConnectorShim:
 
         # Get the execution parameters from the blackboard
         try:
-            if len(execution.get_fastq_paths()) != 2:
-                raise UserException("GFAConnector backend only handles paired-end reads")
+            reads = execution.get_illufq_paths()
+            if len(reads) != 2:
+                raise UserException("GFAConnector backend only handles Illumina paired-end reads")
 
             params = [
                 '--cores', MAX_CPU,
-                '--reads', ','.join(map(os.path.abspath, execution.get_fastq_paths())),
+                '--reads', ','.join(map(os.path.abspath, reads)),
                 '--contigs', os.path.abspath(execution.get_contigs_path()),
                 '--gfa', GFA_OUT,
                 '--csv', CSV_OUT   # optional

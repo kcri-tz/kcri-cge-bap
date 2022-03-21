@@ -45,7 +45,7 @@ def is_illumina_reads(fname):
 # Helper to detect whether fastq file has Illumina reads
 def is_nanopore_reads(fname):
     #@3ea0b1a6-309d-4fa6-acf7-81318583eea3 runid=e78b393cae8ec468269f5fcfa954c3ff8bbb1344 sampleid=C2020 read=39660 ch=389 start_time=2021-03-10T21:50:19Z barcode=barcode01
-    return first_line_matches(fname, r'^@[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}.*$')
+    return first_line_matches(fname, r'^@[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}.*$')
 
 # Helper to parse string ts which may be UserTarget or Service
 def UserTargetOrService(s):
@@ -176,7 +176,6 @@ per line, in a text file and pass this file with @FILENAME.
                 nanofq = os.path.abspath(f)
             else:
                 err_exit('cannot detect whether file has Illumina or Nanopore reads: %s', f)
-            fi
         else:
             err_exit("file is neither FASTA not fastq: %s" % f)
 
@@ -251,7 +250,7 @@ per line, in a text file and pass this file with @FILENAME.
         params.append(Params.ILLUREADS)
         blackboard.put_illufq_paths(illufqs)
     if nanofq:
-        params.append(Params.NANOREAD)
+        params.append(Params.NANOREADS)
         blackboard.put_nanofq_path(nanofq)
     if args.species:
         params.append(Params.SPECIES)

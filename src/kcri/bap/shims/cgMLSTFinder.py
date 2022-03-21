@@ -37,8 +37,10 @@ class cgMLSTFinderShim:
             db_dir = execution.get_db_path('cgmlstfinder')
             db_cfg = os.path.join(db_dir, 'config')
 
-            # Note we do only one fq
-            fname = execution.get_fastqs_or_contigs_paths([])[0]
+            # Note we do only one fq, regardless of how many we have
+            # We error out if only Nanopore reads available (which we can't handle yet)
+            inputs = execution.get_illufq_or_contigs_paths()
+            fname = inputs[0]
 
             schemes = self.determine_schemes(db_cfg, scheme_lst, species_lst)
             execution.start(schemes, fname, db_dir)

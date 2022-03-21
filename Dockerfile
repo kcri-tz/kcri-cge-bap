@@ -20,6 +20,7 @@ FROM continuumio/miniconda3:4.10.3p1
 # - gcc and libz-dev for kma
 # - g++ and gawk and libboost-iostreams for kcst
 # - g++ and the libboost packages for SKESA
+# - file for KCST
 # - bwa for Polypolish
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -28,7 +29,7 @@ RUN apt-get -qq update --fix-missing && \
     dpkg --configure -a && \
     apt-get -qq install --no-install-recommends \
         make g++ gcc libc-dev libz-dev \
-        gawk \
+        gawk file \
         libboost-program-options-dev \
         libboost-iostreams-dev \
         libboost-regex-dev \

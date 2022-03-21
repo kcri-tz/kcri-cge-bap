@@ -35,13 +35,13 @@ class SKESAShim:
 
         # Get the execution parameters from the blackboard
         try:
-            if len(execution.get_fastq_paths()) != 2:
+            if len(execution.get_illufq_paths()) != 2:
                 raise UserException("SKESA backend only handles paired-end reads")
 
             params = [
                 '--cores', MAX_CPU,
                 '--memory', MAX_MEM,
-                '--reads', ','.join(execution.get_fastq_paths()),
+                '--reads', ','.join(execution.get_illufq_paths()),
                 '--contigs_out', CONTIGS_OUT
             ]
 

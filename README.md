@@ -35,7 +35,7 @@ pertain to the same isolate.
  * A combination of the above
 
 Most tools in the BAP prefer reads over contigs, so assembly is not performed
-by default (force using `--force-assembly`).
+by default (see `-t/--targets` option below).
 
 
 ## Usage
@@ -56,8 +56,7 @@ Same but also produce the assembled genome:
 
 The `-t/--target` parameter specifies the analyses the BAP must do.
 When omitted, it has value `DEFAULT`, which implies these targets:
-`species`, `resistance`, `plasmids`, `virulence`, `metrics`, but
-not `assembly`.
+`species`, `resistance`, `plasmids`, `virulence`, `metrics`.
 
 > Note how targets are 'logical' names for the tasks the BAP must do.
 > The BAP will determine which services to involve, in what order,
@@ -87,7 +86,7 @@ For instance, to change ResFinder's identity and coverage thresholds:
 
     BAP --rf-i=0.95 --rf-c=0.8 assembly.fna
 
-For an overview of all available parameters, use `--help`:
+For an overview of available parameters, use `--help`:
 
     BAP --help
 
@@ -107,7 +106,7 @@ Run a terminal shell in the container:
 
 The BAP was developed to run on a moderately high-end Linux workstation
 (see [history](#history-and-credits) below).  It is most easily installed
-in a Docker container, but could also be set up in a Conda environment.
+in a Docker container.
 
 The installation has two major steps: building the Docker image, and
 downloading the databases.

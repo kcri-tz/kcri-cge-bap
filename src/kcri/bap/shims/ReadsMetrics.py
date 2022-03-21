@@ -29,11 +29,16 @@ class ReadsMetricsShim:
 
         # From here we catch exception and execution will FAIL
         try:
-            fastqs = execution.get_fastq_paths()
-            fn = "'%s'" % os.path.abspath(fastqs[0])
-            if len(fastqs) == 2: fn += " '%s'" % os.path.abspath(fastqs[1])
+            fastqs = execution.get_illufq_paths([])
+            nanofq = execution.get_nanofq_path("")
+            if nanofq: fastqs.append(nanofq)
+            if not fastqs: raise UserException("no reads files to process")
+
+            arg = ""
+            for fq in fastqs:
+                arg += " '%s'" % os.path.abspath(fq)
             # Cater for either gzipped or plain input using shell succinctness
-            cmd = "(gzip -dc %s 2>/dev/null || cat %s) | fastq-stats" % (fn,fn) 
+            cmd = "(gzip -dc %s 2>/dev/null || cat %s) | fastq-stats" % (arg,arg) 
             params = [
                 '-c', cmd, 'fastq-stats'
             ]

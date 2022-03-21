@@ -48,11 +48,15 @@ class PointFinderShim:
                 '-o', '.' ]
 
             # Append files, backend has different args for fq and fa
-            fq_files = execution.get_fastq_paths(list())
-            for f in fq_files:
+            illufqs = execution.get_illufq_paths(list())
+            for f in illufqs:
                 params.extend(['-ifq', f])
-            if not fq_files:
-                params.extend(['-ifa', execution.get_contigs_path()])
+            if not illufqs:
+                nanofq = execution.get_nanofq_path(False)
+                if nanofq:
+                    params.extend(['-nano', '-ifq', f])
+                else:
+                    params.extend(['-ifa', execution.get_contigs_path()])
 
             # Parse list of user specified genes and check with DB
             for g in filter(None, execution.get_user_input('pt_g',"").split(',')):
