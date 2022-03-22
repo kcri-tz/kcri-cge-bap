@@ -11,7 +11,7 @@ Epidemiology (CGE) at the Technical University of Danmark (DTU).
 The BAP orchestrates a standard workflow that processes sequencing reads
 and/or contigs, and produces the following:
 
- * Genome assembly (optional) (SKESA, Flye, Polypolish)
+ * Genome assembly (optional) (SKESA, Flye)
  * Basic QC metrics over reads a/o contigs (fastq-stats, uf-stats)
  * Species identification (KmerFinder, KCST)
  * MLST (KCST, MLSTFinder)
@@ -25,17 +25,17 @@ can be adjusted with command line parameters.
 
 #### Supported Inputs
 
-Since release 3.3.0, the BAP can process Illumina reads, Nanopore reads,
-and/or assembled contigs, either alone or in combination.  All files should
-pertain to the same isolate.
+Since release 3.3.0, the BAP can process Illumina reads, Nanopore reads, or
+assembled contigs.  You can pass it one of the following:
 
- * A single FASTA file with assembled contigs of the isolate
+ * A single FASTA file with (assembled) contigs
  * A pair of Illumina paired-end reads files _or_ a single Illumina reads file
+   (set `--paired` when single file is interleaved)
  * A single Nanopore reads file
- * A combination of the above
 
-Most tools in the BAP prefer reads over contigs, so assembly is not performed
-by default (see `-t/--targets` option below).
+Note that the BAP by default does not do assembly unless some service requires
+contigs.  You can force assembly using the `-t/--target` option (see below).
+Note that the assembly produced is the plain Flye output, and not polished.
 
 
 ## Usage
@@ -73,7 +73,7 @@ Perform _only_ assembly (by omitting the DEFAULT target)
 
 Compute metrics only:
 
-    BAP -t metrics read_1.fq.gz read_2.fq.gz assembly.fna
+    BAP -t metrics read_1.fq.gz read_2.fq.gz
 
 Do defaults but _exclude_ metrics:
 

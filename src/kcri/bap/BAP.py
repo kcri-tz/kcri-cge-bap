@@ -167,8 +167,6 @@ per line, in a text file and pass this file with @FILENAME.
             contigs = os.path.abspath(f)
         elif detect_filetype(f) == 'fastq':
             if is_illumina_reads(f):
-                if len(illufqs) == 2:
-                    err_exit('more than two Illumina fastq files passed: %s', f)
                 illufqs.append(os.path.abspath(f))
             elif is_nanopore_reads(f):
                 if nanofq:
@@ -178,6 +176,13 @@ per line, in a text file and pass this file with @FILENAME.
                 err_exit('cannot detect whether file has Illumina or Nanopore reads: %s', f)
         else:
             err_exit("file is neither FASTA not fastq: %s" % f)
+
+    if len(illufqs) > 2:
+        err_exit('more than two Illumina fastq files passed: %s', f)
+    if illufqs and nanofq:
+        err_exit('pass either Illumina or Nanopore reads, not both')
+    if contigs and (illufqs or nanofq):
+        err_exit('pass either FASTQ or FASTA files, not both')
 
     # Parse the --list_available
     if args.list_available:

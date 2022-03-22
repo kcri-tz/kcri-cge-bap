@@ -145,9 +145,6 @@ RUN cd ext/cge_core_module && \
     python3 setup.py install && \
     cd .. && rm -rf cge_core_module
 
-# Install polypolish by adding to PATH
-ENV PATH=/usr/src/ext/polypolish:$PATH
-
 
 # Install CGE Services
 #----------------------------------------------------------------------

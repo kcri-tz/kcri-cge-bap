@@ -50,7 +50,6 @@ class Services(pico.workflow.logic.Services):
     READSMETRICS = 'ReadsMetrics'
     SKESA = 'SKESA'
     FLYE = 'Flye'
-    POLYPOLISH = 'Polypolish'
     GFACONNECTOR = 'GFAConnector'
     MLSTFINDER = 'MLSTFinder'
     KCST = 'KCST'
@@ -95,7 +94,7 @@ class UserTargets(pico.workflow.logic.UserTargets):
 DEPENDENCIES = {
     
     UserTargets.METRICS:        ALL( OPT( Services.CONTIGSMETRICS ), OPT( Services.READSMETRICS ) ),
-    UserTargets.ASSEMBLY:       ONE( Services.POLYPOLISH, Services.SKESA, Services.FLYE ),
+    UserTargets.ASSEMBLY:       ONE( Services.SKESA, Services.FLYE ),
     UserTargets.GRAPH:          ONE( Services.FLYE, Services.GFACONNECTOR ),
     UserTargets.SPECIES:        Checkpoints.SPECIES,
     # Need the Services.GETREFERENCE to be OPT as it is OIF KmerFinder below
@@ -120,7 +119,6 @@ DEPENDENCIES = {
     Services.READSMETRICS:      OIF( ONE( Params.ILLUREADS, Params.NANOREADS ) ),
     Services.SKESA:             Params.ILLUREADS,
     Services.FLYE:              Params.NANOREADS,
-    Services.POLYPOLISH:        ALL( Params.ILLUREADS, Services.FLYE ),
     Services.GFACONNECTOR:      ALL( Params.ILLUREADS, Checkpoints.CONTIGS ),
     Services.KMERFINDER:        ONE( Params.ILLUREADS, Params.NANOREADS, Checkpoints.CONTIGS ),
     Services.GETREFERENCE:      OIF( Services.KMERFINDER ),  # Later: also work if species given and no KmerFinder
@@ -134,7 +132,7 @@ DEPENDENCIES = {
     Services.CGMLSTFINDER:      ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.CHOLERAEFINDER:    ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
 
-    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.POLYPOLISH, Services.SKESA, Services.FLYE ),
+    Checkpoints.CONTIGS:        ONE( Params.CONTIGS, Services.SKESA, Services.FLYE ),
     Checkpoints.SPECIES:        ONE( Params.SPECIES, Services.KMERFINDER, Services.KCST ),
     Checkpoints.PLASMIDS:       ONE( Params.PLASMIDS, Services.PLASMIDFINDER ),
 }
