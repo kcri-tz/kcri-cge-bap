@@ -136,6 +136,8 @@ per line, in a text file and pass this file with @FILENAME.
     group.add_argument('--ch-i', metavar='FRAC', default=0.90, help='CholeraeFinder identity threshold')
     group.add_argument('--ch-c', metavar='FRAC', default=0.60, help='CholeraeFinder minimum coverage')
     group.add_argument('--ch-o', metavar='NT', default=30, help='CholeraeFinder maximum overlapping nucleotides')
+    group = parser.add_argument_group('Flye assembly parameters')
+    group.add_argument('--fl-r', action='store_true', help='Nanopore reads are not from HQ (sup, Q20) basecall')
 
     # Perform the parsing
     args = parser.parse_args()
@@ -234,7 +236,7 @@ per line, in a text file and pass this file with @FILENAME.
                     sample_id = sample_id[:-1]
         elif nanofq:
             _, fname = os.path.split(nanofq)
-            sample_id, ext = os.path.splitext(nanofq)
+            sample_id, ext = os.path.splitext(fname)
             if ext == '.gz':
                 sample_id, _ = os.path.splitext(sample_id)
         if not sample_id:

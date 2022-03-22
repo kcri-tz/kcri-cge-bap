@@ -32,6 +32,8 @@ class FlyeShim:
         MAX_CPU = min(scheduler.max_cpu, 12)
         MAX_MEM = min(int(scheduler.max_mem), 32)
 
+        readqual = 'raw' if execution.get_user_input('fl_r', False) else 'hq'
+
         # Get the execution parameters from the blackboard
         try:
             reads = execution.get_nanofq_path()
@@ -40,7 +42,7 @@ class FlyeShim:
                 '--threads', MAX_CPU,
                 '--out-dir', '.',
                 # Note: use 'nano-raw' for pre-Guppy5 reads, says Flye
-                '--nano-hq', reads
+                '--nano-%s' % readqual, reads
             ]
 
             job_spec = JobSpec('flye', params, MAX_CPU, MAX_MEM, MAX_TIM)
