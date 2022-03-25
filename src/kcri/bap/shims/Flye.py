@@ -32,7 +32,7 @@ class FlyeShim:
         MAX_CPU = min(scheduler.max_cpu, 12)
         MAX_MEM = min(int(scheduler.max_mem), 32)
 
-        readqual = 'raw' if execution.get_user_input('fl_r', False) else 'hq'
+        readqual = 'hq' if execution.get_user_input('fl_h', False) else 'raw'
 
         # Get the execution parameters from the blackboard
         try:

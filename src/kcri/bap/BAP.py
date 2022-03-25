@@ -137,7 +137,7 @@ per line, in a text file and pass this file with @FILENAME.
     group.add_argument('--ch-c', metavar='FRAC', default=0.60, help='CholeraeFinder minimum coverage')
     group.add_argument('--ch-o', metavar='NT', default=30, help='CholeraeFinder maximum overlapping nucleotides')
     group = parser.add_argument_group('Flye assembly parameters')
-    group.add_argument('--fl-r', action='store_true', help='Nanopore reads are not from HQ (sup, Q20) basecall')
+    group.add_argument('--fl-h', action='store_true', help='Nanopore reads are from HQ (sup, Q20) basecaller')
 
     # Perform the parsing
     args = parser.parse_args()
