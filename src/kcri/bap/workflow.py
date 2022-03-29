@@ -18,7 +18,7 @@
 #
 
 import pico.workflow.logic
-from pico.workflow.logic import ALL, ONE, OPT, OIF, SEQ
+from pico.workflow.logic import ALL, ONE, OPT, OIF, SEQ, FST
 
 
 ### Target definitions
@@ -88,6 +88,7 @@ class UserTargets(pico.workflow.logic.UserTargets):
 #   - ALL: succeeds iff all its clauses succeed (in any order), fails as soon as one fails
 #   - SEQ: succeeds iff all its clauses succeed in the specified order, fails as soon as first fails
 #   - ONE: succeeds if any of its clauses has succeeded, else starts from left
+#   - FST: succeeds once first of its clauses succeeds, starting from left
 #   - OPT: triggers execution of its clause, but succeeds even if the clause fails
 #   - OIF: succeeds iff its clause succeeds, but does not trigger clause execution
 
@@ -120,11 +121,11 @@ DEPENDENCIES = {
     Services.SKESA:             Params.ILLUREADS,
     Services.FLYE:              Params.NANOREADS,
     Services.GFACONNECTOR:      ALL( Params.ILLUREADS, Checkpoints.CONTIGS ),
-    Services.KMERFINDER:        ONE( Params.ILLUREADS, Params.NANOREADS, Checkpoints.CONTIGS ),
+    Services.KMERFINDER:        FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ),
     Services.GETREFERENCE:      OIF( Services.KMERFINDER ),  # Later: also work if species given and no KmerFinder
     Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.KCST:              Checkpoints.CONTIGS,
-    Services.RESFINDER:         ONE( Params.ILLUREADS, Params.NANOREADS, Checkpoints.CONTIGS ),
+    Services.RESFINDER:         FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ),
     Services.POINTFINDER:       ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.VIRULENCEFINDER:   ALL( OPT( UserTargets.SPECIES ), ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.PLASMIDFINDER:     ONE( Params.ILLUREADS, Checkpoints.CONTIGS ),

@@ -30,12 +30,30 @@ assembled contigs.  You can pass it one of the following:
 
  * A single FASTA file with (assembled) contigs
  * A pair of Illumina paired-end reads files _or_ a single Illumina reads file
-   (set `--paired` when single file is interleaved)
  * A single Nanopore reads file
 
-Note that the BAP by default does not do assembly unless some service requires
-contigs.  You can force assembly using the `-t/--target` option (see below).
-Note that the assembly produced is the plain Flye output, and not polished.
+#### Generated Outputs
+
+The BAP generates a JSON file `bap-results.json` that integrates the detailed
+output from all the services, and a tab-separated `bap-summary.tsv` with just
+the most important results.
+
+It also retains all raw output from the individual services that have run.
+
+#### About Assemblies
+
+The BAP can do assembly, but doesn't do this by default.  It will perform
+assembly only if either some service requires contigs as its input, or you
+explicitly instruct the BAP to do assembly (see below).
+
+> **Note**: Nanopore reads are likely to trigger the BAP to do assembly,
+> because not all back-end services are ready for Nanopore reads, whereas
+> most can process Illumina reads without the need to assemble first.
+
+The BAP makes no effort to produce "polished" assemblies; use dedicated
+tools if that is your goal.  The BAP invokes assemblers (currently SKESA
+for Illumina reads, Flye for Nanopore) with their recommended settings.
+Both (claim to) do a decent job on unprocessed raw reads.
 
 
 ## Usage
@@ -56,7 +74,7 @@ Same but also produce the assembled genome:
 
 The `-t/--target` parameter specifies the analyses the BAP must do.
 When omitted, it has value `DEFAULT`, which implies these targets:
-`species`, `resistance`, `plasmids`, `virulence`, `metrics`.
+`species`, `MLST`, `resistance`, `plasmids`, `virulence`, `metrics`.
 
 > Note how targets are 'logical' names for the tasks the BAP must do.
 > The BAP will determine which services to involve, in what order,
@@ -67,15 +85,15 @@ See available targets:
     BAP --list-targets
     -> metrics species mlst resistance virulence plasmids ...
 
-Perform _only_ assembly (by omitting the DEFAULT target)
+Perform _only_ assembly and species typing (by omitting the DEFAULT target):
 
-    BAP -t assembly read_1.fq.gz read_2.fq.gz
+    BAP -t assembly,species read_1.fq.gz read_2.fq.gz
 
 Compute metrics only:
 
     BAP -t metrics read_1.fq.gz read_2.fq.gz
 
-Do defaults but _exclude_ metrics:
+Do the defaults but _exclude_ metrics:
 
     BAP -x metrics read_1.fq.gz read_2.fq.gz
 
@@ -92,10 +110,10 @@ For an overview of available parameters, use `--help`:
 
 #### Advanced Usage
 
-Run a service in the container directly:
+Call any of the backend services directly, not involving the BAP:
 
     bap-container-run kmerfinder --help
-    bap-container-run kcst --help
+    bap-container-run SKESA --help
 
 Run a terminal shell in the container:
 
@@ -245,7 +263,7 @@ four 8 core, 32GB Dell Precision M4700 laptop workstations.
 As the BAP evolved, its workflow logic became unwieldy and was factored out
 into a simple generic mechanism.  That code is now in <https://github.com/zwets/picoline>
 whereas all BAP-specifics (the workflow definitions and service shims) are
-in the `src/kcri/bap` package.
+here in the `src/kcri/bap` package.
 
 The next generation BAP "2.0" is under development at CGE, and is based on
 the NextFlow workflow control engine.  We envisage migrating KCRI BAP to that
@@ -262,10 +280,12 @@ Martin Christen Frølund Thomsen, Johanne Ahrenfeldt, Jose Luis Bellod Cisneros,
 Vanessa Jurtz, Mette Voldby Larsen, Henrik Hasman, Frank Møller Aarestrup,
 Ole Lund; PLoS One. 2016; 11(6): e0157718.
 
+Refer to the individual tools invoked by the BAP for their preferred citations.
+
 #### Licence
 
 Copyright 2016-2019 Center for Genomic Epidemiology, Technical University of Denmark  
-Copyright 2018-2020 Kilimanjaro Clinical Research Institute, Tanzania  
+Copyright 2018-2022 Kilimanjaro Clinical Research Institute, Tanzania  
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
