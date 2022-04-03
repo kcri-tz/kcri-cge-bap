@@ -1,6 +1,5 @@
 # KCRI CGE Bacterial Analysis Pipeline (BAP)
 
-
 ## Introduction
 
 The KCRI CGE Bacterial Analysis Pipeline (BAP) is the standard analysis
@@ -138,7 +137,7 @@ Test that Docker is installed
 
 Clone and enter this repository
 
-    git clone https://github.com/zwets/kcri-cge-bap.git
+    git clone https://github.com/kcri-tz/kcri-cge-bap.git
     cd kcri-cge-bap
 
 Download the backend services
@@ -271,7 +270,7 @@ foundation once it is operational.
 
 #### Citation
 
-For publications please cite the URL <https://github.com/zwets/kcri-cge-bap>
+For publications please cite the URL <https://github.com/kcri-tz/kcri-cge-bap>
 of this repository, and the paper on the original concept:
 
 _A Bacterial Analysis Platform: An Integrated System for Analysing Bacterial
