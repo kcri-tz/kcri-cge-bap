@@ -128,7 +128,7 @@ in a Docker container.
 The installation has two major steps: building the Docker image, and
 downloading the databases.
 
-#### Installation - Docker Image
+### Installation - Docker Image
 
 Test that Docker is installed
 
@@ -183,7 +183,7 @@ If the tests above all end with with `[OK]`, you are good to go.  (Note
 the test reads are just a small subset of a normal run, so the run output
 for tests 02 and 03 is not representative.)
 
-#### Installation - CGE Databases
+### Installation - CGE Databases
 
 In the previous step we tested against the miniature test databases that
 come with this repository.  In this step we install the real databases.
@@ -215,7 +215,7 @@ output" as there may have been additions to the CGE databases):
     test/test-04-fa-live.sh
     test/test-05-fq-live.sh
 
-#### Installation - Final Touches
+### Installation - Final Touches
 
 If the tests succeeded, set `BAP_DB_DIR` in `bin/bap-container-run` to point
 at the installed databases.
@@ -248,7 +248,7 @@ Once this is done (you may need to logout and login), `BAP --help` should work.
 
 ## History, Credits, License
 
-#### History
+### History
 
 The KCRI BAP evolved from the CGE BAP (citation below), the original code of
 which is at <https://bitbucket.org/genomicepidemiology/cge-tools-docker.git>.
@@ -268,7 +268,7 @@ The next generation BAP "2.0" is under development at CGE, and is based on
 the NextFlow workflow control engine.  We envisage migrating KCRI BAP to that
 foundation once it is operational.
 
-#### Citation
+### Citation
 
 For publications please cite the URL <https://github.com/kcri-tz/kcri-cge-bap>
 of this repository, and the paper on the original concept:
