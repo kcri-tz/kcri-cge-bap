@@ -1,7 +1,7 @@
 TODO
 
+- Add Nanopore tests
 - Add spa-type, SCCmecFinder
-- Add KmerResistance
 - Add SPIFinder
 - Add FimTyper, CHTyper, PAst
 - Add disinf-finder

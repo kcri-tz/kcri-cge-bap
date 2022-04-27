@@ -10,7 +10,7 @@
 # ----------------------------------------------------------------------
 
 # Use miniconda3 (Python 3.9, channel 'defaults' only)
-FROM continuumio/miniconda3:4.10.3p1
+FROM continuumio/miniconda3:4.11.0
 
 
 # System dependencies
@@ -139,9 +139,9 @@ RUN cd ext/picoline && \
     cd .. && rm -rf picoline
 
 # Install the cgecore module
-RUN cd ext/cge_core_module && \
+RUN cd ext/cgecore && \
     python3 setup.py install && \
-    cd .. && rm -rf cge_core_module
+    cd .. && rm -rf cgecore
 
 
 # Install CGE Services
