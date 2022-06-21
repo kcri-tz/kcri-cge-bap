@@ -21,6 +21,7 @@ FROM continuumio/miniconda3:4.12.0
 # - g++ and gawk and libboost-iostreams for kcst
 # - g++ and the libboost packages for SKESA
 # - file for KCST
+# - prodigal for cgMLST
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -qq update --fix-missing && \
@@ -35,6 +36,7 @@ RUN apt-get -qq update --fix-missing && \
         libboost-timer-dev \
         libboost-chrono-dev \
         libboost-system-dev \
+        prodigal \
     && \
     apt-get -qq clean && \
     rm -rf /var/lib/apt/lists/*
