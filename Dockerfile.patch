@@ -25,6 +25,10 @@ WORKDIR /usr/src
 #RUN cd ext/picoline && python3 setup.py install && cd .. && rm -rf picoline
 #COPY ext/fastq-utils ext/fastq-utils
 #RUN cd ext/fastq-utils && make clean && make fastq-stats && cp fastq-stats /usr/local/bin/ && cd .. && rm -rf fastq-utils
+COPY ext/cgmlstfinder/cgMLST.py ext/cgmlstfinder/
+RUN sed -i -Ee 's@^from ete3 import@#from ete3 import@' \
+        'ext/cgmlstfinder/cgMLST.py'
+
 
 # CGE Services
 #COPY ext/resfinder ext/
@@ -32,7 +36,7 @@ WORKDIR /usr/src
 
 # KCRI BAP package
 #COPY src/kcri/bap/__init__.py kcri/bap/
-COPY src/kcri/bap/BAP.py kcri/bap/
+#COPY src/kcri/bap/BAP.py kcri/bap/
 #COPY src/kcri/bap/data.py kcri/bap/
 #COPY src/kcri/bap/services.py kcri/bap/
 #COPY src/kcri/bap/shims/ResFinder.py kcri/bap/shims/
@@ -42,7 +46,7 @@ COPY src/kcri/bap/BAP.py kcri/bap/
 #COPY src/kcri/bap/shims/pMLST.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/cgMLSTFinder.py kcri/bap/shims/
 #COPY src ./
-RUN python3 setup.py install
+#RUN python3 setup.py install
 
 # Drop down to the original user and workdir
 USER nobody:nogroup
