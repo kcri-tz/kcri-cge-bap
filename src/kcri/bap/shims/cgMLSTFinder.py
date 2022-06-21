@@ -37,13 +37,11 @@ class cgMLSTFinderShim:
             db_dir = execution.get_db_path('cgmlstfinder')
             db_cfg = os.path.join(db_dir, 'config')
 
-            # Note we do only one fq, regardless of how many we have
             # We error out if only Nanopore reads available (which we can't handle yet)
-            inputs = execution.get_illufq_or_contigs_paths()
-            fname = inputs[0]
+            inputs = ','.join(execution.get_illufq_or_contigs_paths())
 
             schemes = self.determine_schemes(db_cfg, scheme_lst, species_lst)
-            execution.start(schemes, fname, db_dir)
+            execution.start(schemes, inputs, db_dir)
  
         # Failing inputs will throw UserException
         except UserException as e:
@@ -100,23 +98,23 @@ class cgMLSTExecution(ServiceExecution):
 
     _jobs = list()
 
-    def start(self, schemes, fname, db_dir):
+    def start(self, schemes, inputs, db_dir):
         # Schedule a backend job for every scheme if all is good
         if self.state == Task.State.STARTED:
             for scheme in schemes:
-                self.run_scheme(scheme, fname, db_dir)
+                self.run_scheme(scheme, inputs, db_dir)
 
-    def run_scheme(self, scheme, fname, db_dir):
+    def run_scheme(self, scheme, inputs, db_dir):
         '''Spawn cgMLST for one scheme.'''
 
         # Create a command line for the job
         tmpdir = tempfile.TemporaryDirectory()
         params = [
+                '-i', inputs,
                 '-db', db_dir,
                 '-t', tmpdir.name,
 #                '-o', '.',
-                '-s', scheme,
-                fname ]
+                '-s', scheme ]
 
         # Spawn the job and hold a record in the jobs table
         job_spec = JobSpec('cgMLST.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
