@@ -124,7 +124,7 @@ class MLSTFinderExecution(ServiceExecution):
 
         # Create a command line for the job
         tmpdir = tempfile.TemporaryDirectory()
-        params = [ 
+        params = [
                 '-p', db_dir,
                 '-s', scheme,
                 '-t', tmpdir.name,
@@ -175,7 +175,7 @@ class MLSTFinderExecution(ServiceExecution):
 
         try:
             with open(job.file_path('data.json'), 'r') as f:
-                
+
                 j = json.load(f)
 
                 # Prepend conventional ST to sequence type (if valid)
@@ -194,7 +194,7 @@ class MLSTFinderExecution(ServiceExecution):
                     loci.append(locus)
                     alleles.append(l.get('allele',"??"))
 
-		# Store in the typing record
+                # Store in the typing record
                 typing.update({
                     'scheme_name': j.get('mlst',{}).get('user_input',{}).get('organism'),
                     'sequence_type': st,
