@@ -1,5 +1,7 @@
 TODO
 
+- Add Medaka so we can do full assembly (but GPU for speed)
+- Add Polypolish so we can do hybrid assembly
 - Add Nanopore tests
 - Add spa-type, SCCmecFinder
 - Add SPIFinder

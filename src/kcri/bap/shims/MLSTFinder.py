@@ -168,6 +168,8 @@ class MLSTFinderExecution(ServiceExecution):
 
 
     def collect_output(self, job, scheme, scheme_loci):
+        '''Collect the output of the MLST job for scheme as a scheme object,
+           including the lists of alleles and hits to the extent they were hit.'''
 
         typing = dict({
             'scheme': scheme
@@ -177,36 +179,49 @@ class MLSTFinderExecution(ServiceExecution):
             with open(job.file_path('data.json'), 'r') as f:
 
                 j = json.load(f)
+                scheme_name = j.get('mlst',{}).get('user_input',{}).get('organism')
 
-                # Prepend conventional ST to sequence type (if valid)
+                # Prepend conventional 'ST' to sequence type if valid
                 r = j.get('mlst').get('results', dict())
                 st = r.get('sequence_type')
                 if st.isnumeric(): st = 'ST%d' % int(st)
 
-                # Need to reorder the loci to expected order
+                # Reorder the loci to expected order in list of loci, hits, allele-hits
                 p = r.get('allele_profile', {})
                 hits = list()
                 loci = list()
                 alleles = list()
                 for locus in scheme_loci:
                     l = p.get(locus)
-                    hits.append(l)
-                    loci.append(locus)
-                    alleles.append(l.get('allele',"??"))
+                    allele = l.get('allele')
+                    if allele:
+                        hits.append(l)
+                        loci.append(locus)
+                        alleles.append(allele)
 
-                # Store in the typing record
+                # Report the fraction of loci found and incomplete if not all were found
                 typing.update({
-                    'scheme_name': j.get('mlst',{}).get('user_input',{}).get('organism'),
-                    'sequence_type': st,
-                    'nearest_sts': r.get('nearest_sts',[]),
-                    'alleles': alleles,
-                    'loci': loci,
-                    'hits': hits,
-                    'notes': list(filter(None, r.get('notes', "").split('\n')))
+                    'mlst_scheme': scheme_name,
+                    'loci_found': "%d/%d" % (len(hits), len(scheme_loci)),
+                    'incomplete': len(hits) != len(scheme_loci),
+                    'sequence_type': st
+                })
+
+                # Store other data and summary only if typing was complete (all loci hit)
+                if len(hits) == len(scheme_loci):
+
+                    nearest = list(map(lambda i: "ST%s" % i, filter(None, r.get('nearest_sts', "").split(','))))
+
+                    typing.update({
+                        'alleles': alleles,
+                        'loci': loci,
+                        'hits': hits,
+                        'nearest_sts': nearest,
+                        'notes': list(filter(None, r.get('notes', "").split('\n')))
                     })
 
-                # Add to the summary on the blackboard
-                self._blackboard.add_mlst(st, loci, alleles)
+                    # Add to the summary on the blackboard
+                    self._blackboard.add_mlst(scheme_name, st, loci, alleles, nearest)
 
         except Exception as e:
             typing['error'] = "MLSTFinder ran successfully but output could not be parsed: %s" % str(e)

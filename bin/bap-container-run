@@ -71,7 +71,6 @@ exec docker run -u "$(id -u):$(id -g)" $OPT_TI --rm --read-only \
    -v "$BAP_DB_DIR:/databases:ro" \
    -v "${BAP_WORK_DIR:-$PWD}:/workdir" \
    -w /workdir \
-   $INTERACTIVE \
    "$BAP_IMAGE" $DO_CMD "$@"
 
 # vim: sts=4:sw=4:si:ai:et

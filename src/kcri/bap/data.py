@@ -157,8 +157,10 @@ class BAPBlackboard(Blackboard):
 
     # MLST
 
-    def add_mlst(self, st, loci, alleles):
-        str = "%s[%s]" % (st, ','.join(map(lambda l: '%s:%s' % l, zip(loci, alleles))))
+    def add_mlst(self, name, st, loci, alleles, near):
+        str = "%s %s [%s]" % (name, st, ' '.join(map(lambda l: '%s:%s' % l, zip(loci, alleles))))
+        if near:
+            str += " (near %s)" % ' '.join(near)
         self.append_to('bap/summary/mlst', str, True)
 
     def get_mlsts(self):

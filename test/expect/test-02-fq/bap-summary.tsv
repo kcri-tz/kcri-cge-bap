@@ -1,2 +1,2 @@
 # s_id	n_reads	nt_read	pct_q30	n_ctgs	nt_ctgs	n1	n50	l50	avg_dp	q30_dp	ref_len	pct_gc	species	mlst	amr_cls	amr_phe	amr_gen	vir_gen	plasmid	pmlsts	cgst	amr_mut
-test	100000	10100000	87.7	NA	NA	NA	NA	NA	NA	NA	4641652	49.4	Escherichia coli	Unknown[adk:,fumC:,gyrB:,icd:,mdh:,purA:,recA:],Unknown[dinB:,icdA:,pabB:,polB:,putP:,trpA:,trpB:,uidA:]	aminoglycoside	streptomycin	aph(3'')-Ib,aph(6)-Id		Col(pHAD28)			
+test	100000	10100000	87.7	NA	NA	NA	NA	NA	NA	NA	4641652	49.4	Escherichia coli		aminoglycoside	streptomycin	aph(3'')-Ib,aph(6)-Id		Col(pHAD28)			

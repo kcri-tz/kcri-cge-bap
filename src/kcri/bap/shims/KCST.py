@@ -100,7 +100,7 @@ class KCSTExecution(ServiceExecution):
                             })
 
                         # Add to the summary on the blackboard
-                        self._blackboard.add_mlst(v[2], loci, alleles)
+                        self._blackboard.add_mlst(v[1], v[2], loci, alleles, [])
             
             # Store MLST result and add species to global BAP findings
             self.store_results(typings)
