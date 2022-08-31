@@ -284,12 +284,12 @@ per line, in a text file and pass this file with @FILENAME.
 
         # For computing cross-service metrics
         nt_ctgs = int(b.get('services/ContigsMetrics/results/tot_len', 0))
-        nt_read = int(b.get('services/ReadsMetrics/results/n_bases', 0))
+        nt_read = int(b.get('services/ReadsMetrics/results/bases', 0))
         pct_q30 = float(b.get('services/ReadsMetrics/results/pct_q30', 0))
 
         d = dict({
             's_id': b.get_sample_id(),
-            'n_reads': b.get('services/ReadsMetrics/results/n_reads', 'NA'),
+            'n_reads': b.get('services/ReadsMetrics/results/reads', 'NA'),
             'nt_read': nt_read if nt_read else 'NA',
             'pct_q30': pct_q30 if pct_q30 else 'NA',
             'n_ctgs': b.get('services/ContigsMetrics/results/n_seqs', 'NA'),
