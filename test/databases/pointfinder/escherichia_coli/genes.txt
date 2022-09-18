@@ -6,8 +6,8 @@ pmrA
 pmrB
 folP
 23S
-16S_rrsB
-16S_rrsC
-16S_rrsH
-ampC_promoter_size_53bp
+16S-rrsB
+16S-rrsC
+16S-rrsH
+ampC-promoter-size-53bp
 rpoB

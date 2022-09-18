@@ -40,23 +40,23 @@ class PointFinderShim:
             db_cfg = self.parse_config(os.path.join(db_path, 'config'))
             params = [
                 '--point',
-                '-db_point', db_path,
-                '-db_res', execution.get_db_path('resfinder'), # required for AB classes, not found?
-                '-t_p', execution.get_user_input('pt_i'),
-                '-l_p', execution.get_user_input('pt_c'),
+                '--db_path_point', db_path,
+                '--db_path_res', execution.get_db_path('resfinder'), # required for AB classes, not found?
+                '--threshold_point', execution.get_user_input('pt_i'),
+                '--min_cov_point', execution.get_user_input('pt_c'),
                 '-s', species[0],
+                '-j', 'pointfinder.json',
                 '-o', '.' ]
 
             # Append files, backend has different args for fq and fa
             illufqs = execution.get_illufq_paths(list())
-            for f in illufqs:
-                params.extend(['-ifq', f])
-            if not illufqs:
-                nanofq = execution.get_nanofq_path(False)
-                if nanofq:
-                    params.extend(['-nano', '-ifq', f])
-                else:
-                    params.extend(['-ifa', execution.get_contigs_path()])
+            if illufqs:
+                for f in illufqs:
+                    params.extend(['--inputfastq', f])
+            elif execution.get_nanofq_path(""):
+                params.extend(['--nanopore', '--inputfastq', execution.get_nanofq_path()])
+            else:
+                params.extend(['--inputfasta', execution.get_contigs_path()])
 
             # Parse list of user specified genes and check with DB
             for g in filter(None, execution.get_user_input('pt_g',"").split(',')):
@@ -67,7 +67,13 @@ class PointFinderShim:
             if execution.get_user_input('pt_a'):
                 params.append('--unknown_mut')
 
-            job_spec = JobSpec('run_resfinder.py', params, MAX_CPU, MAX_MEM, MAX_TIM)
+            if execution.get_user_input('pt_d'):
+                params.append('--ignore_indels')
+
+            if execution.get_user_input('pt_s'):
+                params.append('--ignore_stop_codons')
+
+            job_spec = JobSpec('resfinder', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec, 'PointFinder')
 
@@ -148,16 +154,16 @@ class PointFinderExecution(ServiceExecution):
 
         # ResFinder and PointFinder have provisional standardised output in 
         # 'std_format_under_development.json', which has top-level elements
-        # 'genes', 'seq_variations', and 'phenotypes'.
+        # 'seq_regions', 'seq_variations', and 'phenotypes'.
         # We include these but change them from objects to lists.  So this:
-        #    'genes' : { 'aph(6)-Id;;1;;M28829': { ..., 'key' : 'aph(6)-Id;;1;;M28829', ...
+        #    'seq_regions' : { 'aph(6)-Id;;1;;M28829': { ..., 'key' : 'aph(6)-Id;;1;;M28829', ...
         # becomes:
-        #    'genes' : [ { ..., 'key' : 'aph(6)-Id;;1;;M28829', ... }, ...]
+        #    'seq_regions' : [ { ..., 'key' : 'aph(6)-Id;;1;;M28829', ... }, ...]
         # This is cleaner design (they have list semantics, not object), and
         # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
         # to create issues down the line as they contain JSON delimiters.
 
-        json_out = job.file_path('std_format_under_development.json')
+        json_out = job.file_path('pointfinder.json')
         try:
             with open(json_out, 'r') as f: json_in = json.load(f)
         except Exception as e:
@@ -167,15 +173,15 @@ class PointFinderExecution(ServiceExecution):
 
         # Append to the result dictionary, converting as documented above.
         for k, v in json_in.items():
-            if k in ['genes','seq_variations','phenotypes']:
+            if k in ['seq_regions','seq_variations','phenotypes']:
                 res_out[k] = [ o for o in v.values() ]
             else:
                 res_out[k] = v
 
         # Store the classes and phenotypes in the summary
-        for p in filter(lambda d: d.get('resistant', False), res_out.get('phenotypes', [])):
+        for p in filter(lambda d: d.get('amr_resistant', False), res_out.get('phenotypes', [])):
             self._blackboard.add_amr_classes(p.get('amr_classes',[]))
-            self._blackboard.add_amr_phenotype(p.get('resistance','unknown'))
+            self._blackboard.add_amr_phenotype(p.get('amr_resistance','unknown'))
         # We don't store the seq_variations until we know their phenotype (instead do above)
         #for m in res_out.get('seq_variations', []):
         #    self._blackboard.add_amr_mutation('%s:%s' % (m.get('genes',['?'])[0], m.get('seq_var','?')))

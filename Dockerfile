@@ -56,14 +56,16 @@ RUN echo "unset HISTFILE" >>/etc/bash.bashrc && \
 # - Our jobcontrol module requires psutil
 # - Biopython and tabulate are used by all CGE services
 # - ResFinder requires python-dateutil and gitpython
+# - pandas required by cgelib required since ResFinder 4.2.1
 # - cgMLST requires ete3 in its make_nj_tree.py, which we don't use,
 #   and spuriously in cgMLST.py, where we comment it out (see patch).
 
-RUN conda install \
+RUN conda install --quiet --yes \
         nomkl \
 	psutil \
 	biopython tabulate \
-	python-dateutil gitpython && \
+	python-dateutil gitpython \
+        pandas && \
     conda list && \
     conda clean -qy --tarballs
 
@@ -145,9 +147,32 @@ RUN cd ext/cgecore && \
     python3 setup.py install && \
     cd .. && rm -rf cgecore
 
+# Install the cgelib module
+RUN cd ext/cgelib && \
+    python3 setup.py install && \
+    cd .. && rm -rf cgelib
+
 
 # Install CGE Services
 #----------------------------------------------------------------------
+
+# ResFinder since 4.2.1 recommends pip installation, but then pulls in
+# old cgecore which breaks virulencefinder and others (no .gz support),
+# so we install the dependencies ourselves (see above) and --no-deps.
+
+# OVERRIDE for now: install from patched source to work around these:
+# @TODO@ copy from BitBucket
+#RUN pip install --no-color --no-deps --no-cache-dir resfinder
+
+# Install resfinder module from source
+RUN cd ext/resfinder && \
+    pip3 install --no-color --no-deps --no-cache-dir "." && \
+    cd .. && rm -rf resfinder
+
+# Add resfinder to the PATH (pip doesn't)
+RUN printf '#!/bin/sh\nexec python3 -m resfinder "$@"\n"' \
+    > /usr/local/bin/resfinder && \
+    chmod +x /usr/local/bin/resfinder
 
 # Patch cgmlstfinder ete3 dependency and directory bug
 RUN sed -i -Ee 's@^from ete3 import@#from ete3 import@' \
@@ -161,7 +186,6 @@ RUN python3 -m compileall \
     ext/mlst \
     ext/plasmidfinder \
     ext/pmlst \
-    ext/resfinder \
     ext/virulencefinder
 
 # Add service script directories to PATH
@@ -172,7 +196,6 @@ ENV PATH $PATH""\
 ":/usr/src/ext/mlst"\
 ":/usr/src/ext/plasmidfinder"\
 ":/usr/src/ext/pmlst"\
-":/usr/src/ext/resfinder"\
 ":/usr/src/ext/virulencefinder"
 
 
