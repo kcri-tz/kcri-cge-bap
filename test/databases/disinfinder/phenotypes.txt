@@ -1,0 +1,17 @@
+Gene_accession no.	Class	Phenotype	PMID	Mechanism of resistance	Notes	Required_gene
+formA_1_X73835	Aldehydes	Formaldehyde	8891129	Enzymatic degradation
+qacA_1_AB566410	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	20660673	Efflux pump
+qacB_1_AB566412	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide, Chlorhexidine, Cetylpyridinium Chloride	20660673	Efflux pump
+qacC_1_M37889	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	1840534	Efflux pump
+qacD_1_M37888	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	1840534	Efflux pump
+qacE_1_X68232	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	8494372	Efflux pump
+qacF_1_Z17326	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide, Chlorhexidine, Cetylpyridinium Chloride	Direct Submission	Efflux pump
+qacG_1_EU622633	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	20660673	Efflux pump
+qacH_1_FJ172381	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	20660673	Efflux pump
+qacA4_1_MK046687	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	30988144	Efflux pump	Reduced chlorhexidine susceptibility
+qacJ_1_NG_048046	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	14506007	Efflux pump
+qacZ_1_NG_061384	Quaternary Ammonium Compounds	Benzylkonium Chloride, Ethidium Bromide,  Chlorhexidine, Cetylpyridinium Chloride	12663927	Efflux pump
+sitABCD_1_AY598030	Peroxides	Hydrogen peroxide	16514154	Transport
+OqxA_1_EU370913	Quaternary Ammonium Compounds	Benzylkonium Chloride, Cetylpyridinium Chloride	18440636	Efflux pump	Must be in an operon with oqxB,phenotype differs based on genomic location of the operon PMID 25801572,also nitrofurantoin resistance PMID 26552976
+OqxB_1_EU370913	Quaternary Ammonium Compounds	Benzylkonium Chloride, Cetylpyridinium Chloride	18440636	Efflux pump Must be in an operon with oqxA,phenotype differs based on genomic location of the operon PMID 25801572,also nitrofurantoin resistance PMID 26552976
+ClpL_1_CP023753	Heat	Temperature	29104933	ATP-dependant protease

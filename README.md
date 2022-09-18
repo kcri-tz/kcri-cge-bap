@@ -14,7 +14,7 @@ and/or contigs, and produces the following:
  * Basic QC metrics over reads a/o contigs (fastq-stats, uf-stats)
  * Species identification (KmerFinder, KCST)
  * MLST (KCST, MLSTFinder)
- * Resistance profiling (ResFinder, PointFinder)
+ * Resistance profiling (ResFinder, PointFinder, DisinfFinder)
  * Plasmid detection and typing (PlasmidFinder, pMLST)
  * Virulence gene finding (VirulenceFinder)
  * Core genome MLST (optional) (cgMLST)
@@ -228,19 +228,30 @@ Once this is done (you may need to logout and login), `BAP --help` should work.
 
 ## Development / Upgrades
 
-* After updating databases, rerun `scripts/index-databases.sh DB_DIR` (note the
-  `INSTALL.sh` script in the CGE databases may have already done this)
+To **upgrade to the latest BAP release**:
 
-* To change the backend versions, set the requested versions in
-  `ext/backend-versions.config` and run `ext/update-backends.sh`.
+        git pull                # pulls the current edge
+        git describe            # check that it is not a WIP commit
+        git checkout x.y.z      # otherwise pick latest stable release
+        ext/update-backends.sh  # remember always do this _before_ building
+        ./build.sh`             # build and enjoy
 
-* To upgrade some backend to the latest on master (or some other branch),
-  set their requested version to `master`, then run `ext/update-backends.sh`.
+To **update the CGE databases**
 
-* Before committing a release to production, for reproducibility, run
-  `ext/pin-backend-versions.sh` to record the actual versions.
+        # Just rerun the installation script (with same DB_DIR)
+        scripts/clone-databases.sh DB_DIR
+        scripts/index-databases.sh DB_DIR
 
-* Run tests after upgrading backends:
+Updating any backend service can be done by changing its required version in
+`ext/backend-versions.config`, then running:
+
+        ext/update-backends.sh
+        ./build.sh
+
+Always **run tests after upgrading**:
+
+        # Index the test databases (in the rare case they were upgraded)
+        scripts/index-databases.sh test/databases
 
         # Runs the tests we ran above
         test/run-all-tests.sh

@@ -1,0 +1,5 @@
+# Class Disinfectants
+Aldehyde	Unknown Aldehyde	Formaldehyde
+Quaternary Ammonium Compound	Unknown Quaternary Ammonium Compound	Benzylkonium Chloride	Chlorhexidine	Cetylpyridinium Chloride	Ethidium Bromide
+Peroxide	Unknown Peroxide	Hydrogen peroxide
+Heat	Temperature

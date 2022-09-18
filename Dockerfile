@@ -160,8 +160,9 @@ RUN cd ext/cgelib && \
 # old cgecore which breaks virulencefinder and others (no .gz support),
 # so we install the dependencies ourselves (see above) and --no-deps.
 
-# OVERRIDE for now: install from patched source to work around these:
-# @TODO@ copy from BitBucket
+# OVERRIDE for now: install from patched source to work around this:
+# - https://bitbucket.org/genomicepidemiology/resfinder/issues/86/pointfinder-breaks-on-23s-hit
+# - https://bitbucket.org/genomicepidemiology/resfinder/issues/87/pointfinder-fails-with-attributeerror
 #RUN pip install --no-color --no-deps --no-cache-dir resfinder
 
 # Install resfinder module from source

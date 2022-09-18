@@ -22,7 +22,7 @@ any_newer() { [ ! -e "$2" ] || [ -n "$(find . -name "$1" -cnewer "$2" 2>/dev/nul
 PATH="$(realpath -e "$(dirname "$0")"):$PATH"
 
 # Index the plain vanilla finders
-for D in resfinder virulencefinder plasmidfinder pmlst choleraefinder; do
+for D in resfinder disinfinder virulencefinder plasmidfinder pmlst choleraefinder; do
     printf 'Indexing %s ... ' $D
     cd "$BASE_DIR/$D"
     grep -Ev '^[[:space:]]*(#|$)' config | cut -f1 | while read N REST; do

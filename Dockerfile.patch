@@ -32,7 +32,7 @@ WORKDIR /usr/src
 # CGE Services
 #COPY ext/resfinder ext/
 COPY ext/resfinder ext/resfinder
-RUN cd ext/resfinder && pip3 install . && cp resfinder /usr/local/bin/ && cd .. && rm -rf resfinder
+RUN cd ext/resfinder && pip3 --no-color --no-cache-dir --no-deps install "." && cd .. && rm -rf resfinder
 #COPY ext/choleraefinder/choleraefinder.py ext/choleraefinder/
 
 # KCRI BAP package

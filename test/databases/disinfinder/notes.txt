@@ -1,0 +1,17 @@
+#Disinfectant resistance
+formA:Aldehydes resistance:
+qacA:Quaternary Ammonium Compounds resistance:
+qacB:Quaternary Ammonium Compounds resistance:
+qacC:Quaternary Ammonium Compounds resistance:
+qacD:Quaternary Ammonium Compounds resistance:
+qacE:Quaternary Ammonium Compounds resistance:
+qacF:Quaternary Ammonium Compounds resistance:
+qacG:Quaternary Ammonium Compounds resistance:
+qacH:Quaternary Ammonium Compounds resistance:
+qacA4:Quaternary Ammonium Compounds resistance:
+qacJ:Quaternary Ammonium Compounds resistance:
+qacZ:Quaternary Ammonium Compounds resistance:
+sitABCD:Peroxides resistance:
+OqxA:Amphenicols, quinolones, Quaternary Ammonium Compounds, Folate pathway antagonist resistance:
+OqxB:Amphenicols, quinolones, Quaternary Ammonium Compounds, Folate pathway antagonist resistance:
+ClpL:Heat resistance:

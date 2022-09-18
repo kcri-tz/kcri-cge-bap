@@ -15,6 +15,7 @@ from .shims.base import UnimplementedService
 from .shims.cgMLSTFinder import cgMLSTFinderShim
 from .shims.CholeraeFinder import CholeraeFinderShim
 from .shims.ContigsMetrics import ContigsMetricsShim
+from .shims.DisinfFinder import DisinfFinderShim
 from .shims.GetReference import GetReferenceShim
 from .shims.GFAConnector import GFAConnectorShim
 from .shims.Flye import FlyeShim
@@ -41,6 +42,7 @@ SERVICES = {
     Services.GETREFERENCE:      GetReferenceShim(),
     Services.RESFINDER:         ResFinderShim(),
     Services.POINTFINDER:       PointFinderShim(),
+    Services.DISINFFINDER:      DisinfFinderShim(),
     Services.VIRULENCEFINDER:   VirulenceFinderShim(),
     Services.PLASMIDFINDER:     PlasmidFinderShim(),
     Services.PMLSTFINDER:       pMLSTShim(),
