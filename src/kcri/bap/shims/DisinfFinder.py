@@ -36,6 +36,7 @@ class DisinfFinderShim:
                 '--db_path_res', execution.get_db_path('resfinder'), # required for AB classes, not found?
 #                '--threshold_point', execution.get_user_input('pt_i'),
 #                '--min_cov_point', execution.get_user_input('pt_c'),
+                '-j', 'disinffinder.json',
                 '-o', '.' ]
 
             # Append files, backend has different args for fq and fa
@@ -48,7 +49,7 @@ class DisinfFinderShim:
             else:
                 params.extend(['--inputfasta', execution.get_contigs_path()])
 
-            job_spec = JobSpec('resfinder', params, MAX_CPU, MAX_MEM, MAX_TIM)
+            job_spec = JobSpec('disinffinder', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
             execution.start(job_spec, 'DisinfFinder')
 
@@ -109,7 +110,7 @@ class DisinfFinderExecution(ServiceExecution):
         # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
         # to create issues down the line as they contain JSON delimiters.
 
-        json_out = job.file_path('std_format_under_development.json')
+        json_out = job.file_path('disinffinder.json')
         try:
             with open(json_out, 'r') as f: json_in = json.load(f)
         except Exception as e:
