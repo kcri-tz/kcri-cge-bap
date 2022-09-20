@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# kcri.bap.shims.DisinfFinder - service shim to the DisinfFinder backend
+# kcri.bap.shims.DisinFinder - service shim to the DisinFinder backend
 #
 
 import os, json, logging
@@ -10,7 +10,7 @@ from .base import ServiceExecution, UserException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version (note: is resfinder)
-SERVICE, VERSION = "DisinfFinder", BACKEND_VERSIONS['resfinder']
+SERVICE, VERSION = "DisinFinder", BACKEND_VERSIONS['resfinder']
 
 # Backend resource parameters: cpu, memory, disk, run time reqs
 MAX_CPU = 1
@@ -18,25 +18,31 @@ MAX_MEM = 1
 MAX_TIM = 10 * 60
 
 
-class DisinfFinderShim:
+class DisinFinderShim:
     '''Service shim that executes the backend.'''
 
     def execute(self, sid, xid, blackboard, scheduler):
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
-        execution = DisinfFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
+        execution = DisinFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
         # From here throwing is caught and FAILs the execution
         try:
             db_path = execution.get_db_path('disinfinder')
-#            db_cfg = self.parse_config(os.path.join(db_path, 'config'))
             params = [
                 '--disinfectant',
                 '--db_path_disinf', db_path,
-                '--db_path_res', execution.get_db_path('resfinder'), # required for AB classes, not found?
-#                '--threshold_point', execution.get_user_input('pt_i'),
-#                '--min_cov_point', execution.get_user_input('pt_c'),
-                '-j', 'disinffinder.json',
+                '--db_path_res', execution.get_db_path('resfinder'), # required at all times
+                # Set the thresholds from the RF parameters; we have no params specific to DF.
+                # We could be fancy and offer separate settings, but then if we migrate to a
+                # single Resistance 'all-in-one', we can't pass them to ResFinder separately.
+                # It's no big deal; we mention in BAP help that these are for both Res and Disin.
+                '-t', execution.get_user_input('rf_i'),
+                '-l', execution.get_user_input('rf_c'),
+                '--acq_overlap', execution.get_user_input('rf_o'),
+                '--threshold_point', execution.get_user_input('rf_i'),
+                '--min_cov_point', execution.get_user_input('rf_c'),
+                '-j', 'disinfinder.json',
                 '-o', '.' ]
 
             # Append files, backend has different args for fq and fa
@@ -51,7 +57,7 @@ class DisinfFinderShim:
 
             job_spec = JobSpec('resfinder', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
-            execution.start(job_spec, 'DisinfFinder')
+            execution.start(job_spec, 'DisinFinder')
 
         # Failing inputs will throw UserException
         except UserException as e:
@@ -65,32 +71,14 @@ class DisinfFinderShim:
         return execution
 
 
-    def parse_config(self, cfg_file):
-        '''Parse the config file into a dict of key->name, or raise on error.'''
-        ret = dict()
-
-        if not os.path.exists(cfg_file):
-            raise UserException('database config file missing: %s', cfg_file)
-
-        with open(cfg_file) as f:
-            for l in f:
-                l = l.strip()
-                if not l or l.startswith('#'): continue
-                r = l.split('\t')
-                if len(r) != 3: raise UserException('invalid database config line: %s', l)
-                ret[r[0].strip] = r[1].strip()
-
-        return ret
-
-
-class DisinfFinderExecution(ServiceExecution):
+class DisinFinderExecution(ServiceExecution):
     '''A single execution of the service, returned by the shim's execute().'''
 
     _job = None
 
     def start(self, job_spec, work_dir):
         if self.state == Task.State.STARTED:
-            self._job = self._scheduler.schedule_job('disinffinder', job_spec, work_dir)
+            self._job = self._scheduler.schedule_job('disinfinder', job_spec, work_dir)
 
     # Parse the output produced by the backend service, return list of hits
     def collect_output(self, job):
@@ -99,8 +87,7 @@ class DisinfFinderExecution(ServiceExecution):
 
         res_out = dict()
 
-        # ResFinder and PointFinder have provisional standardised output in 
-        # 'std_format_under_development.json', which has top-level elements
+        # ResFinder JSON output since 4.2 has top-level elements
         # 'genes', 'seq_variations', and 'phenotypes'.
         # We include these but change them from objects to lists.  So this:
         #    'genes' : { 'aph(6)-Id;;1;;M28829': { ..., 'key' : 'aph(6)-Id;;1;;M28829', ...
@@ -110,7 +97,7 @@ class DisinfFinderExecution(ServiceExecution):
         # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
         # to create issues down the line as they contain JSON delimiters.
 
-        json_out = job.file_path('disinffinder.json')
+        json_out = job.file_path('disinfinder.json')
         try:
             with open(json_out, 'r') as f: json_in = json.load(f)
         except Exception as e:
@@ -125,7 +112,7 @@ class DisinfFinderExecution(ServiceExecution):
             else:
                 res_out[k] = v
 
-#        # Store the genes, classes and phenetypes in the summary
+#        # Store the genes, classes and phenotypes in the summary
 #        for g in res_out.get('genes', []):
 #            self._blackboard.add_amr_gene(g.get('name','unknown'))
 #        # Store the classes and phenotypes in the summary

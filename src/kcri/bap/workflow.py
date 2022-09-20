@@ -57,7 +57,7 @@ class Services(pico.workflow.logic.Services):
     GETREFERENCE = 'GetReference'
     RESFINDER = 'ResFinder'
     POINTFINDER = 'PointFinder'
-    DISINFFINDER = 'DisinfFinder'
+    DISINFINDER = 'DisinFinder'
     VIRULENCEFINDER = 'VirulenceFinder'
     PLASMIDFINDER = 'PlasmidFinder'
     PMLSTFINDER = 'pMLSTFinder'
@@ -102,7 +102,7 @@ DEPENDENCIES = {
     # Need the Services.GETREFERENCE to be OPT as it is OIF KmerFinder below
     UserTargets.REFERENCE:      SEQ( Services.KMERFINDER, OPT( Services.GETREFERENCE ) ),
     UserTargets.MLST:           ONE( Services.MLSTFINDER, Services.KCST ),
-    UserTargets.RESISTANCE:     ALL( OPT( Services.RESFINDER ), OPT( Services.POINTFINDER ), OPT( Services.DISINFFINDER ) ),
+    UserTargets.RESISTANCE:     ALL( OPT( Services.RESFINDER ), OPT( Services.POINTFINDER ), OPT( Services.DISINFINDER ) ),
     UserTargets.VIRULENCE:      Services.VIRULENCEFINDER,
     UserTargets.PLASMIDS:       SEQ( Services.PLASMIDFINDER, Services.PMLSTFINDER ),
     UserTargets.PMLST:	        SEQ( Checkpoints.PLASMIDS, Services.PMLSTFINDER ),
@@ -127,7 +127,7 @@ DEPENDENCIES = {
     Services.MLSTFINDER:        ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.KCST:              Checkpoints.CONTIGS,
     Services.RESFINDER:         FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ),
-    Services.DISINFFINDER:      FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ),
+    Services.DISINFINDER:       FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ),
     Services.POINTFINDER:       ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.VIRULENCEFINDER:   ALL( OPT( UserTargets.SPECIES ), ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.PLASMIDFINDER:     ONE( Params.ILLUREADS, Checkpoints.CONTIGS ),

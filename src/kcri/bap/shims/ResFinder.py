@@ -29,7 +29,6 @@ class ResFinderShim:
          # Get the execution parameters from the blackboard
         try:
             db_path = execution.get_db_path('resfinder')
-#            db_cfg = self.parse_config(os.path.join(db_path, 'config'))
             params = [
                 '--acquired',
                 '--db_path_res', db_path,
@@ -48,12 +47,6 @@ class ResFinderShim:
                 params.extend(['--nanopore', '--inputfastq', execution.get_nanofq_path()])
             else:
                 params.extend(['--inputfasta', execution.get_contigs_path()])
-
-#            # Parse list of user specified phenotypes and check with DB
-#            for p in filter(None, execution.get_user_input('rf_p',"").split(',')):
-#                if p not in db_cfg:
-#                    raise UserException("phenotype '%s' not in database, known are: %s", g, ', '.join(db_cfg.keys()))
-#                params.extend(['-d', p])
 
             job_spec = JobSpec('resfinder', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
