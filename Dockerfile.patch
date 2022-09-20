@@ -31,8 +31,8 @@ WORKDIR /usr/src
 
 # CGE Services
 #COPY ext/resfinder ext/
-#COPY ext/resfinder ext/resfinder
-#RUN cd ext/resfinder && pip3 install --no-color --no-cache-dir --no-deps "." && cd .. && rm -rf resfinder
+COPY ext/resfinder ext/resfinder
+RUN cd ext/resfinder && pip3 install --no-color --no-cache-dir --no-deps "." && cd .. && rm -rf resfinder
 #COPY ext/choleraefinder/choleraefinder.py ext/choleraefinder/
 
 # KCRI BAP package
@@ -42,13 +42,13 @@ WORKDIR /usr/src
 #COPY src/kcri/bap/services.py kcri/bap/
 #COPY src/kcri/bap/shims/ResFinder.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/PointFinder.py kcri/bap/shims/
-COPY src/kcri/bap/shims/DisinfFinder.py kcri/bap/shims/
+#COPY src/kcri/bap/shims/DisinfFinder.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/CholeraeFinder.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/base.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/pMLST.py kcri/bap/shims/
 #COPY src/kcri/bap/shims/cgMLSTFinder.py kcri/bap/shims/
 #COPY src ./
-RUN python3 setup.py install
+#RUN python3 setup.py install
 
 # Drop down to the original user and workdir
 USER nobody:nogroup
