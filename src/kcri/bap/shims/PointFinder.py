@@ -58,7 +58,7 @@ class PointFinderShim:
             elif execution.get_nanofq_path(""):
                 params.extend(['--nanopore', '--inputfastq', execution.get_nanofq_path()])
             else: # LPT1 is on fire
-                raise
+                raise UserException("no input data to analyse")
 
             # Parse list of user specified genes and check with DB
             for g in filter(None, execution.get_user_input('pt_g',"").split(',')):
