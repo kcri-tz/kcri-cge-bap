@@ -210,23 +210,35 @@ class BAPBlackboard(Blackboard):
     def get_amr_genes(self):
         return sorted(self.get('bap/summary/amr_genes', []))
 
-    def add_amr_classes(self, classes):
+    def add_amr_class(self, classes):
         self.append_to('bap/summary/amr_classes', classes, True)
 
     def get_amr_classes(self):
         return sorted(self.get('bap/summary/amr_classes', []))
 
-    def add_amr_phenotype(self, pheno):
-        self.append_to('bap/summary/amr_phenotypes', pheno, True)
+    def add_amr_antibiotic(self, pheno):
+        self.append_to('bap/summary/amr_antibiotics', pheno, True)
 
-    def get_amr_phenotypes(self):
-        return sorted(self.get('bap/summary/amr_phenotypes', []))
+    def get_amr_antibiotics(self):
+        return sorted(self.get('bap/summary/amr_antibiotics', []))
 
     def add_amr_mutation(self, mut):
         self.append_to('bap/summary/amr_mutations', mut, True)
 
     def get_amr_mutations(self):
         return sorted(self.get('bap/summary/amr_mutations', []))
+
+    def add_dis_gene(self, gene):
+        self.append_to('bap/summary/dis_genes', gene, True)
+
+    def get_dis_genes(self):
+        return sorted(self.get('bap/summary/dis_genes', []))
+
+    def add_dis_resistance(self, dis):
+        self.append_to('bap/summary/dis_resistances', dis, True)
+
+    def get_dis_resistances(self):
+        return sorted(self.get('bap/summary/dis_resistances', []))
 
     # cgMLST
 

@@ -1,14 +1,11 @@
 TODO
 
 - ResFinder with species if available (uses the pheno table)
-- DisinfFinder output to the summary
-- Fix Nanopore with DisinfFinder (test-06, fails to find database?)
 - Add Medaka so we can do full assembly (but GPU for speed)
 - Add Polypolish so we can do hybrid assembly
 - Add Nanopore tests
 - Add spa-type, SCCmecFinder
 - Add SPIFinder
 - Add FimTyper, CHTyper, PAst
-- Add disinf-finder
 - Conda variant
 - HTCondor backend

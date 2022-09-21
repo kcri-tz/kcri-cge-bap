@@ -36,12 +36,10 @@ class DisinFinderShim:
                 # Set the thresholds from the RF parameters; we have no params specific to DF.
                 # We could be fancy and offer separate settings, but then if we migrate to a
                 # single Resistance 'all-in-one', we can't pass them to ResFinder separately.
-                # It's no big deal; we mention in BAP help that these are for both Res and Disin.
+                # No big deal; we point out in BAP help that these are for both Res and Disin.
                 '-t', execution.get_user_input('rf_i'),
                 '-l', execution.get_user_input('rf_c'),
                 '--acq_overlap', execution.get_user_input('rf_o'),
-                '--threshold_point', execution.get_user_input('rf_i'),
-                '--min_cov_point', execution.get_user_input('rf_c'),
                 '-j', 'disinfinder.json',
                 '-o', '.' ]
 
@@ -50,10 +48,12 @@ class DisinFinderShim:
             if illufqs:
                 for f in illufqs:
                     params.extend(['--inputfastq', f])
+            elif execution.get_contigs_path(""):
+                params.extend(['--inputfasta', execution.get_contigs_path()])
             elif execution.get_nanofq_path(""):
                 params.extend(['--nanopore', '--inputfastq', execution.get_nanofq_path()])
-            else:
-                params.extend(['--inputfasta', execution.get_contigs_path()])
+            else: # the end is neigh
+                raise UserException("no input data to analyse")
 
             job_spec = JobSpec('resfinder', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
@@ -87,38 +87,40 @@ class DisinFinderExecution(ServiceExecution):
 
         res_out = dict()
 
-        # ResFinder JSON output since 4.2 has top-level elements
-        # 'genes', 'seq_variations', and 'phenotypes'.
-        # We include these but change them from objects to lists.  So this:
-        #    'genes' : { 'aph(6)-Id;;1;;M28829': { ..., 'key' : 'aph(6)-Id;;1;;M28829', ...
-        # becomes:
-        #    'genes' : [ { ..., 'key' : 'aph(6)-Id;;1;;M28829', ... }, ...]
-        # This is cleaner design (they have list semantics, not object), and
-        # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
-        # to create issues down the line as they contain JSON delimiters.
-
-        json_out = job.file_path('disinfinder.json')
+        out_file = job.file_path('disinfinder.json')
         try:
-            with open(json_out, 'r') as f: json_in = json.load(f)
+            with open(out_file, 'r') as f: json_in = json.load(f)
         except Exception as e:
             logging.exception(e)
-            self.fail('failed to open or load JSON from file: %s' % json_out)
+            self.fail('failed to open or load JSON from file: %s' % out_file)
             return
 
-        # Append to the result dictionary, converting as documented above.
+        # ResFinder since 4.2 has standardised JSON with these elements:
+        # - seq_regions (loci with AMR-causing genes or mutations)
+        # - seq_variations (mutations keying into seq_regions)
+        # - phenotypes (antibiotic resistances, keying into above)
+
+        # We include these but change them from objects to lists, so this:
+        #   'seq_regions' : { 'XYZ': { ..., 'key' : 'XYZ', ...
+        # becomes:
+        #   'seq_regions' : [ { ..., 'key' : 'XYZ', ... }, ...]
+        # This is cleaner design (they have list semantics, not object), and
+        # avoids issues downstream with keys containing JSON delimiters.
+
         for k, v in json_in.items():
-            if k in ['genes','seq_variations','phenotypes']:
+            if k in ['seq_regions','seq_variations','phenotypes']:
                 res_out[k] = [ o for o in v.values() ]
             else:
                 res_out[k] = v
 
-#        # Store the genes, classes and phenotypes in the summary
-#        for g in res_out.get('genes', []):
-#            self._blackboard.add_amr_gene(g.get('name','unknown'))
-#        # Store the classes and phenotypes in the summary
-#        for p in filter(lambda d: d.get('resistant', False), res_out.get('phenotypes', [])):
-#            self._blackboard.add_amr_classes(p.get('amr_classes',[]))
-#            self._blackboard.add_amr_phenotype(p.get('resistance','unknown'))
+        # Helpers to retrieve genes names g for regions r causing phenotype p
+        r2g = lambda r: json_in.get('seq_regions',{}).get(r,{}).get('name')
+        p2gs = lambda p: filter(None, map(r2g, p.get('seq_regions', [])))
+
+        # Store the resistant phenotypes and causative genes for summary
+        for p in filter(lambda d: d.get('amr_resistant', False), res_out.get('phenotypes', [])):
+            for g in p2gs(p): self._blackboard.add_dis_gene(g)
+            self._blackboard.add_dis_resistance(p.get('amr_resistance','?unspecified?'))
 
         # Store the results on the blackboard
         self.store_results(res_out)

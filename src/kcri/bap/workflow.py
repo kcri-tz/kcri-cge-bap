@@ -128,7 +128,7 @@ DEPENDENCIES = {
     Services.KCST:              Checkpoints.CONTIGS,
     Services.RESFINDER:         FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ),
     Services.DISINFINDER:       FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ),
-    Services.POINTFINDER:       ALL( Checkpoints.SPECIES, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
+    Services.POINTFINDER:       ALL( Checkpoints.SPECIES, FST( Params.ILLUREADS, Checkpoints.CONTIGS, Params.NANOREADS ) ),
     Services.VIRULENCEFINDER:   ALL( OPT( UserTargets.SPECIES ), ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),
     Services.PLASMIDFINDER:     ONE( Params.ILLUREADS, Checkpoints.CONTIGS ),
     Services.PMLSTFINDER:       ALL( Checkpoints.PLASMIDS, ONE( Params.ILLUREADS, Checkpoints.CONTIGS ) ),

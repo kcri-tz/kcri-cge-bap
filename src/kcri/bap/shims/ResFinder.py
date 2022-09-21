@@ -43,10 +43,12 @@ class ResFinderShim:
             if illufqs:
                 for f in illufqs:
                     params.extend(['--inputfastq', f])
+            elif execution.get_contigs_path(""):
+                params.extend(['--inputfasta', execution.get_contigs_path()])
             elif execution.get_nanofq_path(""):
                 params.extend(['--nanopore', '--inputfastq', execution.get_nanofq_path()])
-            else:
-                params.extend(['--inputfasta', execution.get_contigs_path()])
+            else: # expect the unexpected
+                raise UserException("no input data to analyse")
 
             job_spec = JobSpec('resfinder', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.store_job_spec(job_spec.as_dict())
@@ -96,19 +98,7 @@ class ResFinderExecution(ServiceExecution):
         '''Collect the job output and put on blackboard.
            This method is called by super().report() once job is done.'''
 
-        # ResFinder and PointFinder had provisional standardised output in 
-        # 'std_format_under_development.json', now configurable with '-j'.
-        # It had top-level elements 'genes', 'seq_variations', and 'phenotypes'.
-        # Since 4.2.1 'genes' is 'seq_regions', and has 'gene': true.
-        # We include these but change them from objects to lists.  So this:
-        #    'genes' : { 'aph(6)-Id;;1;;M28829': { ..., 'key' : 'aph(6)-Id;;1;;M28829', ...
-        # becomes:
-        #    'genes' : [ { ..., 'key' : 'aph(6)-Id;;1;;M28829', ... }, ...]
-        # This is cleaner design (they have list semantics, not object), and
-        # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
-        # to create issues down the line as they contain JSON delimiters.
-
-        # TODO: the tables have more info than the JSON, extract or fix json?
+        res_out = dict()
 
         out_file = job.file_path('resfinder.json')
         try:
@@ -118,21 +108,35 @@ class ResFinderExecution(ServiceExecution):
             self.fail('failed to open or load JSON from file: %s' % out_file)
             return
 
-        # Produce the result dictionary, converting as documented above.
-        res_out = dict()
+        # ResFinder since 4.2 has standardised JSON with these elements:
+        # - seq_regions (loci with AMR-causing genes or mutations)
+        # - seq_variations (mutations keying into seq_regions)
+        # - phenotypes (antibiotic resistances, keying into above)
+
+        # We include these but change them from objects to lists, so this:
+        #   'seq_regions' : { 'XYZ': { ..., 'key' : 'XYZ', ...
+        # becomes:
+        #   'seq_regions' : [ { ..., 'key' : 'XYZ', ... }, ...]
+        # This is cleaner design (they have list semantics, not object), and
+        # avoids issues downstream with keys containing JSON delimiters.
+
         for k, v in json_in.items():
             if k in ['seq_regions','seq_variations','phenotypes']:
                 res_out[k] = [ o for o in v.values() ]
             else:
                 res_out[k] = v
 
-        # Store the genes/seq_regions, classes and phenetypes in the summary
-        for g in res_out.get('seq_regions', []):
-            self._blackboard.add_amr_gene(g.get('name','unknown'))
-        for p in filter(lambda d: d.get('amr_resistant', False), res_out.get('phenotypes', [])):
-            self._blackboard.add_amr_classes(p.get('amr_classes',[]))
-            self._blackboard.add_amr_phenotype(p.get('amr_resistance','unknown'))
+        # Helpers to retrieve gene names g for regions r causing phenotype p
+        r2g = lambda r: json_in.get('seq_regions',{}).get(r,{}).get('name')
+        p2gs = lambda p: filter(None, map(r2g, p.get('seq_regions', [])))
 
-        # Store the results on the blackboard
+        # Store the resistant phenotypes and causative regions for the summary output
+        # Note that a lot more information is present, including PMIDs and notes
+        for p in filter(lambda d: d.get('amr_resistant', False), res_out.get('phenotypes', [])):
+            for g in p2gs(p): self._blackboard.add_amr_gene(g)
+            for c in p.get('amr_classes',[]): self._blackboard.add_amr_class(c)
+            self._blackboard.add_amr_antibiotic(p.get('amr_resistance','?unspecified?'))
+
+        # Store on the blackboard
         self.store_results(res_out)
 

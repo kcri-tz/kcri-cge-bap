@@ -305,13 +305,15 @@ per line, in a text file and pass this file with @FILENAME.
             'species': commasep(b.get_detected_species([])),
             'mlst': commasep(b.get_mlsts()),
             'amr_cls': commasep(b.get_amr_classes()),
-            'amr_phe': commasep(b.get_amr_phenotypes()),
-            'amr_gen': commasep(b.get_amr_genes()),
+            'amr_res': commasep(b.get_amr_antibiotics()),
+            'dis_res': commasep(b.get_dis_resistances()),
             'vir_gen': commasep(b.get_virulence_genes()),
             'plasmid': commasep(b.get_detected_plasmids([])),
             'pmlsts': commasep(b.get_pmlsts()),
             'cgst': commasep(b.get_cgmlsts()),
-            'amr_mut': commasep(b.get_amr_mutations())
+            'amr_gen': commasep(b.get_amr_genes()),
+            'amr_mut': commasep(b.get_amr_mutations()),
+            'dis_gen': commasep(b.get_dis_genes())
             })
         print('#', '\t'.join(d.keys()), file=f_tsv)
         print('\t'.join(map(lambda v: str(v) if v else '', d.values())), file=f_tsv)

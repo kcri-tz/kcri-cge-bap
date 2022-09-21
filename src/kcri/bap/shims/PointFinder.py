@@ -53,10 +53,12 @@ class PointFinderShim:
             if illufqs:
                 for f in illufqs:
                     params.extend(['--inputfastq', f])
+            elif execution.get_contigs_path(""):
+                params.extend(['--inputfasta', execution.get_contigs_path()])
             elif execution.get_nanofq_path(""):
                 params.extend(['--nanopore', '--inputfastq', execution.get_nanofq_path()])
-            else:
-                params.extend(['--inputfasta', execution.get_contigs_path()])
+            else: # LPT1 is on fire
+                raise
 
             # Parse list of user specified genes and check with DB
             for g in filter(None, execution.get_user_input('pt_g',"").split(',')):
@@ -123,69 +125,43 @@ class PointFinderExecution(ServiceExecution):
 
         res_out = dict()
 
-        # The provisional JSON we parse further down does not yet link sequence variations
-        # to phenotypes, so for now we parse PointFinder_results.txt:
-        # NOTE 2021-04-12: seems this data in now partly present, but without e.g. PMID
-        #    Mutation        Nucleotide change       Amino acid change       Resistance      PMID
-        #    gyrA p.S83L     TCG -> TTG      S -> L  Nalidixic acid,Ciprofloxacin    8891148
-        #    gyrA p.D87N     GAC -> AAC      D -> N  Nalidixic acid,Nalidixic acid,Ciprofloxacin     12654733
-        #    parC p.S80I     AGC -> ATC      S -> I  Nalidixic acid,Ciprofloxacin    8851598
-        #    parE p.S458T    TCG -> ACG      S -> T  Nalidixic acid,Ciprofloxacin    14506034
-
-        tab_out = job.file_path('PointFinder_results.txt')
+        out_file = job.file_path('pointfinder.json')
         try:
-            res_out['findings'] = list()
-            with open(tab_out, newline='') as f:
-                reader = csv.DictReader(f, delimiter='\t')
-                for row in reader:
-                    # Append the mutation to the findings list
-                    res_out['findings'].append(dict({
-                        'mutation': row['Mutation'],
-                        'nt_change': row['Nucleotide change'],
-                        'aa_change': row['Amino acid change'],
-                        'resistance': sorted(list(set(row.get('Resistance','').split(',')))),
-                        'pmid': row.get('PMID')}))
-                    # Append the mutation to the summary info on the blackboard
-                    self._blackboard.add_amr_mutation(row['Mutation'])
+            with open(out_file, 'r') as f: json_in = json.load(f)
         except Exception as e:
             logging.exception(e)
-            self.fail('failed to open or read file: %s' % tab_out)
+            self.fail('failed to open or load JSON from file: %s' % out_file)
             return
 
-        # ResFinder and PointFinder have provisional standardised output in 
-        # 'std_format_under_development.json', which has top-level elements
-        # 'seq_regions', 'seq_variations', and 'phenotypes'.
-        # We include these but change them from objects to lists.  So this:
-        #    'seq_regions' : { 'aph(6)-Id;;1;;M28829': { ..., 'key' : 'aph(6)-Id;;1;;M28829', ...
+        # ResFinder since 4.2 has standardised JSON with these elements:
+        # - seq_regions (loci with AMR-causing genes or mutations)
+        # - seq_variations (mutations keying into seq_regions)
+        # - phenotypes (antibiotic resistances, keying into above)
+
+        # We include these but change them from objects to lists, so this:
+        #   'seq_regions' : { 'XYZ': { ..., 'key' : 'XYZ', ...
         # becomes:
-        #    'seq_regions' : [ { ..., 'key' : 'aph(6)-Id;;1;;M28829', ... }, ...]
+        #   'seq_regions' : [ { ..., 'key' : 'XYZ', ... }, ...]
         # This is cleaner design (they have list semantics, not object), and
-        # avoids issues with keys such as "aac(6')-Ib;;..." that are bound
-        # to create issues down the line as they contain JSON delimiters.
+        # avoids issues downstream with keys containing JSON delimiters.
 
-        json_out = job.file_path('pointfinder.json')
-        try:
-            with open(json_out, 'r') as f: json_in = json.load(f)
-        except Exception as e:
-            logging.exception(e)
-            self.fail('failed to open or load JSON from file: %s' % json_out)
-            return
-
-        # Append to the result dictionary, converting as documented above.
         for k, v in json_in.items():
             if k in ['seq_regions','seq_variations','phenotypes']:
                 res_out[k] = [ o for o in v.values() ]
             else:
                 res_out[k] = v
 
-        # Store the classes and phenotypes in the summary
+        # Helpers to retrieve mutation ids m for variant v causing phenotype p
+        v2m = lambda v: json_in.get('seq_variations',{}).get(v,{}).get('seq_var')
+        p2ms = lambda p: filter(None, map(v2m, p.get('seq_variations', [])))
+                         
+        # Store the resistant phenotypes and causative mutations for the summary output
+        # Note that a lot more information is present, including PMID references and notes
         for p in filter(lambda d: d.get('amr_resistant', False), res_out.get('phenotypes', [])):
-            self._blackboard.add_amr_classes(p.get('amr_classes',[]))
-            self._blackboard.add_amr_phenotype(p.get('amr_resistance','unknown'))
-        # We don't store the seq_variations until we know their phenotype (instead do above)
-        #for m in res_out.get('seq_variations', []):
-        #    self._blackboard.add_amr_mutation('%s:%s' % (m.get('genes',['?'])[0], m.get('seq_var','?')))
+            for g in p2ms(p): self._blackboard.add_amr_mutation(g)
+            for c in p.get('amr_classes',[]): self._blackboard.add_amr_class(c)
+            self._blackboard.add_amr_antibiotic(p.get('amr_resistance','?unspecified?'))
 
-        # Store the results on the blackboard
+        # Store on the blackboard
         self.store_results(res_out)
 
