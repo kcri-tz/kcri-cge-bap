@@ -1,2 +1,2 @@
-# s_id	n_reads	nt_read	pct_q30	n_ctgs	nt_ctgs	n1	n50	l50	avg_dp	q30_dp	ref_len	pct_gc	species	mlst	amr_cls	amr_phe	amr_gen	vir_gen	plasmid	pmlsts	cgst	amr_mut
-test	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA									ecoli:114729(91.4%)	
+# s_id	n_reads	nt_read	pct_q30	n_ctgs	nt_ctgs	n1	n50	l50	avg_dp	q30_dp	ref_len	pct_gc	species	mlst	amr_cls	amr_res	dis_res	vir_gen	plasmid	pmlsts	cgst	amr_gen	amr_mut	dis_gen
+test	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA									ecoli:114729(91.4%)			
