@@ -66,7 +66,7 @@ err_exit() { echo "$(basename "$0"): $*" >&2; exit 1; }
 # Run docker image BAP_IMAGE as the invoking user, with BAP_WORK_DIR mounted
 # as workdir, BAP_DB_DIR mounted read-only at /databases, and the host root at /.
 
-exec docker run -u "$(id -u):$(id -g)" $OPT_TI --rm --read-only \
+exec docker run --userns=host -u "$(id -u):$(id -g)" $OPT_TI --rm --read-only \
    --tmpfs /run --tmpfs /tmp -v /:/host:ro \
    -v "$BAP_DB_DIR:/databases:ro" \
    -v "${BAP_WORK_DIR:-$PWD}:/workdir" \
