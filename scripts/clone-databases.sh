@@ -20,7 +20,7 @@ err_exit() { echo "$(basename "$0"): $*" >&2; exit 1; }
 for DB in \
     cgmlstfinder \
     choleraefinder \
-    resfinder \
+    disinfinder \
     kmerfinder \
     mlst \
     plasmidfinder \
