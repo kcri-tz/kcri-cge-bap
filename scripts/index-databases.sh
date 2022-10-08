@@ -48,9 +48,13 @@ for D in mlst; do
     printf 'OK\n'
 done
 
-# Add the KCST database to the MLST directory
+# Add the KCST database to the MLST directory (patching out a problematic allele)
 printf 'Creating KCST database (this may take a while) ... ' $D
-cd "$BASE_DIR/mlst" && make-kcst-db.sh -f "."
+cd "$BASE_DIR/mlst"
+p='ctropicalis/ctropicalis.fsa'
+[ ! -f "$p" ] || sed -i.bak -Ee '/>SAPT4_139/,+1d' "$p"
+make-kcst-db.sh -f "."
+[ ! -f "$p.bak" ] || mv -f "$p.bak" "$p"
 printf 'OK\n'
 
 # PointFinder has loci per subdirectory, but they are catted to a single
