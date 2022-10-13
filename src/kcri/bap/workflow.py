@@ -113,7 +113,8 @@ DEPENDENCIES = {
     UserTargets.DEFAULT:        ALL( OPT(UserTargets.METRICS), OPT(UserTargets.SPECIES),
                                      OPT(UserTargets.MLST), OPT(UserTargets.RESISTANCE),
                                      OPT(UserTargets.VIRULENCE), OPT(UserTargets.PLASMIDS),
-                                     OPT(Services.GETREFERENCE), OPT(UserTargets.SPECIALISED) ),
+                                     OPT(Services.GETREFERENCE), OPT(UserTargets.CGMLST),
+                                     OPT(UserTargets.SPECIALISED) ),
     UserTargets.FULL:           ALL( UserTargets.DEFAULT, OPT(Checkpoints.CONTIGS),
                                      OPT(UserTargets.REFERENCE), OPT(UserTargets.CGMLST) ),
 

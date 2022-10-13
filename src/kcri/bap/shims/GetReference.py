@@ -6,7 +6,7 @@
 import os, logging, functools
 from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
-from .base import ServiceExecution, UserException
+from .base import ServiceExecution, UserException, SkipException
 from .KmerFinder import find_db as find_kmer_db
 from .versions import BACKEND_VERSIONS
 
@@ -29,7 +29,7 @@ class GetReferenceShim:
         closest = blackboard.get_closest_reference(dict())
         accession = closest.get('accession')
         if not accession:
-            raise UserException('no closest reference accession was found')
+            raise SkipException('no closest reference accession was found')
 
         execution = GetReferenceExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 

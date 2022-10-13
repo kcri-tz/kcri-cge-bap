@@ -6,7 +6,7 @@
 import os, json, logging, tempfile
 from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
-from .base import ServiceExecution, UserException
+from .base import ServiceExecution, UserException, SkipException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -27,7 +27,7 @@ class spaTypeShim:
         # Check whether running is applicable, else throw to SKIP execution
         species = blackboard.get_species(list())
         if not any(filter(lambda s: s.startswith('Staphylococcus'), species)):
-            raise UserException("service not applicable: not Staphylococcus")
+            raise SkipException("service not applicable: not Staphylococcus")
 
         execution = spaTypeExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 

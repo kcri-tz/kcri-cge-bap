@@ -21,6 +21,15 @@ class UserException(Exception):
         super().__init__(message % args)
 
 
+### class SkipException
+#
+#   Exception signaling that a service does not apply and should be skipped
+
+class SkipException(Exception):
+    def __init__(self, message, *args):
+        super().__init__(message % args)
+
+
 ### class ServiceExecution
 #
 #   Base class for the executions returned by all BAP Service shims.

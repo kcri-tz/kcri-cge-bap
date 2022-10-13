@@ -6,7 +6,7 @@
 import os, tempfile, json, logging
 from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
-from .base import ServiceExecution, UserException
+from .base import ServiceExecution, UserException, SkipException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -48,7 +48,7 @@ class pMLSTShim:
         scheme_lst = list(filter(None, blackboard.get_user_input('pm_s','').split(',')))
         plasmid_lst = blackboard.get_plasmids(list())
         if not (scheme_lst or plasmid_lst):
-            raise UserException('no plasmids were found and no pMLST scheme specified')
+            raise SkipException('no plasmids were found and no pMLST scheme specified')
 
         execution = pMLSTExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 

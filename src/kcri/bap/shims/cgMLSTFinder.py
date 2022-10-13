@@ -6,7 +6,7 @@
 import os, json, tempfile, logging
 from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
-from .base import ServiceExecution, UserException
+from .base import ServiceExecution, UserException, SkipException
 from .versions import BACKEND_VERSIONS
 
 # Our service name and current backend version
@@ -28,7 +28,7 @@ class cgMLSTFinderShim:
         scheme_lst = list(filter(None, blackboard.get_user_input('cq_s','').split(',')))
         species_lst = blackboard.get_species(list())
         if not (scheme_lst or species_lst):
-            raise UserException("no species is known and no cgMLST scheme specified")
+            raise SkipException("no species is known and no cgMLST scheme specified")
 
         execution = cgMLSTExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
@@ -42,7 +42,11 @@ class cgMLSTFinderShim:
 
             schemes = self.determine_schemes(db_cfg, scheme_lst, species_lst)
             execution.start(schemes, inputs, db_dir)
- 
+
+        # SkipException occurs when no applicable scheme is found, reraise
+        except SkipException as e:
+            raise e
+
         # Failing inputs will throw UserException
         except UserException as e:
             execution.fail(str(e))
@@ -88,7 +92,7 @@ class cgMLSTFinderShim:
                 schemes.append(db)
 
         if not schemes:
-            raise UserException("no applicable cgMLST scheme")
+            raise SkipException("no applicable cgMLST scheme")
 
         return schemes
 

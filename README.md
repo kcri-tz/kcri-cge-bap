@@ -17,7 +17,7 @@ and/or contigs, and produces the following:
  * Resistance profiling (ResFinder, PointFinder, DisinfFinder)
  * Plasmid detection and typing (PlasmidFinder, pMLST)
  * Virulence gene finding (VirulenceFinder)
- * Core genome MLST (optional) (cgMLST)
+ * Core genome MLST (cgMLST)
 
 The BAP comes with sensible default settings and a standard workflow, but
 can be adjusted with command line parameters.
@@ -73,7 +73,7 @@ Same but also produce the assembled genome:
 
 The `-t/--target` parameter specifies the analyses the BAP must do.
 When omitted, it has value `DEFAULT`, which implies these targets:
-`species`, `MLST`, `resistance`, `plasmids`, `virulence`, `metrics`.
+`metrics`, `species`, `MLST`, `resistance`, `plasmids`, `virulence`, `cgmlst`.
 
 > Note how targets are 'logical' names for the tasks the BAP must do.
 > The BAP will determine which services to involve, in what order,
