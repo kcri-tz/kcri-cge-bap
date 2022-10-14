@@ -3,7 +3,7 @@
 # kcri.bap.shims.PointFinder - service shim to the PointFinder backend
 #
 
-import os, json, csv, logging
+import os, json, logging
 from pico.workflow.executor import Task
 from pico.jobcontrol.job import JobSpec, Job
 from .base import ServiceExecution, UserException
