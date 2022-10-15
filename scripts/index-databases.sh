@@ -43,7 +43,7 @@ for D in mlst; do
     # Patch persistent issue with CGE MLST config for llactis
     sed -i -Ee 's/^(llactis.*)bcaT.*$/\1terL,mcp,mtp,tmp,lys/' config
     grep -Ev '^[[:space:]]*(#|$)' config | cut -f1 | while read N REST; do
-        any_newer "$N/$N.fsa" "$N/$N.seq.b" &&
+        [ "$N/$N.fsa" -nt "$N/$N.seq.b" ] &&
         kma_index -i "$N/$N.fsa" -o "$N/$N" 2>&1 | grep -v '^#' || 
         true
     done
@@ -56,7 +56,7 @@ cd "$BASE_DIR/mlst"
 p='ctropicalis/ctropicalis.fsa'
 [ ! -f "$p" ] || ! grep -Eq '^>SAPT4_139$' "$p" || sed -i.bak -Ee '/>SAPT4_139$/,+1d' "$p"
 grep -Ev '^[[:space:]]*(#|$)' config | cut -f1 | while read N REST; do
-    any_newer "$N/$N.fsa" "kcst.db" && make-kcst-db.sh -f "." && break || continue
+    [ "$N/$N.fsa" -nt "kcst.db" ] && make-kcst-db.sh -f "." && break || continue
 done
 [ ! -f "$p.bak" ] || mv -f "$p.bak" "$p"
 printf 'OK\n'
