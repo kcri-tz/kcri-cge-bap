@@ -3,8 +3,8 @@
 *.tar.gz
 *.pyc
 __pycache__
-/archive
 /bin
+/build.*
 /ext/*.sh
 /ext/*/.git
 /ext/*/data
@@ -19,4 +19,4 @@ __pycache__
 /ext/salmonellatypefinder
 /scripts
 /src/*/build
-/test*
+/test
