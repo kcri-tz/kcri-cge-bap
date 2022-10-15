@@ -106,7 +106,8 @@ DEPENDENCIES = {
     UserTargets.VIRULENCE:      Services.VIRULENCEFINDER,
     UserTargets.PLASMIDS:       SEQ( Services.PLASMIDFINDER, Services.PMLSTFINDER ),
     UserTargets.PMLST:	        SEQ( Checkpoints.PLASMIDS, Services.PMLSTFINDER ),
-    UserTargets.CGMLST:         Services.CGMLSTFINDER,
+    # Needs the Services.CGMLSTFINDER to be OPT as it can be skipped
+    UserTargets.CGMLST:         OPT( Services.CGMLSTFINDER ),
     UserTargets.SPECIALISED:    OPT( Services.CHOLERAEFINDER ),
     # The DEFAULT target depends on a list of standard targets.
     # All are optional so the pipeline runs till the end even if one fails.
