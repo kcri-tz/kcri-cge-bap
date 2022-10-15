@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+
+exec docker run -ti --rm --read-only --tmpfs /run --tmpfs /tmp -v /:/host:ro kcri-cge-bap:medaka "$@"
+
+# vim: sts=4:sw=4:si:ai:et

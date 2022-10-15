@@ -1,0 +1,60 @@
+# Dockerfile for the KCRI CGE Bacterial Analysis Pipeline (BAP)
+# ======================================================================
+
+# For full reproducibility, pin the package versions installed by apt
+# and conda when releasing to production, using 'package=version'.
+# The 'apt-get' and 'conda list' commands output the versions in use.
+
+
+# Load base Docker image
+# ----------------------------------------------------------------------
+
+# Use miniconda3 (Python 3.9, channel 'defaults' only)
+FROM continuumio/miniconda3:4.12.0
+
+
+# System dependencies
+# ----------------------------------------------------------------------
+
+# Debian packages
+# - gcc and libz-dev for kma
+# - g++ and gawk and libboost-iostreams for kcst
+# - g++ and the libboost packages for SKESA
+# - file for KCST
+# - prodigal for cgMLST
+# - libcudart11.0, samtools, tabix, minimap2, nvidia-cudnn for Medaka RT
+# - bzip2 g++ zlib1g-dev libbz2-dev liblzma-dev libffi-dev libncurses5-dev
+#   libcurl4-gnutls-dev libssl-dev curl make cmake wget for Medaka CT
+
+#RUN wget -O- "https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/3bf863cc.pub" | \
+#        gpg --dearmor >/etc/apt/trusted.gpg.d/nvidia-drivers.gpg && \
+
+ENV DEBIAN_FRONTEND noninteractive
+RUN echo "deb [trusted=yes] https://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/ /" \
+        >/etc/apt/sources.list.d/nvidia-drivers.list && \
+    apt-get -qq update --fix-missing && \
+    apt-get -qq install apt-utils && \
+    dpkg --configure -a && \
+    apt-get -qq install --no-install-recommends \
+        make g++ gcc libc-dev libz-dev \
+        gawk file \
+        libcurl4-gnutls-dev libssl-dev curl make cmake wget \
+        ca-certificates build-essential sqlite3 libsqlite3-dev file \
+        aptitude
+#    echo "deb [trusted=yes] http://apt.kcri.it/ jammy/" >/etc/apt/sources.list.d/kcri.sources.list && \
+#        libboost-program-options-dev \
+#        libboost-iostreams-dev \
+#        libboost-regex-dev \
+#        libboost-timer-dev \
+#        libboost-chrono-dev \
+#        libboost-system-dev \
+#        prodigal \
+#        samtools tabix minimap2 \
+#        bzip2 g++ zlib1g-dev libbz2-dev liblzma-dev libffi-dev libncurses5-dev \
+#    libcudart11.0 samtools tabix minimap2 \
+#    && \
+#    apt-get -qq clean && \
+#    rm -rf /var/lib/apt/lists/*
+
+CMD ["bash", "-l"]
+
