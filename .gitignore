@@ -4,6 +4,7 @@
 !/ext/*.sh
 /test/output
 /tmp
+/pee-them.sh
 *.pyc
 *.pyo
 *~
