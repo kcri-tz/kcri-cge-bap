@@ -87,7 +87,7 @@ class cgMLSTFinderShim:
 
         for s in species_lst:
             if s.startswith('Shigella'): s = 'Escherichia coli'   # argh: should be fixed in config
-            db = spc_db.get(s.split(' ')[0], spc_db.get(s))
+            db = spc_db.get(s, spc_db.get(s.split(' ')[0], None))    # try species, then genus
             if db and not db in schemes:
                 schemes.append(db)
 
