@@ -151,16 +151,25 @@ class PointFinderExecution(ServiceExecution):
             else:
                 res_out[k] = v
 
-        # Helpers to retrieve mutation ids m for variant v causing phenotype p
-        v2m = lambda v: json_in.get('seq_variations',{}).get(v,{}).get('seq_var')
-        p2ms = lambda p: filter(None, map(v2m, p.get('seq_variations', [])))
-                         
-        # Store the resistant phenotypes and causative mutations for the summary output
+        # Collect resistant phenotypes and causative mutations for the summary output
         # Note that a lot more information is present, including PMID references and notes
+
+        # For collecting the mutations grouped by gene (region)
+        ms = dict()
+
+        # We iterate over the resistant phenotypes, adding the classes and antibiotic
         for p in filter(lambda d: d.get('amr_resistant', False), res_out.get('phenotypes', [])):
-            for g in p2ms(p): self._blackboard.add_amr_mutation(g)
             for c in p.get('amr_classes',[]): self._blackboard.add_amr_class(c)
             self._blackboard.add_amr_antibiotic(p.get('amr_resistance','?unspecified?'))
+
+            # Each phenotype may have n variations, each variation has a 'seq_var' and may have n named regions
+            # We collect the seq_vars per named region (gene), so as to have organised output
+            for v in filter(None, map(lambda vid: json_in.get('seq_variations',{}).get(vid,{}), p.get('seq_variations',[]))):
+                g = '+'.join(filter(None, map(lambda rid: json_in.get('seq_regions',{}).get(rid,{}).get('name',''), v.get('seq_regions',[]))))
+                ms[g] = ms.get(g, set()).union([v.get('seq_var')])
+
+        # Now stringify the mutations an
+        for g in ms: self._blackboard.add_amr_mutation('%s(%s)' % (g,','.join(sorted(ms.get(g)))))
 
         # Store on the blackboard
         self.store_results(res_out)

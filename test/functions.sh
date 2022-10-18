@@ -30,7 +30,7 @@ check_output() {
     RUN_OUT="output/latest/bap-summary.tsv"
 
     if diff "$REF_OUT" "$RUN_OUT"; then
-        printf "[OK] Run output matches expected output\n\n"
+        printf "[OK] Run output matches expected output ($BASE_NAME)\n\n"
         return 0
     else
         printf "\n[FAIL] Run output does not match expected output: $BASE_NAME\n\n"
