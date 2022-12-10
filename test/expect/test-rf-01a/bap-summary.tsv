@@ -1,2 +1,0 @@
-# s_id	n_reads	nt_read	pct_q30	n_ctgs	nt_ctgs	n1	n50	l50	avg_dp	q30_dp	ref_len	pct_gc	species	mlst	amr_cls	amr_phe	amr_gen	vir_gen	plasmid	pmlsts	cgst	amr_mut
-test_isolate_01	NA	NA	NA	1	14680	14680	14680	1	NA	NA	NA	52			beta-lactam	amoxicillin,ampicillin,ticarcillin	blaB-2					
