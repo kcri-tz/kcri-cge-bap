@@ -25,8 +25,8 @@ class MLSTFinderShim:
         '''Invoked by the executor.  Creates, starts and returns the Task.'''
 
         # Check whether running is applicable, else throw to SKIP execution
-        genus_lst = list(filter(None, blackboard.get_user_input('ml_g', '').split(',')))
-        scheme_lst = list(filter(None, blackboard.get_user_input('ml_s', '').split(',')))
+        genus_lst = list(filter(None, blackboard.get_user_input('mf_g', '').split(',')))
+        scheme_lst = list(filter(None, blackboard.get_user_input('mf_s', '').split(',')))
         species_lst = blackboard.get_species(list())
         if not (genus_lst or scheme_lst or species_lst):
             raise UserException("species must be known or a scheme or genus must be specified")
