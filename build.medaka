@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd "$(realpath "$(dirname "$0")")"
+docker build -f Dockerfile.medaka -t kcri-cge-bap:medaka . | tee build.medaka.log
