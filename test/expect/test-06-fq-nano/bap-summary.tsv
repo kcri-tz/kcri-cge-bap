@@ -1,2 +1,2 @@
 # s_id	n_reads	nt_read	pct_q30	n_ctgs	nt_ctgs	n1	n50	l50	avg_dp	q30_dp	ref_len	pct_gc	species	mlst	amr_cls	amr_res	dis_res	vir_gen	plasmid	pmlsts	cgst	amr_gen	amr_mut	dis_gen
-nano	945	8397200	NA	1	419984	419984	419984	1	20	NA	NA	51.8												
+nano	945	8397200	NA	1	419NNN	419NNN	419NNN	1	20	NA	NA	51.8												
