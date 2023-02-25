@@ -33,7 +33,7 @@ class spaTypeShim:
 
         # From here run the execution, and FAIL it on exception
         try:
-            params = [ execution.get_contigs_path() ]
+            params = [ os.path.abspath(execution.get_contigs_path()) ]
 
             job_spec = JobSpec('spa-type', params, MAX_CPU, MAX_MEM, MAX_TIM)
             execution.start(job_spec, 'spaType')

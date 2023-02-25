@@ -54,7 +54,7 @@ class PointFinderShim:
                 for f in illufqs:
                     params.extend(['--inputfastq', f])
             elif execution.get_contigs_path(""):
-                params.extend(['--inputfasta', execution.get_contigs_path()])
+                params.extend(['--inputfasta', os.path.abspath(execution.get_contigs_path())])
             elif execution.get_nanofq_path(""):
                 params.extend(['--nanopore', '--inputfastq', execution.get_nanofq_path()])
             else: # LPT1 is on fire
