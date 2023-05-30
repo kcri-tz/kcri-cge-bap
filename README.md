@@ -241,7 +241,6 @@ To **update the CGE databases**
 
         # Just rerun the installation script (with same DB_DIR)
         scripts/clone-databases.sh DB_DIR
-        scripts/index-databases.sh DB_DIR
 
 Updating any backend service can be done by changing its required version in
 `ext/backend-versions.config`, then running:
