@@ -9,8 +9,8 @@
 # Load base Docker image
 # ----------------------------------------------------------------------
 
-# Use miniconda3 with Python 3.10
-FROM continuumio/miniconda3:22.11.1
+# Use miniconda3 with Python 3.12
+FROM continuumio/miniconda3:24.5.0-0
 
 
 # System dependencies
@@ -169,6 +169,12 @@ RUN python3 -m compileall ext/resfinder/src/resfinder && \
     > /usr/local/bin/resfinder && \
     chmod +x /usr/local/bin/resfinder
 
+# Install virulencefinder module from source
+RUN python3 -m compileall ext/virulencefinder/src/virulencefinder && \
+    printf '#!/bin/sh\nexport PYTHONPATH=/usr/src/ext/virulencefinder/src\nexec python3 -m virulencefinder "$@"\n' \
+    > /usr/local/bin/virulencefinder && \
+    chmod +x /usr/local/bin/virulencefinder
+
 # Patch cgmlstfinder ete3 dependency and directory bug
 RUN sed -i -Ee 's@^from ete3 import@#from ete3 import@' \
         'ext/cgmlstfinder/cgMLST.py'
@@ -180,8 +186,7 @@ RUN python3 -m compileall \
     ext/kmerfinder \
     ext/mlst \
     ext/plasmidfinder \
-    ext/pmlst \
-    ext/virulencefinder
+    ext/pmlst
 
 # Add service script directories to PATH
 ENV PATH $PATH""\
