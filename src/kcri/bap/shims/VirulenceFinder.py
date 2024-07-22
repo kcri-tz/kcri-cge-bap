@@ -42,7 +42,8 @@ class VirulenceFinderShim:
             # Append files, backend has different args for fq and fa
             illufqs = execution.get_illufq_paths(list())
             if illufqs:
-                params.extend(['-ifq', f])
+                params.append('-ifq')
+                params.extend(illufqs)
             elif execution.get_contigs_path(""):
                 params.extend(['-ifa', os.path.abspath(execution.get_contigs_path())])
             elif execution.get_nanofq_path(""):
