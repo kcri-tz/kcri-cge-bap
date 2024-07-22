@@ -9,8 +9,9 @@
 # Load base Docker image
 # ----------------------------------------------------------------------
 
-# Use miniconda3 with Python 3.12
-FROM continuumio/miniconda3:24.5.0-0
+# Use miniconda3 with Python 3.11 until Flye supports 3.12
+# See: https://github.com/mikolmogorov/Flye/issues/669
+FROM continuumio/miniconda3:23.10.0-1
 
 
 # System dependencies
@@ -53,7 +54,7 @@ RUN echo "unset HISTFILE" >>/etc/bash.bashrc && \
 # Python dependencies via Conda:
 # - Install nomkl to prevent MKL being installed; we don't currently
 #   use it, it's huge, and it is non-free (why does Conda pick it?)
-# - Our jobcontrol module requires psutil
+# - Our jobcontrol module (picoline) requires psutil
 # - Biopython and tabulate are used by all CGE services
 # - ResFinder requires python-dateutil and gitpython
 # - pandas required by cgelib required since ResFinder 4.2.1
@@ -73,8 +74,8 @@ RUN conda install --quiet --yes \
 # Other dependencies
 # ----------------------------------------------------------------------
 
-# SKESA, BLAST, Quast are available in the 'bioconda' channel, but yield
-# myriad dependency conflicts, hence we install them from source.
+# SKESA, BLAST, Quast, Flye are available in the 'bioconda' channel, but
+# yield # myriad dependency conflicts, hence we install them from source.
 
 #RUN conda config --add channels bioconda && \
 #    conda config --add channels defaults && \
@@ -103,13 +104,13 @@ ENV PATH=/usr/src/ext/ncbi-blast/bin:$PATH \
 # Install uf-stats by putting it on the PATH.
 ENV PATH=/usr/src/ext/unfasta:$PATH
 
-# Make and install skesa (and gfa_connector, saute
+# Make and install skesa (and gfa_connector, saute)
 RUN cd ext/skesa && \
     make clean && make -j 6 -f Makefile.nongs && \
     mv skesa gfa_connector /usr/local/bin/ && \
     cd .. && rm -rf skesa
 
-# Make and install skesa (and gfa_connector, saute
+# Make and install flye
 RUN cd ext/flye && \
     python3 setup.py install && \
     cd .. && rm -rf flye
@@ -195,8 +196,7 @@ ENV PATH $PATH""\
 ":/usr/src/ext/kmerfinder"\
 ":/usr/src/ext/mlst"\
 ":/usr/src/ext/plasmidfinder"\
-":/usr/src/ext/pmlst"\
-":/usr/src/ext/virulencefinder"
+":/usr/src/ext/pmlst"
 
 
 # Install the BAP code
