@@ -26,7 +26,7 @@ class ResFinderShim:
 
         execution = ResFinderExecution(SERVICE, VERSION, sid, xid, blackboard, scheduler)
 
-         # Get the execution parameters from the blackboard
+        # Get the execution parameters from the blackboard
         try:
             db_path = execution.get_db_path('resfinder')
             params = [
