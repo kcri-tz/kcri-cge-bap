@@ -5,6 +5,7 @@
 /test/output
 /tmp
 /pee-them.sh
+/Dockerfile.patch
 *.pyc
 *.pyo
 *~
