@@ -66,24 +66,6 @@ class ResFinderShim:
         return execution
 
 
-    def parse_config(self, cfg_file):
-        '''Parse the config file into a dict of key->name, or raise on error.'''
-        ret = dict()
-
-        if not os.path.exists(cfg_file):
-            raise UserException('database config file missing: %s', cfg_file)
-
-        with open(cfg_file) as f:
-            for l in f:
-                l = l.strip()
-                if not l or l.startswith('#'): continue
-                r = l.split('\t')
-                if len(r) != 3: raise UserException('invalid database config line: %s', l)
-                ret[r[0].strip] = r[1].strip()
-
-        return ret
-
-
 class ResFinderExecution(ServiceExecution):
     '''A single execution of the service, returned by the shim's execute().'''
 
