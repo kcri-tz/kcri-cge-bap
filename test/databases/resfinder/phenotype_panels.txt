@@ -108,7 +108,7 @@ Gentamicin
 Imipenem
 Meropenem
 Nalidixic acid
-Pipercallin+Tazobactam
+Piperacillin+Tazobactam
 Sulfamethoxazole
 Temocillin
 Tetracycline

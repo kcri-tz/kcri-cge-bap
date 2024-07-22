@@ -208,7 +208,7 @@ aac(6')-Ij_1_L29045	Aminoglycoside	Amikacin, Tobramycin	7810994	Enzymatic modifi
 aac(6')-Ik_1_L29510	Aminoglycoside	Amikacin, Tobramycin	8001769	Enzymatic modification	Chromosomal in Acinetobacter sp. 6
 aac(6')-Il_1_U13880	Aminoglycoside	Amikacin, Tobramycin	7793874	Enzymatic modification	Alternative name aacA7
 aac(6')-Im_1_AF337947	Aminoglycoside	Amikacin, Tobramycin, Kanamycin	11557456	Enzymatic modification
-aac(6')-Ip_1_Z54241	Aminoglycoside	Amikacin, Tobramycin, Netilmicin	9021185	Enzymatic modification	Alternative name aac(6')-Il, aacA16
+aac(6')-Im_2_Z54241	Aminoglycoside	Amikacin, Tobramycin, Netilmicin	9021185	Enzymatic modification	Alternative name aac(6')-Il, aacA16
 aac(6')-Iq_1_AF047556	Aminoglycoside	Amikacin, Tobramycin, Netilmicin, Kanamycin	9624504	Enzymatic modification	Alternative name aacA17
 aac(6')-Ir_1_AF031326	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter
 aac(6')-Is_1_AF031327	Aminoglycoside	Amikacin, Tobramycin	10188279	Enzymatic modification	Chromosomal in Acinetobacter

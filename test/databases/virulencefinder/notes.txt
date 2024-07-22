@@ -1,105 +1,547 @@
-K88ab:  K88/F4 protein subunit:
-astA:  Heat-stable enterotoxin 1:
+astA:  Heat-stable enterotoxin EAST-1:
+aslA:  Acyltransferase:
 bfpA:  Major subunit of bundle-forming pili:
 cba:  Colicin B:
 ccI:  Cloacin:
-cdtB:  Cytolethal distending toxin B:
-celb:  Endonuclease colicin E2:
-cfa_c:  Colonisation factor antigen I:
-cma:  Colicin M:
-cnf1:  Cytotoxic necrotizing factor:
-cofA:  Longus type IV pilus subunit:
-eae:  Intimin:
+cdt-IB:   Cytolethal distending toxin I sub unit B:   
+cdt-IIB:   cytolethal distending toxin II sub unit B:   
+cdt-IIIB:   Cytolethal distending toxin III sub unit B:   
+cdt-VB:   Cytolethal distending toxin V sub unit B:   
+cdt-VIB:   Cytolethal distending toxin VI sub unit B:   
+cdt-Ea:   Escherichia albertii cytolethal distending toxin  B:   
+cdt-Sb:   Shigella boydii strain K-1 cytolethal distending toxin ABC:   
+cfaA: CFA/1 Major pilin:
+cfaB: CFA/1 Major pilin chaperone:
+cfaC: CFA/1 Usher:
+cfaD: CFA/1 Minor pilin:
+cfaE: CFA/1 Pilus length modulator:
+cif:  Type III secreted effector:
+cma:  Colicin M activity:
+cmaHa:   CS27 Coli surface antigen a:
+cmaHb:   CS27 Coli surface antigen b:
+cnf1:  Cytotoxic necrotizing factor 1:
+cnf2:  Cytotoxic necrotizing factor 2:
+cnf3:  Cytotoxic necrotizing factor 3:
+cnmHa:   CS28 Coli surface antigen a:
+cnmHb:   CS28 Coli surface antigen b:
+cofR:   CS8 Regulator:
+cofS:   CS8 AraC-like protein:
+cofT:   CS8 Unknown:
+cofA:   CS8 Type IV pilin precursor; major pilin:
+cofB:   CS8 Minor pilin:
+cofC:   CS8 Unknown:
+cofD:   CS8 Lipoprotein; secretin:
+cofE:   CS8 Inner membrane accessory protein (IMAP):
+cofF:   CS8 Inner membrane accessory protein (IMAP):
+cofG:   CS8 Inner membrane accessory protein (IMAP):
+cofH:   CS8 Nucleotide-binding protein; assembly ATPase:
+cofI:   CS8 Integral membrane protein; inner membrane core protein (IMCP):
+cofJ:   CS8 Secreted colonization factor:
+cofP:   CS8 Prepilin peptidase:
+colE2:   Colicin E2:
+colE2-like:   Colicin lysis protein precursor E2-like:
+colE4:   Colicin E4:
+colE5:   Colicin E5 lysis protein Lys:
+colE6:   Colicin E6:
+colE7:   Colicin E7:
+colE8:   Colicin E8:
+colE9:   Colicin E9:
+cosA:   PCFO71 Major fimbrial subunit:
+cosB:   PCFO71 Periplasmic chaperone:
+cosC:   PCFO71 Outer membrane usher:
+cosD:   PCFO71 Minor fimbrial subunit:
+cooA:   CS1 Major subunit:
+cooB:   CS1 Chaperone:
+cooD:   CS1 Chaperone:
+cooC:   CS1 Usher:
+cotB:   CS2 Major pilin chaperone:
+cotA:   CS2 Major pilin chaperone:
+cotC:   CS2 Usher:
+cotD:   CS2 Chaperone:
+crsB:   CS26 molecular chaperone:
+crsC:   CS26 fimbria/pilus periplasmic chaperone:
+crsD:   CS26 fimbrial biogenesis outer membrane usher protein:
+crsE:   CS26 fimbria/pilus periplasmic chaperone:
+crsF:   CS26 fimbrial protein:
+crsG:   CS26 hypothetical protein:
+crsH:   CS26 Coli surface antigen, type 1 fimbrial protein:
+crsS:   CS26 Tyrosine-type DNA invertase:
+crsT:   CS26 Tyrosine-type DNA invertase:
+csaA:   CS4 Periplasmic chaperone-like protein:
+csaB:   CS4:   CS4 major fimbriae subunit:
+csaC:   CS4 Usher protein:
+csaD:   CS4 Deleted regulatory protein:
+csaE:   CS4 Tip-associated protein:
+csbA:   CS17 Fimbriae major subunit:
+csbB:   CS17 Chaperone:
+csbC:   CS17 Usher:
+csbD:   CS17 Assembly protein/minor subunit:
+csdA:   CS19 Major fimbrial subunit:
+csdB:   CS19 Periplasmic chaperone:
+csdC:   CS19 Outer membrane usher:
+csdD:   CS19 Minor fimbrial subunit:
+cseA:   CS22 Adhesin protein:
+csfA:   CS5 major subunit:
+csfB:   CS5 coli surface factor five B, Chaperone:
+csfC:   CS5 Outer membrane usher protein:
+csfD:   CS5 Minor fimbrial subunit:
+csfE:   CS5 Pilus length modulator:
+csfF:   CS5 Minor pilin chaperone:
+cshA:   CS13 Minor pilin:
+cshB:   CS13 Usher:
+cshC:   CS13 Chaperone:
+cshD:   CS13 Minor pilin:
+cshE:   CS13 Pilin:
+cshF:   CS13 Minor pilin:
+cshG:   CS13 Minor pilin:
+csmA:   CS30 Major subunit:
+csmB:   CS30 Chaperone:
+csmC:   CS30 Chaperone:
+csmD:   CS30 Usher:
+csmE:   CS30 Chaperone:
+csmF:   CS30 Minor subunit:
+csmG:   CS30 Fimbrial adhesin:
+csmS:   CS30 Site specific recombinase:
+csmT:   CS30 Site specific recombinase:
+csnA:   CS20 Fimbria major subunit:
+csnB:   CS20 Putative major subunit chaperone:
+csnC:   CS20 Putative adhesin-specific chaperone:
+csnD:   CS20 Putative outer membrane fimbrial usher:
+csnE:   CS20 Putative chaperone-like:
+csnF:   CS20 Putative minor subunit:
+csnG:   CS20 Putative minor adhesive tip subunit:
+cssA:   CS6 Structural subunit A:
+cssB:   CS6 Structural subunit B:
+cssC:   CS6 Periplasmic chaperone:
+cssD:   CS6 Usher protein:
+cstA :   CS3 Major pilin chaperone:
+cstBCDEF:   CS3 Major pili usher:
+cstG:   CS3 Major pilin:
+cstH:   CS3 Major pilin reported but not found:
+csuA:   CS14 Major fimbrial subunit:
+csuB:   CS14 Periplasmic chaperone:
+csuC:   CS14 Outer membrane usher:
+csuD:   CS14 Minor fimbrial subunit:
+csvA:   CS7 Major subunit:
+cswA:   CS12 Major subunit:
+cswB:   CS12 Chaperone:
+cswC:   CS12 Chaperone:
+cswD:   CS12 Outer membrane usher:
+cswE:   CS12 Chaperone:
+cswF:   CS12 Minor subunit:
+cswG:   CS12 Putative adhesin:
+cswR:   CS12 Transcriptional activator:
+dhaK:  Dihydroxyacetone kinase (also designated ptnC):
+eae-a01-alpha 1  :   Intimin-a01-alpha 1:
+eae-a02-alpha 2  :   Intimin-a02-alpha 2:
+eae-a03-zeta  :   Intimin-a03-zeta:
+eae-a04-zeta  :   Intimin-a04-zeta:
+eae-a05a-nu  :   Intimin-a05a-nu:
+eae-a05b-nu  :   Intimin-a05b-nu:
+eae-a06-omicron  :   Intimin-a06-omicron:
+eae-a07-tau  :   Intimin-a07-tau:
+eae-a08-alpha 8  :   Intimin-a08-alpha 8:
+eae-a09-alpha 9  :   Intimin-a09-alpha 9:
+eae-a10-alpha 10  :   Intimin-a10-alpha 10:
+eae-a11-alpha 11  :   Intimin-a11-alpha 11:
+eae-a12-alpha 12  :   Intimin-a12-alpha 12:
+eae-a13a-alpha 13  :   Intimin-a13a-alpha 13:
+eae-a13b-alpha 13  :   Intimin-a13b-alpha 13:
+eae-a14-alpha 14  :   Intimin-a14-alpha 14:
+eae-a15-alpha 15  :   Intimin-a15-alpha 15:
+eae-a16-alpha 16  :   Intimin-a16-alpha 16:
+eae-a17-alpha 17  :   Intimin-a17-alpha 17:
+eae-a18-alpha 18  :   Intimin-a18-alpha 18:
+eae-b01a-beta 1a  :   Intimin-b01a-beta 1a:
+eae-b01b-beta 1b  :   Intimin-b01b-beta 1b:
+eae-b02a-beta 2a  :   Intimin-b02a-beta 2a:
+eae-b02b-beta 2b  :   Intimin-b02b-beta 2b:
+eae-b03-beta 3  :   Intimin-b03-beta 3:
+eae-b04-delta  :   Intimin-b04-delta:
+eae-b05-Citrobacter  :   Intimin-b05-Citrobacter:
+eae-b06-beta 4  :   Intimin-b06-beta 4:
+eae-b07-beta 7  :   Intimin-b07-beta 7:
+eae-b08-kappa  :   Intimin-b08-kappa:
+eae-e01-epsilon 1  :   Intimin-e01-epsilon 1:
+eae-e02-epsilon 2  :   Intimin-e02-epsilon 2:
+eae-e03a-epsilon 3  :   Intimin-e03a-epsilon 3:
+eae-e03b-epsilon 3  :   Intimin-e03b-epsilon 3:
+eae-e04-epsilon 4  :   Intimin-e04-epsilon 4:
+eae-e05-eta 1  :   Intimin-e05-eta 1:
+eae-e06-eta 2  :   Intimin-e06-eta 2:
+eae-e07-xi  :   Intimin-e07-xi:
+eae-e08-pi  :   Intimin-e08-pi:
+eae-e09-epsilon 9  :   Intimin-e09-epsilon 9:
+eae-e10-epsilon 10  :   Intimin-e10-epsilon 10:
+eae-e11-epsilon 11  :   Intimin-e11-epsilon 11:
+eae-e12-eta 2  :   Intimin-e12-eta 2:
+eae-g01-gamma 1  :   Intimin-g01-gamma 1:
+eae-g02-theta  :   Intimin-g02-theta:
+eae-g03-mu  :   Intimin-g03-mu:
+eae-g04-sigma  :   Intimin-g04-sigma:
+eae-g05-gamma 5  :   Intimin-g05-gamma 5:
+eae-g06-gamma 6  :   Intimin-g06-gamma 6:
+eae-g07-gamma 7  :   Intimin-g07-gamma 7:
+eae-g08-gamma 8  :   Intimin-g08-gamma 8:
+eae-g09-gamma 9  :   Intimin-g09-gamma 9:
+eae-i01-iota 1  :   Intimin-i01-iota 1:
+eae-i02b-iota 2  :   Intimin-i02b-iota 2:
+eae-i03-upsilon  :   Intimin-i03-upsilon:
+eae-l01-lambda 1  :   Intimin-l01-lambda 1:
+eae-l02-lambda 2  :   Intimin-l02-lambda 2:
+eae-l03-lambda 3  :   Intimin-l03-lambda 3:
+eae-l04a-lambda 4  :   Intimin-l04a-lambda 4:
+eae-l04b-lambda 4  :   Intimin-l04b-lambda 4:
+eae-l05-lambda 5  :   Intimin-l05-lambda 5:
+eae-r01-rho 1  :   Intimin-r01-rho 1:
+eae-r02-rho 2  :   Intimin-r02-rho 2:
+eae-r03-rho 3  :   Intimin-r03-rho 3:
+eae-r04-rho 4  :   Intimin-r04-rho 4:
+eatA:  Mucin-degrading serine protease autotransporters of Enterobacteriaceae and ETEC (SPATE):
+efa1:  EHEC factor for adherence; lymphostatin Efa1-LifA:
+ehxA:  Enterohaemolysin:
+eltIAB-1:   Heat-labile enterotoxin LTIh-1:
+eltIAB-2:   Heat-labile enterotoxin LTIh-2:
+eltIAB-3:   Heat-labile enterotoxin LTIh-3:
+eltIAB-4:   Heat-labile enterotoxin LTIh-4:
+eltIAB-5:   Heat-labile enterotoxin LTIh-5:
+eltIAB-6:   Heat-labile enterotoxin LTIh-6:
+eltIAB-7:   Heat-labile enterotoxin LTIh-7:
+eltIAB-8:   Heat-labile enterotoxin LTIh-8:
+eltIAB-9:   Heat-labile enterotoxin LTIh9:
+eltIAB-10:   Heat-labile enterotoxin LTIh-10:
+eltIAB-11:   Heat-labile enterotoxin LTIh-11:
+eltIAB-12:   Heat-labile enterotoxin LTIh-12:
+eltIAB-13:   Heat-labile enterotoxin LTIh-13:
+eltIAB-14:   Heat-labile enterotoxin LTIh-14:
+eltIAB-15:   Heat-labile enterotoxin LTIh-15:
+eltIAB-15b:   Heat-labile enterotoxin LTIh-15b:
+eltIAB-16:   Heat-labile enterotoxin LTIh-16:
+eltIAB-17:   Heat-labile enterotoxin LTIh-17:
+eltIAB-18:   Heat-labile enterotoxin LTIh-18:
+eltIAB-19:   Heat-labile enterotoxin LTIh-19:
+eltIAB-20:   Heat-labile enterotoxin LTIh-20:
+eltIAB-21:   Heat-labile enterotoxin LTIh-21:
+eltIAB-22:   Heat-labile enterotoxin LTIh-22:
+eltIAB-23:   Heat-labile enterotoxin LTIh-23:
+eltIAB-24:   Heat-labile enterotoxin LTIh-24:
+eltIAB-25:   Heat-labile enterotoxin LTIh-25:
+eltIAB-26:   Heat-labile enterotoxin LTIh-26:
+eltIAB-27:   Heat-labile enterotoxin LTIh-27:
+eltIAB-28:   Heat-labile enterotoxin LTIh-28:
+eltIAB-29:   Heat-labile enterotoxin LTIh-29:
+eltIAB-30:   Heat-labile enterotoxin LTIh-30:
+eltIAB-31:   Heat-labile enterotoxin LTIh-31:
+eltIAB-33:   Heat-labile enterotoxin LTIh-32:
+eltIAB-33:   Heat-labile enterotoxin LTIh-33:
+eltIIAB-a:   Heat-labile enterotoxin LTII-a:
+eltIIAB-b1:   Heat-labile enterotoxin LTII-b1:
+eltIIAB-b2:   Heat-labile enterotoxin LTII-b2:
+eltIIAB-c1:   Heat-labile enterotoxin LTII-c1:
+eltIIAB-c2:   Heat-labile enterotoxin LTII-c2:
+eltIIAB-c3:   Heat-labile enterotoxin LTII-c3:
+eltIIAB-c4:   Heat-labile enterotoxin LTII-c4:
+eltIIAB-c5:   Heat-labile enterotoxin LTII-c5:
+eltIIAB-c6:   Heat-labile enterotoxin LTII-c6:
+eltIIAB-c7:   Heat-labile enterotoxin LTII-c7:
+eltIIAB-c8:   Heat-labile enterotoxin LTII-c8:
+eltIIAB-c9:   Heat-labile enterotoxin LTII-c9:
+eltIIAB-d1:   Heat-labile enterotoxin LTII-d1:
+eltIIAB-d2:   Heat-labile enterotoxin LTII-d2:
+eltIIAB-e:   Heat-labile enterotoxin LTII-e:
+epeA:  Serine protease autotransporters of Enterobacteriaceae (SPATE):
+espA:  Type III secretions system:
+espA-Cr:  Type III secretions system, C. rodentium:
 espB:  Secreted protein B:
-ehxA: Enterohaemolysin:
-f17-A:  Subunit A of F17 fimbrial protein:
-f17-G:  Adhesin subunit of F17 fimbriae:
-fanA:  Involved in biogenesis of K99/F5 fimbriae:
-fasA:  Fimbriae 987P/F6 subunit:
-fedA:  Fimbrial protein F107 subunit A:
-fedF:  Fimbrial adhesin AC precursor:
-fim41a:  Mature Fim41a/F41 protein:
+espC: Escherichia coli enterotoxin EspC:
+espF:  EPEC secreted protein F; Type III secretion system:
+espF-Cr:   Citrobacter rodentium secreted protein F; Type III secretion system:
+espI:  Serine protease autotransporters of Enterobacteriaceae (SPATE):
+espJ:  Prophage-encoded type III secretion system effector:
+espP:  Serine protease autotransporter EspP:
+estap-STa1:  Heat-stable enterotoxin STa1 porcine variant:
+estah-STa2:  Heat-stable enterotoxin STa2 human variant:
+estah-STa3:  Heat-stable enterotoxin STa3 human variant:
+estap-STa4:  Heat-stable enterotoxin STa4 porcine variant:
+estap-STa5:  Heat-stable enterotoxin STa5 porcine variant:
+estap-STa6:  Heat-stable enterotoxin STa6 porcine variant:
+estap-STa7:  Heat-stable enterotoxin STa7 porcine variant:
+estap-STa8:  Heat-stable enterotoxin STa8 porcine variant:
+estap-STa9:  Heat-stable enterotoxin STa9 porcine variant:
+estb-STb1:  Heat-stable enterotoxin STb1 porcine variant:
+estb-STb2:  Heat-stable enterotoxin STb2 human variant:
+etpA: EtpA Invasin and adherence:
+etpB: EtpB Nonfimbrial adhesin/TPS transporter:
+etpC: EtpC Glycotransferase:
+etpD:  Type II secretion protein EtpD:
+F17A:  Major fimbrial subunit of F17:
+F17G:  Minor adhesive subunit of F17 fimbriae:
+F17C:  F17 Usher:
+F17D:  F17 Chaperone:
+faeA:  F4 (K88) Regulator:
+faeB:  F4 (K88) Partial:
+faeC:  F4 (K88) Minor fimbrial subunits:
+faeD:  F4 (K88) Usher:
+faeE:  F4 (K88) Chaperone:
+faeF:  F4 (K88) Minor fimbrial subunit:
+faeGab:  F4ab (K88) Major serotype specific fimbrial subunit:
+faeGab1:  F4ab (K88) Major serotype specific fimbrial subunit, one of two copies in strain 2134E:
+faeGab2:  F4ab (K88) Major serotype specific fimbrial subunit, second of two copies in strain 2134E:
+faeGac:  F4ac (K88) Major serotype specific fimbrial subunit:
+faeGad:  F4ad (K88) Major serotype specific fimbrial subunit:
+faeGW:  F4W (K88) Major serotype specific fimbrial subunit:
+faeH:  F4 (K88) Fimbria minor subunit:
+faeH1:  F4 (K88) Fimbria minor subunit, one of two copies in strain RHBSTW-00673:
+faeH2:  F4 (K88) Fimbria minor subunit, second of two copies in strain RHBSTW-00673:
+faeI:  F4 (K88) Fimbria minor subunit:
+faeI1:  F4 (K88) Fimbria minor subunit, one of two copies in strain RHBSTW-00673:
+faeI2:  F4 (K88) Fimbria minor subunit, second of two copies in strain RHBSTW-00673:
+faeJ:  F4 (K88) Fimbria minor subunit:
+fanA:  F5 (K99) Transcriptional regulator:
+fanB:  F5 (K99) Regulator:
+fanC:  F5 (K99) Major fimbrial subunit:
+fanD:  F5 (K99) Usher:
+fanE:  F5 (K99) Chaperone:
+fanF:  F5 (K99) Minor fimbrial subunits:
+fanG:  F5 (K99) Minor subunit:
+fanH:  F5 (K99) Minor subunit:
+fasA:  F6 (987P) Major subunit:
+fasB:  F6 (987P) Major subunit chaperone:
+fasC:  F6 (987P) Adhesin-specific chaperone:
+fasD:  F6 (987P) Outer membrane usher:
+fasE:  F6 (987P) Chaperone-like:
+fasF:  F6 (987P) Minor subunit linker:
+fasG:  F6 (987P) Minor adhesive subunit:
+fasH:  F6 (987P) Positive regulator, previously fapR:
+fedAab:  F18ab (F107) Major serotype specific fimbrial subunit A:
+fedAac:  F18ac (F107) Major serotype specific fimbrial subunit A:
+fedAnt:  F18 nontypeable (F107) Major serotype specific fimbrial subunit A:
+fedB: F18 (F107) Usher:
+fedC: F18 (F107) Chaperone:
+fedE: F18 (F107) Minor fimbrial subunits:
+fedF: F18 (F107) Minor adhesive subunit:
+fimF41:  FimF41 Major fimbrial subunit:
+fimH:   Type 1 fimbriae:
+fotA:   CS18 Major subunit:
+fotB:   CS18 Major chaperone:
+fotC:   CS18 Minor chaperone:
+fotD:   CS18 Usher:
+fotE:   CS18 Minor chaperone:
+fotF:   CS18 Minor subunit:
+fotG:   CS18 Minor subunit-adhesin:
+fotS:   CS18 Site-specific recombinase:
+fotT:   CS18 Site-specific recombinase:
 gad:  Glutamate decarboxylase:
-hlyA:  Haemolysin A:
-hlyE:  Avian E.coli haemolysin:
+hlyA:  Hemolysin A:
+hlyE:  Avian E. coli haemolysin:
+hlyF:  Hemolysin F:
+iha:  Adherence protein:
 ipaD:  Invasion protein Shigella flexneri:
+ipaH:  Invasion plasmid antigen: plasmid encoded:
+ipaH7.8:  Invasion plasmid antigen: plasmid encoded:
 ipaH9.8:  Invasion plasmid antigen:
 ireA:  Siderophore receptor:
 iroN:  Enterobactin siderophore receptor protein:
 iss:  Increased serum survival:
-lngA:  Longus type IV pilus:
-ltcA:  Heat-labile enterotoxin A subunit:
+katP:  Plasmid-encoded catalase peroxidase:
+lngX1:   CS21:
+lngR:   CS21 Putative papB-like regulator:
+lngS:   CS21 Putative AraC-like regulator:
+lngT:   CS21:
+lngX2:   CS21:
+lngA:   CS21 Major pilin:
+lngB:   CS21:
+lngC:   CS21:
+lngD:   CS21 Putative outer membrane protein:
+lngE:   CS21 Putative inner membrane protein:
+lngF:   CS21 Putative inner membrane protein:
+lngG:   CS21 Putative periplasmic protein:
+lngH:   CS21 Putative nucleotide-binding protein:
+lngI:   CS21 Putative inner membrane protein:
+lngJ:   CS21 Putative ATPase-like:
+lngP:   CS21 Putative prepilin peptidase:
+lpfA:  Long polar fimbriae:
+lys:   Colicin release protein:
 mchB:  Microcin H47 part of colicin H:
 mchC:  MchC protein:
 mchF:  ABC transporter protein MchF:
 mcmA:  Microcin M part of colicin H:
+nfaA:   CS15 Nonfimbrial adhesin A:
 nfaE:  Diffuse adherence fibrillar adhesin gene:
-perA:  EPEC adherence factor:
-pet:  Autotransporter enterotoxin:
-senB:  Plasmid-encoded enterotoxin:
-sfaS:  S-fimbriae minor subunit:
-sta1:  Heat-stabile enterotoxin ST-Ia:
-stb:  Heat-stabile enterotoxin II:
-virF:  VirF transcriptional activator:
-cif:  Type III secreted effector:
-eatA:  serine protease autotransporters of Enterobacteriaceae (SPATE):
-efa1:  EHEC factor for adherence:
-epeA:  serine protease autotransporters of Enterobacteriaceae (SPATE):
-espA:  Type III secretions system:
-espC:  serine protease autotransporters of Enterobacteriaceae (SPATE):
-espF:  Type III secretion system:
-espI:  serine protease autotransporters of Enterobacteriaceae (SPATE):
-espJ:  Prophage-encoded type III secretion system effector:
-espP:  Putative exoprotein precursor:
-etpD:  Type II secretion protein:
-iha:  Adherence protein:
-katP:  Plasmid-encoded catalase peroxidase:
-lpfA:  Long polar fimbriae:
 nleA:  Non-LEE encoded effector A:
 nleB:  Non-LEE encoded effector B:
 nleC:  Non-LEE encoded effector C:
+nlpI:  lipoprotein NlpI precursor:
+perA:  EPEC adherence factor:
+pet:  Autotransporter enterotoxin:
 pic:  serine protease autotransporters of Enterobacteriaceae (SPATE):
+picU: Pic from uropathogenic E. coli (UPEC):
+pssA: Protease secreted by Shiga toxin-producing E. coli (STEC):
 rpeA:  serine protease autotransporters of Enterobacteriaceae (SPATE):
 saa:  Auto agglutinating adhesin:
 sat:  serine protease autotransporters of Enterobacteriaceae (SPATE):
-sepA:  serine protease autotransporters of Enterobacteriaceae (SPATE):
-sigA:  serine protease autotransporters of Enterobacteriaceae (SPATE):
+senB:  Plasmid-encoded enterotoxin:
+sepA:  serine protease autotransporters of Enterobacteriaceae (SPATE)-Shigella extracellular protein A:
+sfaS:  S-fimbriae minor subunit:
+sigA:  serine protease autotransporters of Enterobacteriaceae (SPATE),Shigella IgA-like protease homologue:
 subA:  Subtilase toxin subunit:
 tccP:  Tir-cytoskeleton coupling protein:
+tia: Tia Invasion determinant:
+tibA: TibA Adhesin/invasin (Glycoprotein):
+tibC:  Glycosyltransferase:
 tir:  Translocated intimin receptor protein:
+tir-Cr:  Translocated intimin receptor protein, C. rodentium:
+tleA:  tsh-like ETEC autotransporter:
 toxB:  Toxin B:
-tsh:  serine protease autotransporters of Enterobacteriaceae (SPATE):
+tsh:  serine protease autotransporter of Enterobacteriaceae (SPATE)-Immunoglobulin A1 protease- Temperature-sensitive hemagglutinin:
+stx1a-O111-PH:   stx1a-O111-PH:
+stx1a-O111-CB168:   stx1a-O111-CB168:
+stx1a-O157-AI2001-52:   stx1a-O157-AI2001-52:
+stx1a-O157-GPU96MM:   stx1a-O157-GPU96MM:
+stx1a-O111-04-06263:   stx1a-O111-04-06263:
+stx1a-O111-3385-00:   stx1a-O111-3385-00:
+stx1-S.-sonnei-CB7888:   stx1-S.-sonnei-CB7888:
+stx1a-O48-94C:   stx1a-O48-94C:
+stx1a-O157-FLY16:   stx1a-O157-FLY16:
+stx1a-O157-EDL933:   stx1a-O157-EDL933:
+stx1a-O165-HI-2:   stx1a-O165-HI-2:
+stx1a-ONT-HI-A:   stx1a-ONT-HI-A:
+stx1c-Out-HI-N:   stx1c-Out-HI-N:
+stx1c-ONT-HI-B:   stx1c-ONT-HI-B:
+stx1c-ONT-HI-C:   stx1c-ONT-HI-C:
+stx1c-ONT-BCN26:   stx1c-ONT-BCN26:
+stx1c-O174-DG131-3:   stx1c-O174-DG131-3:
+stx1d-ONT-92-1251:   stx1d-ONT-92-1251:
+stx1d-ONT-92-1252:   stx1d-ONT-92-1252:
+stx1d-ONT-AB8SF:   stx1d-ONT-AB8SF:
+stx1d-ONT-MHI813:   stx1d-ONT-MHI813:
+stx1e-E.-cloacae-M12X01451:   stx1e-E.-cloacae-M12X01451:
+stx2a-A.-haemolyticus:   stx2a-A.-haemolyticus:
+stx2a-E.-cloacae-95MV2:   stx2a-E.-cloacae-95MV2:
+stx2a-O104-G5506:   stx2a-O104-G5506:
+stx2a-O111-928-91:   stx2a-O111-928-91:
+stx2a-O113-CL-3:   stx2a-O113-CL-3:
+stx2a-O136-VTB60:   stx2a-O136-VTB60:
+stx2a-O157-93-111:   stx2a-O157-93-111:
+stx2a-O157-A397:   stx2a-O157-A397:
+stx2a-O157-EDL933:   stx2a-O157-EDL933:
+stx2a-O157-I6581:   stx2a-O157-I6581:
+stx2a-O157-SF-258-98:   stx2a-O157-SF-258-98:
+stx2a-O178-TS22-08:   stx2a-O178-TS22-08:
+stx2a-O22-EBC217:   stx2a-O22-EBC217:
+stx2a-O26-126814:   stx2a-O26-126814:
+stx2a-O26-FD930:   stx2a-O26-FD930:
+stx2a-O48-94C:   stx2a-O48-94C:
+stx2a-O8-BMH-17-0027:   stx2a-O8-BMH-17-0027:
+stx2a-O8-VTB178:   stx2a-O8-VTB178:
+stx2a-O83-N1135:   stx2a-O83-N1135:
+stx2a-O88-N2688:   stx2a-O88-N2688:
+stx2a-ONT-23765:   stx2a-ONT-23765:
+stx2a-ONT-EBC210:   stx2a-ONT-EBC210:
+stx2a-ONT-EK9900:   stx2a-ONT-EK9900:
+stx2b-O111-PH:   stx2b-O111-PH:
+stx2b-O111-S-1:   stx2b-O111-S-1:
+stx2b-O111-S-3:   stx2b-O111-S-3:
+stx2b-O118-EH250:   stx2b-O118-EH250:
+stx2b-O128-24196-97:   stx2b-O128-24196-97:
+stx2b-O146-BMH-17-0036:   stx2b-O146-BMH-17-0036:
+stx2b-O174-031:   stx2b-O174-031:
+stx2b-O22-3143-97:   stx2b-O22-3143-97:
+stx2b-O40-5293-98:   stx2b-O40-5293-98:
+stx2b-O8-S-9:   stx2b-O8-S-9:
+stx2b-O93-S-5:   stx2b-O93-S-5:
+stx2b-O96-S-10:   stx2b-O96-S-10:
+stx2b-O96-S-6:   stx2b-O96-S-6:
+stx2b-O96-S-7:   stx2b-O96-S-7:
+stx2b-ONT-I7606:   stx2b-ONT-I7606:
+stx2b-Out-HI-N:   stx2b-Out-HI-N:
+stx2b-Out-S-4:   stx2b-Out-S-4:
+stx2c-O157-020324:   stx2c-O157-020324:
+stx2c-O157-310:   stx2c-O157-310:
+stx2c-O157-469:   stx2c-O157-469:
+stx2c-O157-A75:   stx2c-O157-A75:
+stx2c-O157-C394-03:   stx2c-O157-C394-03:
+stx2c-O157-E32511:   stx2c-O157-E32511:
+stx2c-O157-FLY16:   stx2c-O157-FLY16:
+stx2c-O157-G5101:   stx2c-O157-G5101:
+stx2c-O157-V20:   stx2c-O157-V20:
+stx2c-O157-Y350-:   stx2c-O157-Y350-:
+stx2c-O171-EBC287:   stx2c-O171-EBC287:
+stx2c-O171-VTB46:   stx2c-O171-VTB46:
+stx2c-O174-031:   stx2c-O174-031:
+stx2c-O177-06-5121:   stx2c-O177-06-5121:
+stx2c-O177-CB7126:   stx2c-O177-CB7126:
+stx2c-ONT-EBC219:   stx2c-ONT-EBC219:
+stx2c-ONT-EBC289:   stx2c-ONT-EBC289:
+stx2c-OR-TS27-08:   stx2c-OR-TS27-08:
+stx2d-C.-freundii-LM76:   stx2d-C.-freundii-LM76:
+stx2d-O103-CVM9322:   stx2d-O103-CVM9322:
+stx2d-O113-TS03-07:   stx2d-O113-TS03-07:
+stx2d-O113-TS21-08:   stx2d-O113-TS21-08:
+stx2d-O157-7279:   stx2d-O157-7279:
+stx2d-O174-EC1720a:   stx2d-O174-EC1720a:
+stx2d-O174-EC173b:   stx2d-O174-EC173b:
+stx2d-O2-EC604a:   stx2d-O2-EC604a:
+stx2d-O22-KY-O19:   stx2d-O22-KY-O19:
+stx2d-O28-MT71:   stx2d-O28-MT71:
+stx2d-O55-5905:   stx2d-O55-5905:
+stx2d-O6-NV206:   stx2d-O6-NV206:
+stx2d-O73-C165-02:   stx2d-O73-C165-02:
+stx2d-O8-C466-01B:   stx2d-O8-C466-01B:
+stx2d-ONT-EBC275:   stx2d-ONT-EBC275:
+stx2d-ONT-EC1871a:   stx2d-ONT-EC1871a:
+stx2d-OR-TS06-08:   stx2d-OR-TS06-08:
+stx2d1-O91-B2F1:   stx2d1-O91-B2F1:
+stx2d2-O91-B2F1:   stx2d2-O91-B2F1:
+stx2e-O100-TS01-07:   stx2e-O100-TS01-07:
+stx2e-O101-CB10394:   stx2e-O101-CB10394:
+stx2e-O101-E-D42:   stx2e-O101-E-D42:
+stx2e-O101-E-D43:   stx2e-O101-E-D43:
+stx2e-O101-E-D53:   stx2e-O101-E-D53:
+stx2e-O101-E-D68:   stx2e-O101-E-D68:
+stx2e-O121-NP9621:   stx2e-O121-NP9621:
+stx2e-O138-NN:   stx2e-O138-NN:
+stx2e-O139-S1191:   stx2e-O139-S1191:
+stx2e-O22-3615-99:   stx2e-O22-3615-99:
+stx2e-O26-R107:   stx2e-O26-R107:
+stx2e-O8-1509W52833:   stx2e-O8-1509W52833:
+stx2e-O89-1810F65304:   stx2e-O89-1810F65304:
+stx2e-O9-1706T56070:   stx2e-O9-1706T56070:
+stx2e-ONT-26725-97:   stx2e-ONT-26725-97:
+stx2e-ONT-2771:   stx2e-ONT-2771:
+stx2e-ONT-TS03-08:   stx2e-ONT-TS03-08:
+stx2e-ONT-TS29-08:   stx2e-ONT-TS29-08:
+stx2e-OR-TS09-07:   stx2e-OR-TS09-07:
+stx2f-O115-F08-101-31:   stx2f-O115-F08-101-31:
+stx2f-O128-T4-97:   stx2f-O128-T4-97:
+stx2f-O128-HI8:   stx2f-O128-HI8:
+stx2g-O2-7v:   stx2g-O2-7v:
+stx2g-O2-HI-11:   stx2g-O2-HI-11:
+stx2g-O2-S86:   stx2g-O2-S86:
+stx2g-Out-S-8:   stx2g-Out-S-8:
+stx2h-O102-STEC299:   stx2h-O102-STEC299:
+stx2i-O9-CB10366:   stx2i-O9-CB10366:
+stx2j-O101-O101-2012C-4221:   stx2j-O101-O101-2012C-4221:
+stx2j-O33-PNUSAE005447:   stx2j-O33-PNUSAE005447:
+stx2k-O159-12GZSW01:   stx2k-O159-12GZSW01:
+stx2k-O48-STEC309:   stx2k-O48-STEC309:
+stx2l-O65-1610T27873:   stx2l-O65-1610T27873:
+stx2l-O8-FHI-1106-1092:   stx2l-O8-FHI-1106-1092:
+stx2m-O96-2001F31428:   stx2m-O96-2001F31428:
+stx2n-O23-2017C-4317:   stx2n-O23-2017C-4317:
+stx2o-O85-03-3638:   stx2o-O85-03-3638:
+vat-EXPEC: Vacuolating autotransporter toxin from extra-intestinal pathogenic E. coli(EXPEC):
 vat:  serine protease autotransporters of Enterobacteriaceae (SPATE):
-stx1Aa:  Shiga toxin 1, subunit A, variant a:
-stx1Ab:  Shiga toxin 1, subunit A, variant b:
-stx1Ac:  Shiga toxin 1, subunit A, variant c:
-stx1Ad:  Shiga toxin 1, subunit A, variant d:
-stx1Ae:  Shiga toxin 1, subunit A, variant e:
-stx1Af:  Shiga toxin 1, subunit A, variant f:
-stx1Ba:  Shiga toxin 1, subunit B, variant a:
-stx1Bb:  Shiga toxin 1, subunit B, variant b:
-stx1Bc:  Shiga toxin 1, subunit B, variant c:
-stx1Bd:  Shiga toxin 1, subunit B, variant d:
-stx1Be:  Shiga toxin 1, subunit B, variant e:
-stx1Bf:  Shiga toxin 1, subunit B, variant f:
-stx2Aa:  Shiga toxin 2, subunit A, variant a:
-stx2Ab:  Shiga toxin 2, subunit A, variant b:
-stx2Ac:  Shiga toxin 2, subunit A, variant c:
-stx2Ad:  Shiga toxin 2, subunit A, variant d:
-stx2Ae:  Shiga toxin 2, subunit A, variant e:
-stx2Af:  Shiga toxin 2, subunit A, variant f:
-stx2Ag:  Shiga toxin 2, subunit A, variant g:
-stx2Ba:  Shiga toxin 2, subunit B, variant a:
-stx2Bb:  Shiga toxin 2, subunit B, variant b:
-stx2Bc:  Shiga toxin 2, subunit B, variant c:
-stx2Bd:  Shiga toxin 2, subunit B, variant d:
-stx2Be:  Shiga toxin 2, subunit B, variant e:
-stx2Bf:  Shiga toxin 2, subunit B, variant f:
-stx2Bg:  Shiga toxin 2, subunit B, variant g:
-stx1A: Shiga toxin 1, subunit A:
-stx1B: Shiga toxin 1, subunit B:
-stx2A: Shiga toxin 2, subunit A:
-stx2B: Shiga toxin 2, subunit B:
+virF:  VirF transcriptional activator:
+aalR:   CS23 Putative transcriptional regulator:
+aalA:   CS23 Minor structural subunit:
+aalB:   CS23 Usher:
+aalC:   CS23 Chaperone:
+aalD:   CS23 Minor structural subunit:
+aalE:   CS23 Major structural subunit:
+aalF:   CS23 Minor structural subunit:
+aalG:   CS23 Minor structural subunit:
+aalH:   CS23 Minor structural subunit:
 ElrA::
 SrtA::
 ace:collagen adhesin precursor:
@@ -206,6 +648,7 @@ SEnt-like:enterotoxin-like toxin:
 SEntyent1:enterotoxin yent1:
 SEntyent2:enterotoxin yent2:
 eta:exfoliative toxin A:
+etd:exfoliative toxin A:
 set1:superantigen-like protein:
 set2:superantigen-like protein:
 set3:superantigen-like protein:
@@ -251,15 +694,15 @@ icaD:intercellular adhesion protein D:
 icaB:intercellular adhesion protein B:
 icaC:intercellular adhesion protein C:
 lip:triacylglycerol lipase:
-lukS-PV:LukS-PV:
-lukF-PV:LukF-PV:
+lukF-PV:Panton Valentine leukocidin F component:
+lukS-PV:Panton Valentine leukocidin S component:
 lukM:LukM precursor:
-lukD:leukotoxin, LukD:
-lukE:leukotoxin LukE:
+lukD:leukocidin D component:
+lukE:leukocidin E component:
 nuc:thermonuclease:
 sak:staphylokinase:
 isb:IgG-binding protein SBI:
-scn:complement inhibitor SCIN:
+scn:staphylococcal complement inhibitor:
 sdrC:Ser-Asp rich fibrinogen-binding protein C:
 sdrD:Ser-Asp rich fibrinogen-binding protein D:
 sdrE:Ser-Asp rich fibrinogen-binding protein E:
@@ -285,194 +728,383 @@ essC:type VII secretion protein EssC:
 esaC:EsaC protein within ESAT-6 gene cluster:
 esxB:virulence factor EsxB family protein:
 vwb:von Willebrand factor-binding protein:
-stx11:S.dysenteriae 60R
-stx12:ONTNA, variant a
-stx13:S.dysenteriae 3818T
-stx14:O111 PH, variant a
-stx15:O111 CB168, variant a
-stx16:O157 AI2001 52, variant a
-stx17:O157 GPU96MM, variant a
-stx18:O111 04-06263, variant a
-stx19:O111 3385-00, variant a
-stx110:S.sonnei CB7888
-stx111:O48 94C, variant a
-stx112:O157 FLY16, variant a
-stx113:O157 EDL933, variant a
-stx114:O165 HI-2, variant a
-stx115:ONT HI-A, variant a
-stx116:Out HI-N, variant c
-stx117:ONT HI-B, variant c
-stx118:ONT HI-C, variant c
-stx119:ONT BCN26, variant c
-stx120:O174 DG131-3, variant c
-stx121:ONT 92-1251, variant d
-stx122:ONT 92-1252, variant d
-stx123:ONT AB8SF, variant d
-stx124:ONT MHI813, variant d
-stx21:O113 TS17-08, variant a
-stx22:O22 EBC217, variant a
-stx23:ONT 23765, variant a
-stx24:O113 TS18-08, variant a
-stx25:O88 N2688, variant a
-stx26:ONT N5578, variant a
-stx27:O153 TS20-08, variant a
-stx28:O130 TS07-07, variant a
-stx29: 178 TS02-07, variant a
-stx210:O48 94C, variant a
-stx211:OR TS05-07, variant a
-stx212:E.cloacae 95MV2, variant a
-stx213:O101 EBC201, variant a
-stx214:O26 126814, variant a
-stx215:O157 SF-258-98, variant a
-stx216:O178 TS22-08, variant a
-stx217:O178 TS24-08, variant a
-stx218:O104 G5506, variant a
-stx219:O8 VTB178, variant a
-stx220:O83 N1135, variant a
-stx221:ONT EK9900, variant a
-stx222:ONT EBC210, variant a
-stx223:O26 FD930, variant a
-stx224:O157 SF-3573-98, variant a
-stx225:O157 A397, variant a
-stx226:O157 I6581, variant a
-stx227:O136 VTB60, variant a
-stx228:A.haemolyticus, variant a
-stx229:O111 928-91, variant a
-stx230:O157 93-111, variant a
-stx231:O157 EDL933, variant a
-stx232:O113 CL-3, variant a
-stx233:O157 G5101, variant c
-stx234:ONT pVTEC9, variant c
-stx235:O174 031, variant c
-stx236:O157 E32511, variant c
-stx237:O177 CB7126, variant c
-stx238:O174 EC1720a, variant d
-stx239:ONT EBC219, variant c
-stx240:O177 06-5121, variant c
-stx241:O157 CB8028, variant c
-stx242:O157 A580, variant c
-stx243:O157 469, variant c
-stx244:O157 A75, variant c
-stx245:O157 310, variant c
-stx246:O177 VTB323, variant c
-stx247:O157 020324, variant c
-stx248:O157 C394-03, variant c
-stx249:O157 V20, variant c
-stx250:O157 CS1718, variant c
-stx251:O157 Y350 , variant c
-stx252:O157 FLY16, variant c
-stx253:O171 EBC287, variant c
-stx254:O171 VTB46, variant c
-stx255:ONT EBC289, variant c
-stx256:OR TS27-08, variant c
-stx257:ONT EBC275, variant d
-stx258:O91 B2F1, variant d1
-stx259:O83 N15432, variant d
-stx260:O113 VTB75, variant d
-stx261:O77 VTB91, variant d
-stx262:O103 pVTEC7, variant d
-stx263:OR TS06-08, variant d
-stx264:ONT EC1871a, variant d
-stx265:O15 88 1509, variant d
-stx266:O113 TS03-07, variant d
-stx267:O174 EC173b, variant d
-stx268:O8 C466-01B, variant d
-stx269:O91 B2F1, variant d2
-stx270:C.freundii LM76, variant d
-stx271:O103 CVM9322, variant d
-stx272:O157 7279, variant d
-stx273:O55 5905, variant d
-stx274:O55 06-5231, variant d
-stx275:O6 NV206, variant d
-stx276:O2 EC604a, variant d
-stx277:O28 MT71, variant d
-stx278:O73 C165-02, variant d
-stx279:O22 KY-O19, variant d
-stx280:O113 TS28-08, variant d
-stx281:O113 TS21-08, variant d
-stx282:Out S-4, variant b
-stx283:O8 S-9, variant b
-stx284:Out HI-N, variant b
-stx285:O93 S-5, variant b
-stx286:O111 S-3, variant b
-stx287:O96 S-10, variant b
-stx288:O111 S-1, variant b
-stx289:O96 S-7, variant b
-stx290:O96 S-6, variant b
-stx291:O22 3143-97, variant b
-stx292:O118 EH250, variant b
-stx293:O40 5293-98, variant b
-stx294:ONT I7606, variant b
-stx295:O128 24196-97, variant b
-stx296:O111 PH, variant b
-stx297:O174 031, variant b
-stx298:O8 FHI-1106-1092, variant e
-stx299:Out S-8, variant g
-stx2100:O2 7v, variant g
-stx2101:O2 HI-11, variant g
-stx2102:O2 S86, variant g
-stx2103:O115 F08-101-31, variant f
-stx2104:O128 T4-97, variant f
-stx2105:O89 HI8, variant f
-stx2106:O101 E-D42, variant e
-stx2107:O22 3615-99, variant e
-stx2108:OR TS09-07, variant e
-stx2109:O26 R107, variant e
-stx2110:O139 S1191, variant e
-stx2111:O101 E-D43, variant e
-stx2112:O101 E-D68, variant e
-stx2113:O101 E-D53, variant e
-stx2114:ONT TS29-08, variant e
-stx2115:ONT TS03-08, variant e
-stx2116:O138 NN, variant e
-stx2117:O101 CB10394, variant e
-stx2118:O100 TS01-07, variant e
-stx2119:O121 NP9621, variant e
-stx2120:ONT 26725-97, variant e
-stx2121:ONT 2771, variant e
-astA: EAST-1 heat-stable toxin 
-pet: Plasmid-encoded toxin 
-sigA: Shigella IgA-like protease homologue
-Pic: Protease involved in intestinal colonization
-sepA: Shigella extracellular protein A 
-tsh: Temperature-sensitive hemagglutinin
-sat: Secreted autotransporter toxin 
-espC: EPEC secreted protein C
-espP: Extracellular serine protease plasmid-encoded
-pssA: Protease secreted by Shiga toxin-producing E. coli (STEC)
-picU: Pic from uropathogenic E. coli (UPEC)
-vat: Vacuolating autotransporter toxin
-vat-EXPEC: Vacuolating autotransporter toxin from extra-intestinal pathogenic E. coli(EXPEC)
-eatA: enterotoxigenic E. coli (ETEC) autotransporter A
-epeA: enterohemorrhagic E. coli EHEC plasmid-encoded autotransporter
-boa: Protease from Salmonella bongori
-ORF3: Isoprenoid Biosynthesis 
-ORF4: Putative isopentenyl-diphosphate delta-isomerase
-aap: Dispersin, antiaggregation protein 
-aaiC: Type VI secretion protein 
-aggR: AraC transcriptional activator 
-aatA: Dispersin transporter protein 
-agg4A: AAF/IV major fimbrial subunit 
-aggA: AAF/I major fimbrial subunit 
-aafA: AAF/II major fimbrial subunit 
-agg3A: AAF/III major fimbrial subunit 
-agg3C: Usher, AAF/III assembly unit
-agg3D: Chaperone, AAF/III assembly unit
-agg3B: AAF/III minor adhesin. Enterobacteria AfaD invasin protein
-aafC: Usher, AAF/II assembly unit 
-aafD: Chaperone, AAF/II assembly unit
-aafB: AAF/II minor adhesin. Enterobacteria AfaD invasin protein
-agg4C: Usher, AAF/IV assembly unit
-agg4D: Chaperone, AAF/IV assembly unit
-agg4B: AAF/IV minor adhesin. Enterobacteria AfaD invasin protein
-aggC: Usher, AAF/I assembly unit
-aggD: Chaperone, AAF/I assembly unit
-aggB: AAF/I minor adhesin. Enterobacteria AfaD invasin protein
-aar: AggR-activated regulator
-anr: AraC negative regulator
-eilA: Salmonella HilA homolog 
-capU: Hexosyltransferase homolog 
-air: Enteroaggregative immunoglobulin repeat protein
-clpK:
-mrk:
-ClpK:
+stx11:S.dysenteriae 60R:
+stx12:ONTNA, variant a:
+stx13:S.dysenteriae 3818T:
+stx14:O111 PH, variant a:
+stx15:O111 CB168, variant a:
+stx16:O157 AI2001 52, variant a:
+stx17:O157 GPU96MM, variant a:
+stx18:O111 04-06263, variant a:
+stx19:O111 3385-00, variant a:
+stx110:S.sonnei CB7888:
+stx111:O48 94C, variant a:
+stx112:O157 FLY16, variant a:
+stx113:O157 EDL933, variant a:
+stx114:O165 HI-2, variant a:
+stx115:ONT HI-A, variant a:
+stx116:Out HI-N, variant c:
+stx117:ONT HI-B, variant c:
+stx118:ONT HI-C, variant c:
+stx119:ONT BCN26, variant c:
+stx120:O174 DG131-3, variant c:
+stx121:ONT 92-1251, variant d:
+stx122:ONT 92-1252, variant d:
+stx123:ONT AB8SF, variant d:
+stx124:ONT MHI813, variant d:
+stx125:E. cloacae M12X01451, variant e:
+stx21:O113 TS17-08, variant a:
+stx22:O22 EBC217, variant a:
+stx23:ONT 23765, variant a:
+stx24:O113 TS18-08, variant a:
+stx25:O88 N2688, variant a:
+stx26:ONT N5578, variant a:
+stx27:O153 TS20-08, variant a:
+stx28:O130 TS07-07, variant a:
+stx29: 178 TS02-07, variant a:
+stx210:O48 94C, variant a:
+stx211:OR TS05-07, variant a:
+stx212:E.cloacae 95MV2, variant a:
+stx213:O101 EBC201, variant a:
+stx214:O26 126814, variant a:
+stx215:O157 SF-258-98, variant a:
+stx216:O178 TS22-08, variant a:
+stx217:O178 TS24-08, variant a:
+stx218:O104 G5506, variant a:
+stx219:O8 VTB178, variant a:
+stx220:O83 N1135, variant a:
+stx221:ONT EK9900, variant a:
+stx222:ONT EBC210, variant a:
+stx223:O26 FD930, variant a:
+stx224:O157 SF-3573-98, variant a:
+stx225:O157 A397, variant a:
+stx226:O157 I6581, variant a:
+stx227:O136 VTB60, variant a:
+stx228:A.haemolyticus, variant a:
+stx229:O111 928-91, variant a:
+stx230:O157 93-111, variant a:
+stx231:O157 EDL933, variant a:
+stx232:O113 CL-3, variant a:
+stx233:O157 G5101, variant c:
+stx234:ONT pVTEC9, variant c:
+stx235:O174 031, variant c:
+stx236:O157 E32511, variant c:
+stx237:O177 CB7126, variant c:
+stx238:O174 EC1720a, variant d:
+stx239:ONT EBC219, variant c:
+stx240:O177 06-5121, variant c:
+stx241:O157 CB8028, variant c:
+stx242:O157 A580, variant c:
+stx243:O157 469, variant c:
+stx244:O157 A75, variant c:
+stx245:O157 310, variant c:
+stx246:O177 VTB323, variant c:
+stx247:O157 020324, variant c:
+stx248:O157 C394-03, variant c:
+stx249:O157 V20, variant c:
+stx250:O157 CS1718, variant c:
+stx251:O157 Y350 , variant c:
+stx252:O157 FLY16, variant c:
+stx253:O171 EBC287, variant c:
+stx254:O171 VTB46, variant c:
+stx255:ONT EBC289, variant c:
+stx256:OR TS27-08, variant c:
+stx257:ONT EBC275, variant d:
+stx258:O91 B2F1, variant d1:
+stx259:O83 N15432, variant d:
+stx260:O113 VTB75, variant d:
+stx261:O77 VTB91, variant d:
+stx262:O103 pVTEC7, variant d:
+stx263:OR TS06-08, variant d:
+stx264:ONT EC1871a, variant d:
+stx265:O15 88 1509, variant d:
+stx266:O113 TS03-07, variant d:
+stx267:O174 EC173b, variant d:
+stx268:O8 C466-01B, variant d:
+stx269:O91 B2F1, variant d2:
+stx270:C.freundii LM76, variant d:
+stx271:O103 CVM9322, variant d:
+stx272:O157 7279, variant d:
+stx273:O55 5905, variant d:
+stx274:O55 06-5231, variant d:
+stx275:O6 NV206, variant d:
+stx276:O2 EC604a, variant d:
+stx277:O28 MT71, variant d:
+stx278:O73 C165-02, variant d:
+stx279:O22 KY-O19, variant d:
+stx280:O113 TS28-08, variant d:
+stx281:O113 TS21-08, variant d:
+stx282:Out S-4, variant b:
+stx283:O8 S-9, variant b:
+stx284:Out HI-N, variant b:
+stx285:O93 S-5, variant b:
+stx286:O111 S-3, variant b:
+stx287:O96 S-10, variant b:
+stx288:O111 S-1, variant b:
+stx289:O96 S-7, variant b:
+stx290:O96 S-6, variant b:
+stx291:O22 3143-97, variant b:
+stx292:O118 EH250, variant b:
+stx293:O40 5293-98, variant b:
+stx294:ONT I7606, variant b:
+stx295:O128 24196-97, variant b:
+stx296:O111 PH, variant b:
+stx297:O174 031, variant b:
+stx298:O8 FHI-1106-1092, variant e:
+stx299:Out S-8, variant g:
+stx2100:O2 7v, variant g:
+stx2101:O2 HI-11, variant g:
+stx2102:O2 S86, variant g:
+stx2103:O115 F08-101-31, variant f:
+stx2104:O128 T4-97, variant f:
+stx2105:O89 HI8, variant f:
+stx2106:O101 E-D42, variant e:
+stx2107:O22 3615-99, variant e:
+stx2108:OR TS09-07, variant e:
+stx2109:O26 R107, variant e:
+stx2110:O139 S1191, variant e:
+stx2111:O101 E-D43, variant e:
+stx2112:O101 E-D68, variant e:
+stx2113:O101 E-D53, variant e:
+stx2114:ONT TS29-08, variant e:
+stx2115:ONT TS03-08, variant e:
+stx2116:O138 NN, variant e:
+stx2117:O101 CB10394, variant e:
+stx2118:O100 TS01-07, variant e:
+stx2119:O121 NP9621, variant e:
+stx2120:ONT 26725-97, variant e:
+stx2121:ONT 2771, variant e:
+stx2122:O102 STEC299, variant h:
+stx2123:O9 CB10366, variant i:
+stx2124:O33 PNUSAE005447, variant j:
+stx2125:O101 2012C-4221, variant j:
+stx2126:O159 12GZSW01, variant k:
+stx2127:O65 1610T27873, variant l:
+stx2128:O96 2001F31428, variant m:
+stx2130:O8 BMH-17-0027, variant a:
+stx2131:O146 BMH-17-0036, variant b:
+stx2132:O23 2017C-4317, variant n:
+stx2133:O85 03-3638, variant o:
+stx2135:O48STEC309, variant k:
+stx2136:O8 1509W52833, variant e:
+stx2137:O89 1810F65304, variant e:
+stx2138:O9 1706T56070, variant e:
+boa: Protease from Salmonella bongori:
+ORF3: Isoprenoid Biosynthesis:
+ORF4: Putative isopentenyl-diphosphate delta-isomerase:
+aap: Dispersin, antiaggregation protein:
+aaiC: Type VI secretion protein:
+aggR: AraC transcriptional activator:
+aatA: Dispersin transporter protein:
+agg4A: AAF/IV major fimbrial subunit:
+aggA: AAF/I major fimbrial subunit:
+aafA: AAF/II major fimbrial subunit:
+agg3A: AAF/III major fimbrial subunit:
+agg3C: Usher, AAF/III assembly unit:
+agg3D: Chaperone, AAF/III assembly unit:
+agg3B: AAF/III minor adhesin. Enterobacteria AfaD invasin protein:
+aafC: Usher, AAF/II assembly unit:
+aafD: Chaperone, AAF/II assembly unit:
+aafB: AAF/II minor adhesin. Enterobacteria AfaD invasin protein:
+agg4C: Usher, AAF/IV assembly unit:
+agg4D: Chaperone, AAF/IV assembly unit:
+agg4B: AAF/IV minor adhesin. Enterobacteria AfaD invasin protein:
+aggC: Usher, AAF/I assembly unit:
+aggD: Chaperone, AAF/I assembly unit:
+aggB: AAF/I minor adhesin. Enterobacteria AfaD invasin protein:
+aar: AggR-activated regulator:
+anr: AraC negative regulator:
+eilA: Salmonella HilA homolog:
+capU: Hexosyltransferase homolog:
+air: Enteroaggregative immunoglobulin repeat protein:
+tst: toxic shock syndrome toxin-1:
+ACME:arginine catabolic mobile element:
+aur:aureolysin:
+edinA:epidermal cell differentiation inhibitor A:
+edinB:epidermal cell differentiation inhibitor B:
+edinC:epidermal cell differentiation inhibitor C:
+seb:enterotoxin B:
+sea:enterotoxin A:
+sec:enterotoxin C:
+sed:enterotoxin D:
+see:enterotoxin E:
+seg:enterotoxin G:
+seh:enterotoxin H:
+sei:enterotoxin I:
+sej:enterotoxin J:
+sek:enterotoxin K:
+sel:enterotoxin L:
+sem:enterotoxin M:
+sen:enterotoxin N:
+seo:enterotoxin O:
+sep:enterotoxin P:
+seq:enterotoxin Q:
+ser:enterotoxin R:
+seu:enterotoxin U:
+afaA:  Transcriptional regulator:
+afaB:  Periplasmic chaperone:
+afaC:  Outer membrane usher protein:
+afaD:  Afimbrial adhesion:
+afaE:  Adhesin protein:
+cea:  Colicin E1:
+chuA:  Outer membrane hemin receptor:
+cia:  Colicin ia:
+cib:  Colicin ib:
+clbB:  Hybrid non-ribosomal peptide / polyketide megasynthase:
+cvaC:  Microcin C:
+etsC:  Putative type I secretion outer membrane protein:
+focC:  S fimbrial/F1C minor subunit:
+focCsfaE:  S fimbrial/F1C minor subunit:
+focG:  F1C adhesion:
+focI:  S fimbrial/F1C minor subunit:
+fyuA:  Siderophore receptor:
+hra:  Heat-resistant agglutinin:
+ibeA:  Invasin of brain endothelial cells:
+irp2:  High molecular weight protein 2 non-ribosomal peptide synthetase:
+iucC:  Aerobactin synthetase:
+iutA:  Ferric aerobactin receptor:
+kpsE:  Capsule polysaccharide export inner-membrane protein:
+kpsM:  Polysialic acid transport protein:
+mcbA:  Bacteriocin microcin B17:
+neuC:  Polysialic acid capsule biosynthesis protein:
+ompT:  Outer membrane protease (protein protease 7):
+papC:  Outer membrane usher P fimbriae:
+sfaD:  S fimbrial/F1C minor subunit:
+sfaE:  S fimbrial/F1C minor subunit:
+sitA:  Iron transport protein:
+tcpC:  Tir domain-containing protein:
+terC:  Tellurium ion resistance protein:
+traJ:  Protein TraJ (Positive regulator of conjugal transfer operon):
+traT:  Outer membrane protein complement resistance:
+usp:  Uropathogenic specific protein:
+yfcV:  Fimbrial protein:
+kpsMII:  Polysialic acid transport protein; Group 2 capsule:
+kpsMIII:  ABC-type polysaccharide/polyol phosphate export systems permease; Group 3 capsule:
+kpsM_K19K23:  ABC-type polysaccharide/polyol phosphate export systems permease; Group 3 capsule:
+kpsM_K19:  ABC-type polysaccharide/polyol phosphate export systems permease; Group 3 capsule:
+kpsM_K11:  ABC-type polysaccharide/polyol phosphate export systems permease; Group 3 capsule:
+kpsMII_K94:  Polysialic acid transport protein; Group 2 capsule:
+kpsMII_K52:  Polysialic acid transport protein; Group 2 capsule:
+kpsMII_K23:  Polysialic acid transport protein; Group 2 capsule:
+kpsMII_K5:  Polysialic acid transport protein; Group 2 capsule:
+kpsMII_K4:  Polysialic acid transport protein; Group 2 capsule:
+kpsMIII_K98:  ABC-type polysaccharide/polyol phosphate export systems permease; Group 3 capsule:
+kpsMIII_K96:  ABC-type polysaccharide/polyol phosphate export systems permease; Group 3 capsule:
+kpsMIII_K10:  ABC-type polysaccharide/polyol phosphate export systems permease; Group 3 capsule:
+kpsM_K15:  Polysialic acid transport protein; Group 3 capsule:
+kpsMII_K1:  Polysialic acid transport protein; Group 2 capsule:
+kpsMII_K24:  Polysialic acid transport protein; Group 2 capsule:
+papA_feiA_F8:  Major pilin subunit F8:
+papA_ffiA_F15:  Major pilin subunit F15:
+papA_ffoA_F14:  Major pilin subunit F14:
+papA_fsiA_F16:  Major pilin subunit F16:
+papA_fteA_F10:  Major pilin subunit F10:
+papA_F12:  Major pilin subunit F12:
+papA_F48:  Major pilin subunit F48:
+papA_F40:  Major pilin subunit F40:
+papA_F536:  Major pilin subunit F536:
+papA_F7-1:  Major pilin subunit F7-1:
+papA_F11:  Major pilin subunit F11:
+papA_F1651A:  Major pilin subunit F1651A:
+papA_F9:  Major pilin subunit F9:
+papA_F43:  Major pilin subunit F43:
+papA_F14:  Major pilin subunit F14:
+papA_F13:  Major pilin subunit F13:
+papA_F7-2:  Major pilin subunit F7-2:
+papA_prsA_F12:  Major pilin subunit F12:
+papA_F19:  Major pilin subunit F19:
+papA_F20:  Major pilin subunit F20:
+yehA:  Outer membrane lipoprotein, YHD fimbriael cluster: 
+yehB: Usher, YHD fimbriael cluster: 
+yehC: Chaperone, YHD fimbriael cluster:
+yehD: Major pilin subunit, YHD fimbriael cluster:
+csgA: curlin major subunit CsgA:
+clpK1: heat shock survival AAA family ATPase ClpK. thermal stress survival: 
+clpK2: heat shock survival AAA family ATPase ClpK. thermal stress survival: 
+espy3: Non-LEE-encoded type III secreted effector:
+espy2: Non-LEE-encoded type III secreted effector:
+mrkA: type 3 fimbrial major subunit:
+aamR: AggR activated metabolic regulator:
+fdeC: intimin-like adhesin FdeC:
+shiA: homologs of the Shigella flexneri SHI-2 pathogenicity island gene shiA:
+shiB: homologs of the Shigella flexneri SHI-2 pathogenicity island gene shiA:
+C719-09_SefB: Chaperone:
+C719-09_sefC: Usher:
+C719-09_CS22: Colonization factor (CF), CS22: 
+hha: hemolysin expression modulator Hha (previous rmoA):
+afpA: Major structural subunit of bundle-forming pilus, AFP fimbrial cluster:
+afpG: hypothetical protein, AFP fimbrial cluster:
+afpB: membrane protein, AFP fimbrial cluster:
+afpC: hypothetical protein, AFP fimbrial cluster: 
+afpU: hypothetical protein, AFP fimbrial cluster: 
+afpD: DNA binding protein type II/IV SS family protein, AFP fimbrial cluster:
+afpE: type II SS protein, AFP fimbrial cluster: 
+afpF: type II/IV SS family protein, AFP fimbrial cluster: 
+afpP: prepilin peptidase, AFP fimbrial cluster:
+afpH: lytic transglycosylase, AFP fimbrial cluster:
+afpI: hypothetical protein, AFP fimbrial cluster:
+afpJ: hypothetical protein, AFP fimbrial cluster:
+afpK: hypothetical protein, AFP fimbrial cluster:
+afpL: hypothetical protein, AFP fimbrial cluster:
+afpA2: major structural subunit of bundle-forming pilus, AFP fimbrial cluster:
+acm-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_12281:
+acm-Entfm-com:E. faecium community variant C59:GF656_RS08610:
+acm-Entls:E. lactis variant TX1330:HMPREF0352_2405:
+scm-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_12673:
+scm-Entfm-com:E. faecium community variant C59:GF656_04650:
+scm-Entls:E. lactis variant TX1330:HMPREF0352_RS14565:
+sgrA-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_11523:
+ecbA-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_11828:
+ecbA-Entfm-com:E. faecium community variant E1071:EfmE1071_1767:
+fms15-Entfm-hosp:E. faecium hospital variant E1636:EfmE1636_0418:
+fms21-Entfm-hosp:E. faecium hospital variant Efm_DO_plasmid3:HMPREF0351_12858:
+fms21-Entfm-com:E. faecium community variant VE40C2:FIU37_11850:
+fms21-Entls:E. lactis variant TX1330:HMPREF0352_RS12280:
+fms20-Entfm-hosp:E. faecium hospital variant Efm_DO_plasmid3:HMPREF0351_12854:
+fms20-Entfm-com:E. faecium community varint VE40C2:FIU37_11870:
+fms20-Entls:E. lactis variant TX1330:HMPREF0352_RS12295:
+fms14-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_10532:
+fms14-Entfm-com:E. faecium community variant C59:GF656_RS09985:
+fms14-Entls:E. lactis variant 1141733:EFSG_RS06345:
+fms17-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_10533:
+fms17-Entfm-com:E. faecium community variant C59:GF656_RS09990:
+fms17_Entls:E. lactis variant 1141733:EFSG_RS06350:
+fms13-Entfm:E. faecium variant Efm_DO:HMPREF0351_10534:
+fms13-Entls:E. lactis variant 1141733:EFSG_RS06355:
+empA-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_11394:
+empA-Entls:E. lactis variant 1141733:EFSG_RS10770:
+empB-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_11393:
+empB-Entfm-com:E. faecium community variant C59:GF656_RS12500:
+empB-Entls:E. lactis variant 1141733:EFSG_RS10775:
+empC-Entfm-hosp:E. faecium hospital variant Efm:DO:HMPREF0351_11392:
+empC-Entfm-com:E. faecium community variant C59:GF656_RS12505:
+empC-Entls:E. lactis variant 1141733:EFSG_RS10780:
+fms11-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_11778:
+fms11-Entls:E. lactis variant 1141733:EFSG_RS08440:
+fms19-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_11776:
+fms19-Entls:E. lactis variant 1141733:EFSG_RS0105345:
+fms16-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_11774:
+fms16-Entls:E. lactis variant 1141733:EFSG_RS20675:
+sagA-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_12559:
+sagA-Entfm-com:E. faecium community variant C59:GF656_RS04115:
+sagA-Entls:E. lactis variant 1141733:EFSG_RS16765:
+fnm-Entfm-hosp:E. faecium hospital variant TX0082:HMPREF9522_00874:
+fnm-Entfm-com:E. faecium community variant C59:GF656_RS06565:
+fnm-Entls:E. lactis variant TX1330:HMPREF0352_1367:
+hylEntfm-Entfm-hosp:E. faecium hospital variant Efm_DO_plasmid3:HMPREF0351_12988:
+orf1481-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_12166:
+ptsD-Entfm-hosp:E. faecium hospital variant E1162:EFME1162_RS18440:
+bepA-Entfm-hosp:E. faecium hospital variant E1162:EFME1162_RS11060:
+bepA-Entfm-com:E. faecium community variant C59:GF656_RS00675:
+ccpA-Entfm-hosp:E. faecium hospital variant TX0082:HMPREF9522_01024:
+ccpA-Entfm-com:E. faecium community variant C59:GF656_RS02255:
+ccpA-Entls:E. lactis variant 1141733,NZ_GG688461.1:EFSG_RS07880:
+glsB1-Entfm:E. faecium variant Efm_DO:HMPREF0351_11474:
+glsB1-Entls:E. lactis variant TX1330:HMPREF0352_RS05545:
+gls20-Entfm:E. faecium variant Efm_DO:HMPREF0351_11475:
+gls20-Entls:E. lactis variant TX1330:HMPREF0352_RS05550:
+glsB-Entfm:E. faecium variant Efm_DO:HMPREF0351_11482:
+glsB-Entls:E. lactis variant TX1330:HMPREF0352_RS05620:
+gls33-Entfm:E. faecium variant Efm_DO:HMPREF0351_11483:
+gls33-Entls:E. lactis variant TX1330:HMPREF0352_RS05625:
+IS16-Entfm-hosp:E. faecium hospital variant Efm_DO:HMPREF0351_12352:

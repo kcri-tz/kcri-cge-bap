@@ -146,7 +146,6 @@ aph(9)-Ia:Aminoglycoside resistance:
 aph(9)-Ib:Aminoglycoside resistance:
 apmA:Aminoglycoside resistance:
 armA:Aminoglycoside resistance:
-bleO:Aminoglycoside resistance:
 npmA:Aminoglycoside resistance:
 rmtA:Aminoglycoside resistance:
 rmtB:Aminoglycoside resistance:
