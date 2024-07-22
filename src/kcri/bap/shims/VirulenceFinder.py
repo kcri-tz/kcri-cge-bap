@@ -29,18 +29,28 @@ class VirulenceFinderShim:
         # Get the execution parameters from the blackboard
         try:
             db_path = execution.get_db_path('virulencefinder')
-            min_ident = execution.get_user_input('vf_i')
-            min_cov = execution.get_user_input('vf_c')
-            search_list = list(filter(None, execution.get_user_input('vf_s', '').split(',')))
-            # Note: errors out if only Nanopore reads available (which we can't handle yet)
-            inputs = list(map(os.path.abspath, execution.get_illufq_or_contigs_paths()))
-
-            params = [ #'--lineage = --speciesinfo_jsonx',
+            params = [
                 '-q',
                 '-p', db_path,
-                '-t', min_ident,
-                '-l', min_cov,
-                '-i' ] + inputs
+#               '-db_vir_kma', db_path,
+                '-t', execution.get_user_input('vf_i'),
+                '-l', execution.get_user_input('vf_c'),
+                '--overlap', execution.get_user_input('vf_o'),
+                '-j', 'virulencefinder.json',
+                '-o', '.' ]
+
+            # Append files, backend has different args for fq and fa
+            illufqs = execution.get_illufq_paths(list())
+            if illufqs:
+                params.extend(['-ifq', f])
+            elif execution.get_contigs_path(""):
+                params.extend(['-ifa', os.path.abspath(execution.get_contigs_path())])
+            elif execution.get_nanofq_path(""):
+                params.extend(['--nanopore', '-ifq', execution.get_nanofq_path()])
+            else: # expect the unexpected
+                raise UserException("no input data to analyse")
+
+            search_list = list(filter(None, execution.get_user_input('vf_s', '').split(',')))
             if search_list:
                 params.extend(['-d', ','.join(search_list)])
 
@@ -90,84 +100,45 @@ class VirulenceFinderExecution(ServiceExecution):
         self._tmp_dir.cleanup()
         self._tmp_dir = None
 
-        # Load the JSON and obtain the 'results' element.
-        out_file = job.file_path('data.json')
+        res_out = dict()
+
+        out_file = job.file_path('virulencefinder.json')
         try:
             with open(out_file, 'r') as f: json_in = json.load(f)
-        except:
+        except Exception as e:
+            logging.exception(e)
             self.fail('failed to open or load JSON from file: %s' % out_file)
             return
 
-        # JSON can be string "No hits found" we turn into an empty dict, or otherwise
-        # a dict whose keys are the group names (column 2 in the config), with as value
-        # a dict whose keys are the db names (col 1 in the config), with as value
-        # a dict whose keys are the hit_ids (QUERY_CONTIG:QRY_POS..QRY_POS:TARGET_CTG:SCORE"), with as value
-        # a dict having the fields we need
-        # ... but we deconvolve all this for uniformity
+        # VirulenceFinder since 3.0 has standardised JSON with these elements
+        # that it shares with ResFinder:
+        # - seq_regions (loci with virulence-associated genes or mutations)
+        # - seq_variations (mutations keying into seq_regions)
+        # - phenotypes (virulence, keying into above)
 
-        res_in = json_in.get(self._service_name, {}).get('results')
-        if res_in is None:
-            self.fail('no %s/results element in data.json' % self._service_name)
-            return
+        # We include these but change them from objects to lists, so this:
+        #   'seq_regions' : { 'XYZ': { ..., 'key' : 'XYZ', ...
+        # becomes:
+        #   'seq_regions' : [ { ..., 'key' : 'XYZ', ... }, ...]
+        # This is cleaner design (they have list semantics, not object), and
+        # avoids issues downstream with keys containing JSON delimiters.
 
-        if type(res_in) is not dict: # fix backend's "No hits found" to be {}
-            res_in = dict()
+        for k, v in json_in.items():
+            if k in ['seq_regions','seq_variations','phenotypes']:
+                res_out[k] = [ o for o in v.values() ]
+            else:
+                res_out[k] = v
 
-        # Make res_out a list of result objects, one per database that a search was
-        # requested for (even if no results).  So we iterate over the search_dict
-        # and pull results from res_in, rather than vice versa.
-        # Also we change the group and db names from key to values.
+        # Helpers to retrieve gene names g for regions r causing phenotype p
+        r2g = lambda r: json_in.get('seq_regions',{}).get(r,{}).get('name')
+        p2gs = lambda p: filter(None, map(r2g, p.get('seq_regions', [])))
 
-        res_out = list()
- 
-        # Iterate over the groups and their databases search was requested for
-        for grp, dbs in self._search_dict.items():
+        # Store the virulence genes for the detected phenotypes for the summary output
+        # Note that a lot more information is present, including PMIDs and notes
+        for p in res_out.get('phenotypes', []):
+            for g in p2gs(p): self._blackboard.add_detected_virulence_gene(g)
 
-            dbs_in = res_in.get(grp, dict())
-            dbs_in = dbs_in if type(dbs_in) is dict else dict()
-            dbs_out = list()
-
-            for db in dbs:
-
-                hits_in = dbs_in.get(db, dict())
-                hits_in = hits_in if type(hits_in) is dict else dict()
-                hits_out = list()
-
-                for hit in hits_in.values():
-
-                    vir_gene = hit['virulence_gene']
-                    self._blackboard.add_detected_virulence_gene(vir_gene)
-
-                    h_out = dict({
-                        'gene': vir_gene,
-                        'function': hit['protein_function'].strip(),
-                        # common
-                        'hit_id':     hit['hit_id'],
-                        'group':      grp,
-                        'database':   db,
-                        'qry_ctg':    hit['contig_name'],
-                        'qry_pos':    hit['positions_in_contig'],
-                        'tgt_acc':    hit['accession'],
-                        'tgt_len':    hit['template_length'],
-                        'tgt_pos':    hit['position_in_ref'],
-                        'hsp_len':    hit['HSP_length'],
-                        'pct_cov':    hit['coverage'],
-                        'pct_ident':  hit['identity'],
-                        'quality':    hit['coverage'] * hit['identity'] / 100.0,
-                        'note':       hit['note']
-                        })
-
-                    # Append the hit to the output list
-                    hits_out.append(h_out)
-     
-                # Sort the hit list by descending goodness, and store under key db in dbs_out
-                hits_out.sort(key=lambda l: l['quality'], reverse=True)
-                dbs_out.append({ 'database': db, 'hits': hits_out })
-
-            # Put the dbs_out object under key grp in the res_out object
-            res_out.append({ 'group': grp, 'searches': dbs_out })
-
-        # Store the results on the blackboard
+        # Store on the blackboard
         self.store_results(res_out)
 
 

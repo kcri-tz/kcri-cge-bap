@@ -124,6 +124,7 @@ per line, in a text file and pass this file with @FILENAME.
     group = parser.add_argument_group('VirulenceFinder parameters')
     group.add_argument('--vf-i', metavar='FRAC', default=0.90, help='VirulenceFinder identity threshold [0.90]')
     group.add_argument('--vf-c', metavar='FRAC', default=0.60, help='VirulenceFinder minimum coverage [0.60]')
+    group.add_argument('--vf-o', metavar='NT', default=30, help='VirulenceFinder max nt gene overlap [30])')
     group.add_argument('--vf-s', metavar='GROUP[,...]', help='VirulenceFinder group(s) to search (default: all)')
     group = parser.add_argument_group('PlasmidFinder parameters')
     group.add_argument('--pf-i', metavar='FRAC', default=0.90, help='PlasmidFinder identity threshold [0.90]')
@@ -222,7 +223,7 @@ per line, in a text file and pass this file with @FILENAME.
                 sample_id, _ = os.path.splitext(sample_id)
         elif illufqs:
             # Try if it is pure Illumina
-            pat = re.compile('^(.*)_S[0-9]+_L[0-9]+_R[12]_[0-9]+\.fastq\.gz$')
+            pat = re.compile(r'^(.*)_S[0-9]+_L[0-9]+_R[12]_[0-9]+\.fastq\.gz$')
             _, fname = os.path.split(illufqs[0])
             mat = pat.fullmatch(fname)
             if mat:
