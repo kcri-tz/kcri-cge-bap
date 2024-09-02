@@ -1,5 +1,9 @@
 # KCRI CGE Bacterial Analysis Pipeline (BAP)
 
+**IMPORTANT** this repository is no longer being maintained.  Onward
+development of the BAP is taking place at: <https://github.com/zwets/cge-bap>.
+
+
 ## Introduction
 
 The KCRI CGE Bacterial Analysis Pipeline (BAP) is the standard analysis
